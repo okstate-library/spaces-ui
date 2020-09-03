@@ -1,0 +1,251 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{layout}">
+
+
+<body>
+	<section layout:fragment="content">
+
+		<div class="container main">
+
+			<div class=""
+				style="background: #ddd; border-bottom: 2px solid #ff6000; margin-bottom: 2rem;">
+
+				<div class="grid-container">
+					<h5>
+						<strong>Reserve a Study Room for</strong>
+					</h5>
+
+					<div class="grid-x">
+						<div class="cell small-4">
+
+
+							<form id="dp-form" method="get" th:action="@{/}">
+								<div>
+									<h4>Date</h4>
+									<input type="text" th:value="${dateString}" name="date"
+										id="date">
+								</div>
+							</form>
+						</div>
+					</div>
+					<div class="cell small-4">
+						<div id="time-filter-wrapper">
+							<h4>Start time</h4>
+							<div class="grid-container">
+								<div class="grid-x grid-margin-x">
+									<div class="cell medium-6">
+										<select [(ngModel)]="timeRangeFrom"
+											(change)="applyTimeFilter(true)">
+											<option *ngFor="let time of timesOfTheDay;" [value]="time">{{time|date:'hh:mm
+												a'}}</option>
+										</select>
+
+									</div>
+								</div>
+
+							</div>
+						</div>
+					</div>
+					<div class="cell small-4">
+						<div class="cell small-6">
+							<span *ngFor="let badges of filterBadges;"
+								style="white-space: normal" class="label warning"><i
+								class="fas fa-times" (click)="removeFilterBadge(badges)"></i>
+								{{badges}}</span>
+						</div>
+
+					</div>
+				</div>
+
+			</div>
+
+		</div>
+
+
+
+
+		<!-- When there are not any rooms to display this message appears -->
+		<div class="grid-container grid-x" th:if="${spaceList == null}">
+
+
+			<div class="cell medium-8">
+				<h4>No rooms match your selected criteria</h4>
+				<p>
+					<strong>Try one of the following</strong>
+				</p>
+				<ul>
+					<li>Change the date or time</li>
+					<li>Call or email us for help</li>
+				</ul>
+			</div>
+			<div class="cell medium-4">
+				<div class="card">
+					<div class="card-divider">Help Information</div>
+
+					<div class="card-section">
+						<p>
+							Circulation and Information Desk<br> <strong>405-744-9775</strong>
+						</p>
+						<p>
+							Send us an email at<br> <strong> <a
+								href="libraryhelp@okstate.edu">libraryhelp@okstate.edu</a></strong>
+						</p>
+						<hr>
+						<p>
+							Use our <a
+								href="https://library.okstate.edu/forms/ask-us/email-a-question">Contact
+								Form</a>.
+						</p>
+
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+
+
+
+		<div  class="grid-container">
+
+			<div class="grid-x off-canvas-content">
+
+				<div class="large-12 cell grid-x grid-margin-x">
+
+					<!-- Room List -->
+
+					<div data-th-each="room : ${spaceList}"
+						class="xcard xcard-custom-style room-item">
+
+						<!--   <div *ngFor="let room of rooms" [ngClass]="{'hide': room.visible==false}"> -->
+
+						<div class="grid-x">
+							<div class="cell small-8">
+								<p class="room-name-title">
+									<strong data-th-text="${room.name}">...</strong> <small>(Seats:</small>
+									<small style="padding-left: 2rem; font-weight: 400;"
+										data-th-text="${room.capacity}"></small> <small>)</small>
+								</p>
+							</div>
+							<div class="cell small-4">
+								<div class="show-info-action-button">
+
+									<p>
+										<a
+											th:onclick="aboutThisRoomModal('[(${room.name})]', '[(${room.amenities})]')">About
+											this room</a>
+								</div>
+							</div>
+
+						</div>
+
+						<div class="grid-x">
+							<div class="cell medium-2  medium-offset-1 hide-for-small-only">
+								<p>
+									<img th:src="${room.image}" alt="${room.name}"
+										style="padding-right: 1rem">
+								</p>
+							</div>
+							<div class="cell small-12 xmedium-offset-1  medium-9">
+
+								<div data-th-each="timeslot : ${room.availability}"
+									style="display: inline;">
+									<button class="button clear"
+										th:onclick="addItem(this, '[(${room.name})]','[(${room.id})]', '[(${timeslot.fromTime})]' , '[(${timeslot.toTime})]' , '[(${timeslot.fromDateTime})]');"
+										data-th-text="${timeslot.fromTime}">...</button>
+								</div>
+								<!-- 
+									<div data-th-each="available : ${room.availability}">
+										<button class="room-slots fr button"
+											*ngFor="let timeslot of room.visibleOnes"
+											(click)="timeslot.booked==false ? selectTimeBlock(timeslot,room.name) : false"
+											[ngClass]="{'primary':timeslot.selected==true,'clear':timeslot.selected==false, 
+                'disabled' : timeslot.booked , 'hidden': !timeslot.visible}">*ngIf="selectedRoomSlots.length>0 && selectedRoomName==room.name"
+											{{timeslot.from}}</button> th:id="'confirmWindow' + '${room.name}'"
+									</div>
+ -->
+
+								<div th:id="'confirmWindow-' + ${room.id}"
+									class="callout xsmall alert"
+									style="margin-top: 1.5rem; display: none;">
+
+									<div class="grid-x">
+
+										<form class="form-group" method="post" th:action="@{/booking}">
+
+
+											<div style="display:inline-block;">
+
+												Room: <strong>[[${room.name}]]</strong><br> Time:
+
+												<p id="startTime"></p>
+												to
+												<p id="endTime"></p>
+
+												<input type="hidden" th:value="${room.id}" name="roomNumber"
+													th:id="'roomNumber-' + ${room.id}" />
+													
+													 <input type="hidden"
+													th:value="${room.name}" name="roomName" th:id="'roomName-' + ${room.name}" /> 
+													<input
+													type="hidden" th:value="${dateString}" name="dateString"
+													id="dateString" /> 
+													<input type="hidden"
+													name="hid_dateString" th:id="'hid_dateString-' + ${room.id}"  /> 
+													
+													<input
+													type="hidden" name="hid_startTime" th:id="'hid_startTime-' + ${room.id}" /> <input
+													type="hidden" name="hid_endTime" th:id="'hid_endTime-' + ${room.id}"  />
+											</div>
+
+											<div class="small-6">
+												<div class="button-group expanded ">
+
+													<button type="button"
+														class="xbook-room-action-button hollow secondary button"
+														th:onclick="clearSelection()">
+														<i class="fas fa-times"></i> Clear Selection
+													</button>
+													<button class="xbook-room-action-button button">
+														<i class="far fa-calendar-check"></i> Confirm
+													</button>
+													<!-- 
+													<button
+														*ngIf="selectedRoomSlots.length>0 && selectedRoomName==room.name"
+														class="xbook-room-action-button hollow secondary button"
+														th:onclick="clearSelection()">
+														<i class="fas fa-times"></i> Clear Selection
+													</button>
+													<button
+														*ngIf="selectedRoomSlots.length>0 && selectedRoomName==room.name"
+														class="xbook-room-action-button button"
+														(click)="bookThisRoom(room.id)">
+														<i class="far fa-calendar-check"></i> Confirm
+													</button> -->
+												</div>
+											</div>
+
+										</form>
+
+									</div>
+
+
+								</div>
+							</div>
+
+
+
+
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Content ends -->
+<body>
+</html>

@@ -1,0 +1,90 @@
+
+/* 
+**************************************************** */
+
+.template-header{
+    background: #272727;
+    border-bottom: solid 1px #ff6000;
+    color: #fff;
+    height: 92px;
+  }
+#site-branding{
+    margin-left: 125px; 
+}
+#site-name{
+    font-size: 1.75rem;
+    font-weight: 900;
+    
+  }
+#tagline{
+    font-size: 1rem;
+    font-weight: 500;
+}
+#site-branding a{
+    color: #fff;
+}
+#site-branding a:hover{
+    color: #ff6000;
+}
+.top-bar-wrapper, .top-bar, .top-bar ul {
+      background-color: #000;
+      color: #fff;
+      padding-top:0;
+      padding-bottom: 0;
+  }
+.top-bar a, .top-bar ul li a {
+    color: #fff;
+  }
+.top-bar a:hover, .top-bar ul li a:hover {
+    color: #000;
+    background: #ff6000;
+  }
+.make-125px{
+    width: 125px;
+    background-color: #000;
+}
+.xy-branding{
+     background: #272727;
+    border-bottom: solid 1px #ff6000;
+    color: #fff;
+    height: 92px;
+}
+
+.hidden{
+    display:none;
+}
+.show{
+    display:block;
+}
+
+#modal-container {
+    position: fixed;
+    top: 20%;
+    left: 15%;
+    width: 70%;
+    background: white;
+    text-align: center;
+    box-shadow: 0px 0px 2px 1px black;
+    z-index: 100;
+}
+
+#overlay {
+    position: fixed;
+    top: 0px;
+    left:  0px;
+    z-index:  99;
+    background:  rgba(0,0,0,0.8);
+    width:  100%;
+    height: 100%;
+}
+
+div.loading{
+    height: 100px;
+    background-color: red;
+    display: none;
+}
+router-outlet + div.loading{
+    display: block;
+}
+
+

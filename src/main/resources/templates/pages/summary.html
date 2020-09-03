@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorate="~{layout}">
+
+<body>
+	<!-- Content starts -->
+	<section class="my-3 p-3 bg-white rounded box-shadow"
+		layout:fragment="content">
+		<br />
+		<div class="grid-container">
+
+			<div class="grid-x" th:if="${isBooked}">
+				<div class="cell auto">
+					<h3 class="cell room-booked-status-message">
+						<i class="fal fa-check-circle green"></i> Your room has been
+						successfully booked!
+					</h3>
+				</div>
+			</div>
+
+			<div class="grid-x" th:if="${summaryModel != null}">
+				<div class="cell auto">
+					<div class="card" style="xwidth: 480px;">
+						<div class="card-divider">
+							<h4>
+								<i class="far fa-calendar-check fa-lg"></i> Reservation Details
+							</h4>
+						</div>
+
+						<div class="card-section lead">
+							<p class="lead">
+								Reservation for <strong> [[${summaryModel.firstName}]]
+									[[${summaryModel.lastName}]]</strong>
+							</p>
+							<div style="margin-left: 2rem;" class="lead">
+								<p>
+									<strong>Room:</strong> [[${summaryModel.room}]]
+								</p>
+								<p>
+									<strong>Time:</strong> [[${summaryModel.fromDate}]] -
+									[[${summaryModel.toDate}]]
+								</p>
+								<p>
+									<strong>Date:</strong> [[${summaryModel.date}]]
+								</p>
+							</div>
+							<p class="lead" style="margin: 1rem 0;">
+								<i class="fas fa-envelope-open-text"></i> You will receive an
+								email confirmation, too. Please check your spam folder or <a
+									href="https://library.okstate.edu/chat">contact the library</a>
+								with any questions.
+							</p>
+							<hr>
+							<div class="grid-x">
+								<div class="cell small-6 text-left">
+									<form class="form-group" method="post" th:action="@{/cancel}">
+
+										<input type="hidden" th:value="${summaryModel.bookId}"
+											name="bookingId" id="bookingId" required="required" />
+
+										<button type="submit" class="summary-page-btn button hollow">
+											Cancel this Booking</button>
+									</form>
+
+
+								</div>
+								<div class="cell small-6 text-right">
+									<a th:href="@{/}" type="button" class="button large">
+										Continue...</a>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="grid-x" th:if="${summaryModel == null}">
+
+				<div class="card">
+					<div class="card-divider">
+						<h4>
+							<i class="comment-alt-check red"></i> Booking Cancellation
+						</h4>
+					</div>
+
+					<div class="card-section">
+						<div class="grid-x">
+
+							<div class="cell medium-7">
+								[[${errorMessage}]]
+								<hr style="margin: 3rem 0;">
+								<div class="cell small-12 text-right">
+
+									<a th:href="@{/}" type="button" class="button large">
+										Continue...</a>
+
+								</div>
+							</div>
+							<div class="cell medium-4 medium-offset-1">
+								<div class="card">
+									<div class="card-divider">Help Information</div>
+
+									<div class="card-section">
+										<p>
+											Circulation and Information Desk<br> <strong>405-744-9775</strong>
+										</p>
+										<p>
+											Send us an email at<br> <strong> <a
+												href="libraryhelp@okstate.edu">libraryhelp@okstate.edu</a></strong>
+										</p>
+										<hr>
+										<p>
+											Use our <a
+												href="https://library.okstate.edu/forms/ask-us/email-a-question">Contact
+												Form</a>.
+										</p>
+
+									</div>
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+
+			<div class="grid-x" th:if="${bookingCancel != null}">
+
+				<div class="cell">
+					<div class="callout summary-of-booking-page">
+						<h5 class="summary-heading-title">[[]]</h5>
+					</div>
+				</div>
+				<div>
+					<div class="cell medium-3 small-6">
+						<button type="button" class="summary-page-btn button"
+							(click)="goBack()">Continue . . .</button>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</section>
+	<!-- Content ends -->
+</body>
+
+</html>

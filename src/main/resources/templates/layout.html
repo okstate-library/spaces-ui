@@ -1,0 +1,125 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Spaces - UI">
+<meta name="author" content="Damith Perera">
+<link rel="icon" th:href="@{/img/favicon.ico}">
+<title>Oklahoma State University- Edmon Low Library &mdash;
+	Spaces- Room Booking System</title>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+
+<link href="css/foundation-datepicker.css" rel="stylesheet"
+	type="text/css">
+
+<link rel="stylesheet"
+	href="/css/foundation-6.4.2-complete/css/foundation.min.css" />
+
+
+<script
+	src="https://cdn.jsdelivr.net/npm/foundation-sites@6.5.1/dist/js/foundation.min.js"
+	integrity="sha256-WUKHnLrIrx8dew//IpSEmPN/NT3DGAEmIePQYIEJLLs= sha384-53StQWuVbn6figscdDC3xV00aYCPEz3srBdV/QGSXw3f19og3Tq2wTRe0vJqRTEO 
+      sha512-X9O+2f1ty1rzBJOC8AXBnuNUdyJg0m8xMKmbt9I3Vu/UOWmSg5zG+dtnje4wAZrKtkopz/PEDClHZ1LXx5IeOw=="
+	crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+	<!-- Main starts -->
+	<div role="main">
+
+		<div class="xy-branding">
+
+			<div class="grid-container">
+				<div class="grid-x">
+					<div class="cell small-12">
+						<img
+							src="https://library.okstate.edu/template-b/images/logo-banner.png"
+							alt="logo" style="position: absolute; z-index: 11;">
+						<div id="site-branding">
+							<a href="//library.okstate.edu" id="site-name">Edmon Low
+								Library</a>
+							<p id="tagline">
+								&amp; <a href="about/locations/" class="banner-link">Branch
+									Libraries</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="title-bar" data-responsive-toggle="example-menu"
+			data-hide-for="medium">
+			<div class="title-bar-right">
+				<button class="menu-icon" type="button" data-toggle="example-menu">
+					<span class="sr-only">Menu</span>
+				</button>
+			</div>
+
+		</div>
+
+
+
+		<div class="top-bar-wrapper">
+			<div class="grid-container">
+				<div class="top-bar" id="example-menu">
+					<div class="top-bar-left">
+						<ul class="vertical medium-horizontal menu">
+							<li class="menu-text make-125px hide-for-small-only">&nbsp;</li>
+							<li><a href="https://library.okstate.edu">Library</a></li>
+						</ul>
+					</div>
+					<div class="top-bar-right">
+						<ul class="vertical medium-horizontal  menu">
+							<li><a href="/saml/login?disco=true">My account</a></li>
+							<li><a href="https://library.okstate.edu/chat">Chat</a></li>
+							<li class=""><a href="#" data-open="exampleModal1"><i
+									class="fa fa-search" aria-hidden="true"></i> <span
+									class="sr-only">Search</span></a></li>
+						</ul>
+					</div>
+
+				</div>
+				
+			</div>
+		</div>
+		<!-- Header ends -->
+
+		<!-- Content starts -->
+		<section layout:fragment="content">
+			<!-- Page content goes here! -->
+		</section>
+		<!-- Content ends -->
+
+		<!-- Footer starts -->
+		<footer role="footer">
+			<ul class="footer-note">
+				<li><i class="far fa-copyright"></i> Copyright 2020</li>
+				<li></li>
+			</ul>
+		</footer>
+		<!-- Footer ends -->
+	</div>
+	<!-- Main ends -->
+	<!-- Foundation scripts -->
+
+	<script th:src="@{/js/main.js}"></script>
+	<script th:src="@{/js/foundation-datepicker.js}"></script>
+	<script th:src="@{/js/foundation-datepicker.js}"></script>
+
+	<!-- Font Awesome scripts -->
+	<script defer
+		src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"></script>
+
+
+
+</body>
+
+</html>
