@@ -29,35 +29,35 @@
 								</div>
 							</form>
 						</div>
-					</div>
-					<div class="cell small-4">
-						<div id="time-filter-wrapper">
-							<h4>Start time</h4>
-							<div class="grid-container">
-								<div class="grid-x grid-margin-x">
-									<div class="cell medium-6">
-										<select [(ngModel)]="timeRangeFrom"
-											(change)="applyTimeFilter(true)">
-											<option *ngFor="let time of timesOfTheDay;" [value]="time">{{time|date:'hh:mm
-												a'}}</option>
-										</select>
-
+					
+						<div class="cell small-4">
+							<div id="time-filter-wrapper">
+								<h4>Start time</h4>
+								<div class="grid-container">
+									<div class="grid-x grid-margin-x">
+										<div class="cell medium-6">
+											<select [(ngModel)]="timeRangeFrom"
+												(change)="applyTimeFilter(true)">
+												<option *ngFor="let time of timesOfTheDay;" [value]="time">{{time|date:'hh:mm
+													a'}}</option>
+											</select>
+	
+										</div>
 									</div>
+	
 								</div>
-
 							</div>
 						</div>
-					</div>
-					<div class="cell small-4">
-						<div class="cell small-6">
-							<span *ngFor="let badges of filterBadges;"
-								style="white-space: normal" class="label warning"><i
-								class="fas fa-times" (click)="removeFilterBadge(badges)"></i>
-								{{badges}}</span>
+						<div class="cell small-4">
+							<div class="cell small-6">
+								<span *ngFor="let badges of filterBadges;"
+									style="white-space: normal" class="label warning"><i
+									class="fas fa-times" (click)="removeFilterBadge(badges)"></i>
+									{{badges}}</span>
+							</div>
+	
 						</div>
-
 					</div>
-				</div>
 
 			</div>
 
