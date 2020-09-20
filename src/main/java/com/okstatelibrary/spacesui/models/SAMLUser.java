@@ -15,18 +15,18 @@ public class SAMLUser {
 	public SAMLUser(@JsonProperty("user_Id") String userId, @JsonProperty("firstName") String firstName,
 			@JsonProperty("lastName") String lastName, @JsonProperty("cwid") String cwid,
 			@JsonProperty("email") String email) {
-		this.setUser(userId);
+		this.setUserId(userId);
 		this.setFirstName(firstName);
 		this.setLastName(lastName);
 		this.setCwid(cwid);
 		this.setEmail(email);
 	}
 
-	public String getUser() {
+	public String getUserId() {
 		return userId;
 	}
 
-	public void setUser(String userId) {
+	public void setUserId(String userId) {
 		this.userId = userId;
 	}
 
@@ -60,6 +60,12 @@ public class SAMLUser {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+
+	public void print() {
+		 System.out.println( this.userId + "--" + this.cwid + "--" +  this.firstName + "--" + this.email);
+		
 	}
 
 }

@@ -142,5 +142,9 @@ public class SpaceItem {
 		return this.visible;
 	}
 
+	public void emptyAvailability() {
+		this.availability = null;
+	}
+
 	
 }

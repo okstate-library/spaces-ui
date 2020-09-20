@@ -9,6 +9,22 @@ import java.util.Date;
 
 public class DateTimeUtil {
 
+	public static String convertTo12HourTime(String dateTime) {
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss-05:00");
+		DateFormat formatter = new SimpleDateFormat("hh:mm a");
+
+		Date time = null;
+
+		try {
+			time = dateFormat.parse(dateTime);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return formatter.format(time);
+	}
+	
 	public static String convertToTime(String dateTime) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss-05:00");
 		DateFormat formatter = new SimpleDateFormat("hh:mm a");
@@ -62,7 +78,7 @@ public class DateTimeUtil {
 		String str = datetime;
 		System.out.println("str " + str);
 		
-		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy/M/dd hh:mm a");
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-dd hh:mm a");
 		LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
 		
 		return dateTime.toString() + ":00-0500";

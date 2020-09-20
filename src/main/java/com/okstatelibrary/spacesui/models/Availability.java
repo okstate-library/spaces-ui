@@ -23,6 +23,11 @@ public class Availability {
 		this.setFrom(_from);
 		this.setTo(to);
 	}
+	
+	public Availability(String _date,String _from, String to) {
+		this.setFrom(_from);
+		this.setTo(to);
+	}
 
 	public String getFrom() {
 		return from;
@@ -40,7 +45,9 @@ public class Availability {
 		this.to = to;
 	}
 
-	
+	public String getFrom12HourTime() {
+		return DateTimeUtil.convertTo12HourTime(this.from);
+	}
 
 	public String getFromTime() {
 		return DateTimeUtil.convertToTime(this.from);
@@ -57,6 +64,14 @@ public class Availability {
 	public String getToDateTime() {
 		return DateTimeUtil.convertToDateTime(this.to);
 
+	}
+
+	public boolean isBooked() {
+		return booked;
+	}
+
+	public void setBooked(boolean booked) {
+		this.booked = booked;
 	}
 
 //	public String getromTime() {

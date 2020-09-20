@@ -17,6 +17,7 @@ import com.okstatelibrary.spacesui.models.BookedItem;
 import com.okstatelibrary.spacesui.models.BookingConfirmation;
 import com.okstatelibrary.spacesui.models.CancelConfirmation;
 import com.okstatelibrary.spacesui.models.Category;
+import com.okstatelibrary.spacesui.models.ErrorDetails;
 import com.okstatelibrary.spacesui.models.Room;
 import com.okstatelibrary.spacesui.models.RoomBookingPayload;
 import com.okstatelibrary.spacesui.models.SpaceItem;
@@ -80,13 +81,15 @@ public class SpacesService {
 
 		} catch (Exception e) {
 
-			System.out.println("Buffer Error" + e.getMessage());
-
-			e.getMessage();
-			e.printStackTrace();
-			e.toString();
-
-			return null;
+			return new BookingConfirmation(e.getMessage()) ;
+			
+//			System.out.println("Buffer Error" + e.getMessage());
+//
+//			e.getMessage();
+//			e.printStackTrace();
+//			e.toString();
+//
+//			return null;
 		}
 	}
 

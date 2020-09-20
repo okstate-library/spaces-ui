@@ -87,4 +87,34 @@ router-outlet + div.loading{
     display: block;
 }
 
+footer
+{
+  border-top:1px solid #e5e5e5;
+  color:#696969;
+  font-size: 0.7em;
+  margin-top: 20px;
+  padding-top: 20px;
+  text-align:center;
+}
 
+ul.footer-note
+{
+  list-style-type:none;
+  margin:0 0 10px;
+  padding:0;
+}
+
+#sso-btn a:hover
+{
+  color:#FFF;
+}
+
+footer a:link,footer a:visited,footer a:hover,footer a:active
+{
+  color:green;
+}
+
+.right {
+  position: absolute;
+  right: 0px;
+}

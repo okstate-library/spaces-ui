@@ -12,7 +12,7 @@ $('[data-reveal-id]').on('click', function() {
 $(document).ready(function() {
 
 	$('#date').fdatepicker({
-		format : 'yyyy/mm/dd'
+		format : 'yyyy-mm-dd'
 	}).on('changeDate', function(event) {
 		var pickedDate = $("#date").val();
 		// alert(pickedDate);
@@ -31,130 +31,142 @@ var selectedRoomName = null;
 var selectedRoomId = null;
 var buttons = [];
 
-function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime) {
+function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
+		booked) {
 
-	if (selectedRoomName == null) {
+	//if (booked == 'false') {
 		
-		selectedRoomName = roomName;
-		selectedRoomId = roomId;
-		
-		$(button).css('background', '#cbdbeb');
+		if (selectedRoomName == null) {
 
-		buttons.push(button);
+			selectedRoomName = roomName;
+			selectedRoomId = roomId;
 
-		selectedSlots.push({
-			from : fromTime,
-			to : toTime,
-			fromDateTime : fromDateTime
-		});
+			$(button).css('background', '#cbdbeb');
 
-	} else {
-		if (selectedRoomName != roomName) {
-			alert('You may only reserve one room at a time.');
-			return;
+			buttons.push(button);
+
+			selectedSlots.push({
+				from : fromTime,
+				to : toTime,
+				fromDateTime : fromDateTime
+			});
+
 		} else {
+			if (selectedRoomName != roomName) {
+				alert('You may only reserve one room at a time.');
+				return;
+			} else {
 
-			if (selectedSlots.length > 0) {
+				if (selectedSlots.length > 0) {
 
-				if (!(selectedSlots.some(el => el.from === fromTime))) {
+					if (!(selectedSlots.some(el => el.from === fromTime))) {
 
-					var timeSlotLength = 60000;
+						var timeSlotLength = 60000;
 
-					var firstFromTime = getTimeValue(selectedSlots[0].fromDateTime);
+						var firstFromTime = getTimeValue(selectedSlots[0].fromDateTime);
 
-					var suppliedTime = getTimeValue(fromDateTime)
+						var suppliedTime = getTimeValue(fromDateTime)
 
-					var lastFromTime = getTimeValue(selectedSlots[selectedSlots.length - 1].fromDateTime);
+						var lastFromTime = getTimeValue(selectedSlots[selectedSlots.length - 1].fromDateTime);
 
-					if ((firstFromTime - suppliedTime > 30)
-							|| (lastFromTime - suppliedTime < -30)) {
-						alert('Please select only contiguous time blocks! ');
-						return;
+						if ((firstFromTime - suppliedTime > 30)
+								|| (lastFromTime - suppliedTime < -30)) {
+							alert('Please select only contiguous time blocks! ');
+							return;
+						}
+
+						if (selectedSlots.length == 8) {
+							alert('You can only select 8 time slots at a time');
+							return;
+						}
+
+						$(button).css('background', '#cbdbeb');
+
+						selectedSlots.push({
+							from : fromTime,
+							to : toTime,
+							fromDateTime : fromDateTime
+						});
+
+						buttons.push(button);
+
+						console.error(selectedSlots);
+
+					} else {
+
+						if (selectedSlots[0].from == fromTime) {
+							selectedSlots.splice(0, 1);
+							$(button).css('background', '');
+
+							if (selectedSlots.length == 0) {
+								clearSelection();
+								return;
+							}
+
+						} else if (selectedSlots[selectedSlots.length - 1].from == fromTime) {
+
+							selectedSlots.splice(selectedSlots.length - 1, 1);
+							$(button).css('background', '');
+						}
+
+						console.error(selectedSlots);
+
+						// return;
+
 					}
-
-					if (selectedSlots.length == 8) {
-						alert('You can only select 8 time slots at a time');
-						return;
-					}
-
-					$(button).css('background', '#cbdbeb');
-
-					selectedSlots.push({
-						from : fromTime,
-						to : toTime,
-						fromDateTime : fromDateTime
-					});
-
-					buttons.push(button);
-
-				} else {
-
-					if (selectedSlots[0].from == fromTime) {
-						selectedSlots.splice(0, 1);
-						$(button).css('background', '');
-
-					} else if (selectedSlots[selectedSlots.length - 1].from == fromTime) {
-
-						selectedSlots.splice(selectedSlots.length - 1, 1);
-						$(button).css('background', '');
-					}
-
-					console.error(selectedSlots);
-
-					// return;
-
 				}
 			}
 		}
-	}
 
-	// alert(selectedSlots[0]);
-	//	
-	// if (date1.getTime() > date2.getTime()) {
-	// alert("The first date is after the second date!");
-	// }
+		// alert(selectedSlots[0]);
+		//	
+		// if (date1.getTime() > date2.getTime()) {
+		// alert("The first date is after the second date!");
+		// }
 
-	// var ul = document.getElementById("dynamic-list");
-	// var li = document.createElement("li");
-	// li.setAttribute('id', fromTime + ' - ' + toTime + ' - ' + fromDateTime);
-	// li.appendChild(document.createTextNode(fromTime + ' - ' + toTime + ' - '
-	// + fromDateTime));
-	// ul.appendChild(li);
+		// var ul = document.getElementById("dynamic-list");
+		// var li = document.createElement("li");
+		// li.setAttribute('id', fromTime + ' - ' + toTime + ' - ' +
+		// fromDateTime);
+		// li.appendChild(document.createTextNode(fromTime + ' - ' + toTime + '
+		// - '
+		// + fromDateTime));
+		// ul.appendChild(li);
 
-	selectedSlots.sort(compare);
+		selectedSlots.sort(compare);
 
+		// var roomNameSpan = document.getElementById("roomName");
+		// roomNameSpan.textContent = roomName;
 
+		// var startTime = document.getElementById("startTime");
+		// startTime.textContent = selectedSlots[0].from;
+		//
+		// var endTime = document.getElementById("endTime");
+		// endTime.textContent = selectedSlots[selectedSlots.length - 1].to;
 
-	// var roomNameSpan = document.getElementById("roomName");
-	// roomNameSpan.textContent = roomName;
+		var mainDivName = "confirmWindow-" + roomId;
 
-	// var startTime = document.getElementById("startTime");
-	// startTime.textContent = selectedSlots[0].from;
-	//
-	// var endTime = document.getElementById("endTime");
-	// endTime.textContent = selectedSlots[selectedSlots.length - 1].to;
+		var confirmWindow = document.getElementById(mainDivName);
+		confirmWindow.style.display = "block";
 
-	var mainDivName = "confirmWindow-" + roomId;
+		var startTime = document.querySelector("#" + mainDivName
+				+ " #startTime");
+		startTime.textContent = selectedSlots[0].from;
 
-	var confirmWindow = document.getElementById(mainDivName);
-	confirmWindow.style.display = "block";
+		var endTime = document.querySelector("#" + mainDivName + " #endTime");
+		endTime.textContent = selectedSlots[selectedSlots.length - 1].to;
 
-	var startTime = document.querySelector("#" + mainDivName + " #startTime");
-	startTime.textContent = selectedSlots[0].from;
+		document.getElementById('hid_startTime-' + roomId).value = selectedSlots[0].from;
+		document.getElementById('hid_endTime-' + roomId).value = selectedSlots[selectedSlots.length - 1].to;
 
-	var endTime = document.querySelector("#" + mainDivName + " #endTime");
-	endTime.textContent = selectedSlots[selectedSlots.length - 1].to;
-
-	document.getElementById('hid_startTime-' + roomId ).value = selectedSlots[0].from;
-	document.getElementById('hid_endTime-' +roomId).value = selectedSlots[selectedSlots.length - 1].to;
-
-	// var hid_startTime = document.querySelector("#" + mainDivName + "
-	// #hid_startTime");
-	// hid_startTime.textContent = selectedSlots[0].from;
-	//	
-	// var hid_endTime = document.querySelector("#" + mainDivName + "
-	// #hid_endTime");
-	// hid_endTime.textContent = selectedSlots[selectedSlots.length - 1].to;
+		// var hid_startTime = document.querySelector("#" + mainDivName + "
+		// #hid_startTime");
+		// hid_startTime.textContent = selectedSlots[0].from;
+		//	
+		// var hid_endTime = document.querySelector("#" + mainDivName + "
+		// #hid_endTime");
+		// hid_endTime.textContent = selectedSlots[selectedSlots.length - 1].to;
+	//}
 }
 
 function getTimeValue(time) {
@@ -164,10 +176,10 @@ function getTimeValue(time) {
 }
 
 function compare(a, b) {
-	if (a.from < b.from) {
+	if (a.fromDateTime < b.fromDateTime) {
 		return -1;
 	}
-	if (a.from > b.from) {
+	if (a.fromDateTime > b.fromDateTime) {
 		return 1;
 	}
 	return 0;
@@ -176,25 +188,21 @@ function compare(a, b) {
 function clearSelection() {
 	// selectedSlots = [];
 
-	
-	var  mainDivName= "confirmWindow-" + selectedRoomId;
+	var mainDivName = "confirmWindow-" + selectedRoomId;
 
-	
 	var confirmWindow = document.getElementById(mainDivName);
 	confirmWindow.style.display = "none";
 
 	selectedSlots = [];
-	
+
 	selectedRoomName = null;
 	selectedRoomId = null;
 
 	for (i = 0; i < buttons.length; i++) {
-		
+
 		$(buttons[i]).css('background', '');
 	}
-	
-	buttons = [];
 
-	
+	buttons = [];
 
 }

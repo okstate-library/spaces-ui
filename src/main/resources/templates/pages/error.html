@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorate="~{layout}">
+
+<body>
+	<!-- Content starts -->
+	<section class="my-3 p-3 bg-white rounded box-shadow"
+		layout:fragment="content">
+		<br />
+		<div class="grid-container">
+
+			<div class="grid-x">
+				<div class="cell auto">
+					<div class="card" style="xwidth: 480px;">
+						<div class="card-divider">
+							<h4>[[${errorMessage}]]</h4>
+						</div>
+					</div>
+					<div class="cell medium-4" th:replace="common/helpinfo:: helpinfo">
+					</div>
+				</div>
+			</div>
+
+
+			<div class="grid-x">
+
+				<div>
+					<div class="cell medium-3 small-6">
+						<a th:href="@{/}" type="button" class="button large">
+							Continue...</a>
+					</div>
+
+				</div>
+			</div>
+		</div>
+
+	</section>
+	<!-- Content ends -->
+</body>
+
+</html>

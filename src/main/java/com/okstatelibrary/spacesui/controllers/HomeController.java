@@ -23,6 +23,7 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -54,6 +55,7 @@ import com.okstatelibrary.spacesui.models.AccessToken;
 import com.okstatelibrary.spacesui.models.Availability;
 import com.okstatelibrary.spacesui.models.BookedItem;
 import com.okstatelibrary.spacesui.models.BookingConfirmation;
+import com.okstatelibrary.spacesui.models.BookingUI;
 import com.okstatelibrary.spacesui.models.Bookings;
 import com.okstatelibrary.spacesui.models.CancelConfirmation;
 import com.okstatelibrary.spacesui.models.Category;
@@ -74,15 +76,123 @@ public class HomeController {
 
 	@Autowired
 	com.okstatelibrary.spacesui.util.SystemProperties myProperties;
-	
+
 	@Autowired
 	AccessTokenService accessTokenService;
 
 	@Autowired
 	SpacesService spaceService;
 
+	static String sesssion_bookingUI = "bookingUI";
+
 	// Logger
 	private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
+
+//	private static final List<Availability> fixedTimeSlots = new ArrayList<Availability>() {
+//		{
+//			add(new Availability("00:00 AM", "00:30 AM"));
+//			add(new Availability("00:30 AM", "01:00 AM"));
+//			add(new Availability("01:00 AM", "01:30 AM"));
+//			add(new Availability("01:30 AM", "02:00 AM"));
+//			add(new Availability("02:00 AM", "02:30 AM"));
+//			add(new Availability("02:30 AM", "03:00 AM"));
+//			add(new Availability("03:00 AM", "03:30 AM"));
+//			add(new Availability("03:30 AM", "04:00 AM"));
+//			add(new Availability("04:00 AM", "04:30 AM"));
+//			add(new Availability("04:30 AM", "05:00 AM"));
+//			add(new Availability("05:00 AM", "05:30 AM"));
+//			add(new Availability("05:30 AM", "06:00 AM"));
+//			add(new Availability("06:00 AM", "06:30 AM"));
+//			add(new Availability("06:30 AM", "07:00 AM"));
+//			add(new Availability("07:00 AM", "07:30 AM"));
+//			add(new Availability("07:30 AM", "08:00 AM"));
+//			add(new Availability("08:00 AM", "08:30 AM"));
+//			add(new Availability("08:30 AM", "09:00 AM"));
+//			add(new Availability("09:00 AM", "09:30 AM"));
+//			add(new Availability("09:30 AM", "10:00 AM"));
+//			add(new Availability("10:00 AM", "10:30 AM"));
+//			add(new Availability("10:30 AM", "11:00 AM"));
+//			add(new Availability("11:00 AM", "11:30 AM"));
+//			add(new Availability("11:30 AM", "12:00 PM"));
+//			add(new Availability("12:00 PM", "12:30 PM"));
+//			add(new Availability("12:30 PM", "01:00 PM"));
+//			add(new Availability("01:00 PM", "01:30 PM"));
+//			add(new Availability("01:30 PM", "02:00 PM"));
+//			add(new Availability("02:00 PM", "02:30 PM"));
+//			add(new Availability("02:30 PM", "03:00 PM"));
+//			add(new Availability("03:00 PM", "03:30 PM"));
+//			add(new Availability("03:30 PM", "04:00 PM"));
+//			add(new Availability("04:00 PM", "04:30 PM"));
+//			add(new Availability("04:30 PM", "05:00 PM"));
+//			add(new Availability("05:00 PM", "05:30 PM"));
+//			add(new Availability("05:30 PM", "06:00 PM"));
+//			add(new Availability("06:00 PM", "06:30 PM"));
+//			add(new Availability("06:30 PM", "07:00 PM"));
+//			add(new Availability("07:00 PM", "07:30 PM"));
+//			add(new Availability("07:30 PM", "08:00 PM"));
+//			add(new Availability("08:00 PM", "08:30 PM"));
+//			add(new Availability("08:30 PM", "09:00 PM"));
+//			add(new Availability("09:00 PM", "09:30 PM"));
+//			add(new Availability("09:30 PM", "10:00 PM"));
+//			add(new Availability("10:00 PM", "10:30 PM"));
+//			add(new Availability("10:30 PM", "11:00 PM"));
+//			add(new Availability("11:00 PM", "11:30 PM"));
+//			add(new Availability("11:30 PM", "11:59 PM"));
+//		}
+//	};
+
+	private static final List<Availability> fixedTimeSlots = new ArrayList<Availability>() {
+		{
+			add(new Availability("00:00:00-05:00", "00:30:00-05:00"));
+			add(new Availability("00:30:00-05:00", "01:00:00-05:00"));
+			add(new Availability("01:00:00-05:00", "01:30:00-05:00"));
+			add(new Availability("01:30:00-05:00", "02:00:00-05:00"));
+			add(new Availability("02:00:00-05:00", "02:30:00-05:00"));
+			add(new Availability("02:30:00-05:00", "03:00:00-05:00"));
+			add(new Availability("03:00:00-05:00", "03:30:00-05:00"));
+			add(new Availability("03:30:00-05:00", "04:00:00-05:00"));
+			add(new Availability("04:00:00-05:00", "04:30:00-05:00"));
+			add(new Availability("04:30:00-05:00", "05:00:00-05:00"));
+			add(new Availability("05:00:00-05:00", "05:30:00-05:00"));
+			add(new Availability("05:30:00-05:00", "06:00:00-05:00"));
+			add(new Availability("06:00:00-05:00", "06:30:00-05:00"));
+			add(new Availability("06:30:00-05:00", "07:00:00-05:00"));
+			add(new Availability("07:00:00-05:00", "07:30:00-05:00"));
+			add(new Availability("07:30:00-05:00", "08:00:00-05:00"));
+			add(new Availability("08:00:00-05:00", "08:30:00-05:00"));
+			add(new Availability("08:30:00-05:00", "09:00:00-05:00"));
+			add(new Availability("09:00:00-05:00", "09:30:00-05:00"));
+			add(new Availability("09:30:00-05:00", "10:00:00-05:00"));
+			add(new Availability("10:00:00-05:00", "10:30:00-05:00"));
+			add(new Availability("10:30:00-05:00", "11:00:00-05:00"));
+			add(new Availability("11:00:00-05:00", "11:30:00-05:00"));
+			add(new Availability("11:30:00-05:00", "12:00:00-05:00"));
+			add(new Availability("12:00:00-05:00", "12:30:00-05:00"));
+			add(new Availability("12:30:00-05:00", "13:00:00-05:00"));
+			add(new Availability("13:00:00-05:00", "13:30:00-05:00"));
+			add(new Availability("13:30:00-05:00", "14:00:00-05:00"));
+			add(new Availability("14:00:00-05:00", "14:30:00-05:00"));
+			add(new Availability("14:30:00-05:00", "15:00:00-05:00"));
+			add(new Availability("15:00:00-05:00", "15:30:00-05:00"));
+			add(new Availability("15:30:00-05:00", "16:00:00-05:00"));
+			add(new Availability("16:00:00-05:00", "16:30:00-05:00"));
+			add(new Availability("16:30:00-05:00", "17:00:00-05:00"));
+			add(new Availability("17:00:00-05:00", "17:30:00-05:00"));
+			add(new Availability("17:30:00-05:00", "18:00:00-05:00"));
+			add(new Availability("18:00:00-05:00", "18:30:00-05:00"));
+			add(new Availability("18:30:00-05:00", "19:00:00-05:00"));
+			add(new Availability("19:00:00-05:00", "19:30:00-05:00"));
+			add(new Availability("19:30:00-05:00", "20:00:00-05:00"));
+			add(new Availability("20:00:00-05:00", "20:30:00-05:00"));
+			add(new Availability("20:30:00-05:00", "21:00:00-05:00"));
+			add(new Availability("21:00:00-05:00", "21:30:00-05:00"));
+			add(new Availability("21:30:00-05:00", "22:00:00-05:00"));
+			add(new Availability("22:00:00-05:00", "22:30:00-05:00"));
+			add(new Availability("22:30:00-05:00", "23:00:00-05:00"));
+			add(new Availability("23:00:00-05:00", "23:30:00-05:00"));
+			add(new Availability("23:30:00-05:00", "23:59:59-05:00"));
+		}
+	};
 
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/rest/authenticate", method = RequestMethod.GET)
@@ -90,14 +200,13 @@ public class HomeController {
 			throws RestClientException, JsonParseException, JsonMappingException, IOException, JSONException {
 
 		AccessToken accessToken = accessTokenService.getAccessToken("https://okstate.libcal.com/1.1/oauth/token",
-				myProperties.getSpringShareClientId(),
-				myProperties.getSpringShareSecretkey());
+				myProperties.getSpringShareClientId(), myProperties.getSpringShareSecretkey());
 
 		System.out.println("AccessToken " + accessToken.getAccessToken());
 
 		return new ResponseEntity<AccessToken>(accessToken, HttpStatus.OK);
 	}
-	
+
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(HttpServletRequest request, @ModelAttribute("date") String date, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException,
@@ -106,7 +215,7 @@ public class HomeController {
 		System.out.println("Index called.");
 
 		if (date.isEmpty() || date == null) {
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy/MM/dd");
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 			LocalDateTime now = LocalDateTime.now();
 
 			date = dtf.format(now);
@@ -121,6 +230,7 @@ public class HomeController {
 		model.addAttribute("spaceListAvalability", "none");
 
 		HttpSession session = request.getSession();
+		session.setMaxInactiveInterval(300);
 
 		System.out.println("Session ID: " + session.getId());
 		System.out.println("Creation Time: " + new Date(session.getCreationTime()));
@@ -170,11 +280,9 @@ public class HomeController {
 
 		HttpSession session = request.getSession();
 
-		session.setAttribute("roomNumber", roomNumber);
-		session.setAttribute("roomName", roomName);
-		session.setAttribute("dateString", dateString);
-		session.setAttribute("endTime", endTime);
-		session.setAttribute("startTime", startTime);
+		BookingUI bookingUi = new BookingUI(dateString, startTime, endTime, roomName, roomNumber);
+
+		session.setAttribute(sesssion_bookingUI, bookingUi);
 
 		return "redirect:/saml/login?disco=true";
 	}
@@ -184,25 +292,64 @@ public class HomeController {
 	public String reserve(HttpServletRequest request, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
-		SAMLUser samlUser = SAMLUserList.getInstance().getSAMLUser();
-
 		HttpSession session = request.getSession();
 
-		String roomNumber = session.getAttribute("roomNumber").toString();
-		String dateString = session.getAttribute("dateString").toString();
-		String endTime = session.getAttribute("endTime").toString();
-		String startTime = session.getAttribute("startTime").toString();
+		SAMLUser samlUser = SAMLUserList.getInstance().getSAMLUser(session.getId());
 
-		Bookings bookings = new Bookings(roomNumber, DateTimeUtil.convertToISODateTime(dateString + " " + endTime));
+		BookingUI bookingUI = (BookingUI) session.getAttribute(sesssion_bookingUI);
 
-		RoomBookingPayload roomBookingPayLoad = new RoomBookingPayload(
-				DateTimeUtil.convertToISODateTime(dateString + " " + startTime), samlUser.getFirstName(),
-				samlUser.getLastName(), samlUser.getEmail(), "11799771", new Bookings[] { bookings });
+		if (bookingUI != null) {
+			Bookings bookings = new Bookings(bookingUI.getRoomNumber(),
+					DateTimeUtil.convertToISODateTime(bookingUI.getDate() + " " + bookingUI.getEndTime()));
 
-		BookingConfirmation bookingConfirmation = spaceService.bookARoom(getAccessTokenFromRequest(),
-				roomBookingPayLoad, URLs.BOOK_A_ROOM_URL);
+			RoomBookingPayload roomBookingPayLoad = new RoomBookingPayload(
+					DateTimeUtil.convertToISODateTime(bookingUI.getDate() + " " + bookingUI.getStartTime()),
+					samlUser.getFirstName(), samlUser.getLastName(), samlUser.getEmail(), samlUser.getCwid(),
+					new Bookings[] { bookings });
 
-		return "redirect:/summary/" + bookingConfirmation.getBooking_id() + "/true";
+			BookingConfirmation bookingConfirmation = spaceService.bookARoom(getAccessTokenFromRequest(),
+					roomBookingPayLoad, URLs.BOOK_A_ROOM_URL);
+
+			if (bookingConfirmation.getBooking_id() != null && !bookingConfirmation.getBooking_id().isEmpty()) {
+				return "redirect:/summary/" + bookingConfirmation.getBooking_id() + "/true";
+
+			} else {
+
+				
+				System.out.println("bookingConfirmation.getErrorId()" + bookingConfirmation.getErrorId());
+				
+				if (bookingConfirmation.getErrorId() != null && !bookingConfirmation.getErrorId().isEmpty()) {
+					return "redirect:/errorpage/" + bookingConfirmation.getErrorId();
+
+				} else {
+					return "redirect:/errorpage/";
+				}
+
+			}
+
+		}
+
+		return "redirect:/errorpage/";
+	}
+
+	@RequestMapping(value = { "/errorpage", "/errorpage/{id}" })
+	public String error(@PathVariable(required = false) String id, Model model)
+			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
+
+		String errorMessage = Messages.ERROR_BOOKING_SOMETING_WENT_WRONG;
+
+		System.out.println("error id " + id);
+		
+		if (!id.isEmpty()) {
+			
+			if (id.equals("303")) {
+				errorMessage = Messages.ERROR_BOOKING_EXCEED_DAYIL_LIMIT;
+			}
+		}
+
+		model.addAttribute("errorMessage", errorMessage);
+
+		return "pages/error";
 	}
 
 	@RequestMapping(value = { "/summary/{id}", "/summary/{id}/{isBooked}" })
@@ -249,26 +396,53 @@ public class HomeController {
 
 		model.addAttribute("userName", user.getUsername());
 
-		SAMLUser samlUser = SAMLUserList.getInstance().getSAMLUser();
+		HttpSession session = request.getSession();
+
+		LOG.info("Session ID: " + session.getId());
+
+		SAMLUser samlUser = SAMLUserList.getInstance().getSAMLUser(session.getId());
+
+		if (samlUser.getFirstName().isEmpty()) {
+			LOG.debug("SAML USER  NNull");
+		}
 
 		model.addAttribute("firstName", samlUser.getFirstName());
 		model.addAttribute("lastName", samlUser.getLastName());
 		model.addAttribute("email", samlUser.getEmail());
 		model.addAttribute("cwid", samlUser.getCwid());
-		
-		HttpSession session = request.getSession();
 
-		String dateString = session.getAttribute("dateString").toString();
-		String endTime = session.getAttribute("endTime").toString();
-		String startTime = session.getAttribute("startTime").toString();
-		String roomName = session.getAttribute("roomName").toString();
+		if (session.getAttribute("bookingUI") != null) {
 
-		model.addAttribute("dateString", dateString);
-		model.addAttribute("startTime", startTime);
-		model.addAttribute("endTime", endTime);
-		model.addAttribute("roomName", roomName);
+			model.addAttribute(sesssion_bookingUI, session.getAttribute("bookingUI"));
+		}
 
-		return "pages/landing";
+		return "pages/booking";
+	}
+
+	@RequestMapping(value = "/discovery", method = RequestMethod.GET)
+	public String idpSelection(HttpServletRequest request, Model model)
+			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
+
+		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+		if (auth == null)
+			LOG.debug("Current authentication instance from security context is null");
+		else
+			LOG.debug("Current authentication instance from security context: " + this.getClass().getSimpleName());
+
+		if (auth == null || (auth instanceof AnonymousAuthenticationToken)) {
+
+			Set<String> idps = metadata.getIDPEntityNames();
+
+			for (String idp : idps)
+				LOG.info("Configured Identity Provider for SSO: " + idp);
+
+			model.addAttribute("idps", idps);
+
+			return "redirect:/saml/login?disco=true";
+		} else {
+			LOG.warn("The current user is already logged.");
+			return "redirect:/booking";
+		}
 	}
 
 	private SpaceItem[] madeAvaliableTimeSlots(String date) throws JsonParseException, JsonMappingException,
@@ -288,9 +462,49 @@ public class HomeController {
 
 				if (spaceItem.getAvailability().length > 0) {
 
+					List<Availability> availabilityList = new ArrayList<>();
+
 					for (Availability availability : spaceItem.getAvailability()) {
 
+						// From the API sometimes sends time slots related to previous date.
+						// Cleaning those type of dates.
+
+						if (DateTimeUtil.convertToDate(availability.getFrom()).equals(date)) {
+							availabilityList.add(availability);
+						}
+
 					}
+
+					int fromIndex = getFixedTimeSlotIndex(availabilityList.get(0).getFromTime());
+
+					int toIndex = getFixedTimeSlotIndex(
+							availabilityList.get(availabilityList.size() - 1).getFromTime());
+
+					List<Availability> newAvailabilityList = new ArrayList<>();
+
+					for (Availability fixedTimeSlot : fixedTimeSlots.subList(fromIndex, toIndex)) {
+
+						Availability avalibility = availabilityList.stream()
+								.filter(timeSlot -> timeSlot.getFromTime().equals(fixedTimeSlot.getFrom12HourTime()))
+								.findFirst().orElse(null);
+
+						if (avalibility == null) {
+
+							Availability ava = new Availability(date + "T" + fixedTimeSlot.getFrom(),
+									date + "T" + fixedTimeSlot.getTo());
+							ava.setBooked(true);
+
+							newAvailabilityList.add(ava);
+
+						} else {
+							newAvailabilityList.add(avalibility);
+						}
+
+					}
+
+					spaceItem.emptyAvailability();
+
+					spaceItem.setAvailability(newAvailabilityList.toArray(new Availability[0]));
 
 					list.add(spaceItem);
 
@@ -306,6 +520,17 @@ public class HomeController {
 		}
 
 		return spaceItems;
+	}
+
+	private int getFixedTimeSlotIndex(String fromTime) {
+
+		for (int i = 0; i < fixedTimeSlots.size(); i++) {
+			if (fixedTimeSlots.get(i).getFrom12HourTime().equals(fromTime)) {
+				return i;
+			}
+		}
+
+		return -1;
 	}
 
 	private String getRoomDetails(String roomId)
@@ -327,9 +552,9 @@ public class HomeController {
 	private AccessToken getAuthenticate()
 			throws RestClientException, JsonParseException, JsonMappingException, IOException, JSONException {
 
-		AccessToken accessToken = accessTokenService.getAccessToken(URLs.GET_AUTH_TOKEN_URL, 
-				myProperties.getSpringShareClientId(),
-				myProperties.getSpringShareSecretkey());
+		AccessToken accessToken = accessTokenService.getAccessToken(URLs.GET_AUTH_TOKEN_URL,
+
+				myProperties.getSpringShareClientId(), myProperties.getSpringShareSecretkey());
 
 		return accessToken;
 	}
@@ -337,30 +562,4 @@ public class HomeController {
 	@Autowired
 	private MetadataManager metadata;
 
-	@RequestMapping(value = "/discovery", method = RequestMethod.GET)
-	public String idpSelection(HttpServletRequest request, Model model)
-			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
-
-		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-		
-		if (auth == null)
-			LOG.debug("Current authentication instance from security context is null");
-		else
-			LOG.debug("Current authentication instance from security context: " + this.getClass().getSimpleName());
-
-		if (auth == null || (auth instanceof AnonymousAuthenticationToken)) {
-
-			Set<String> idps = metadata.getIDPEntityNames();
-
-			for (String idp : idps)
-				LOG.info("Configured Identity Provider for SSO: " + idp);
-
-			model.addAttribute("idps", idps);
-
-			return "redirect:/saml/login?disco=true";
-		} else {
-			LOG.warn("The current user is already logged.");
-			return "redirect:/landing";
-		}
-	}
 }

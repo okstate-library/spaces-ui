@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorate="~{layout}">
+
+<body>
+	<!-- Content starts -->
+	<section class="my-3 p-3 bg-white rounded box-shadow"
+		layout:fragment="content">
+
+
+		<br />
+		<div class="grid-container row">
+
+			<div class="card columns large-6">
+				<div class="card-divider">
+					<h4>
+						<i class="far fa-calendar-check fa-lg"></i> My account Details
+					</h4>
+					<p class="right">
+						<a class="button large" th:href="@{/saml/logout}"> Logout</a><br />
+						
+					</p>
+				</div>
+
+
+				<div class="card-section lead">
+					<div style="margin-left: 2rem;" class="lead">
+
+						<p>
+							<strong>User name:</strong> <span th:text="${userName}">null</span>
+						</p>
+
+						<p>
+							<strong>First name:</strong> <span th:text="${firstName}">null</span>
+						</p>
+						<p>
+							<strong>Last name:</strong> <span th:text="${lastName}">null</span>
+						</p>
+						<p>
+							<strong>Email:</strong> <span th:text="${email}">null</span>
+						</p>
+						<p>
+							<strong>CWID:</strong> <span th:text="${cwid}">null</span>
+						</p>
+					</div>
+					<hr>
+					<div class="grid-x text-right">
+						<div class="cell small-6 text-right">
+							<a th:href="@{/}" type="button" class="button large">
+								Continue...</a>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="card columns large-6" th:if="${bookingUI != null}">
+				<div class="card-divider">
+					<h4>
+						<i class="far fa-calendar-check fa-lg"></i> Booking Details
+					</h4>
+				</div>
+
+				<form class="form-group" method="post" th:action="@{/reserve}">
+
+					<div class="card-section lead">
+						<div style="margin-left: 2rem;" class="lead">
+
+							<p>
+								<strong>Room:</strong> <span th:text="${bookingUI.roomName}">null</span>
+							</p>
+
+							<p>
+								<strong>Date:</strong> <span th:text="${bookingUI.date}">null</span>
+							</p>
+							<p>
+								<strong>Start Time:</strong> <span
+									th:text="${bookingUI.startTime}">null</span>
+							</p>
+							<p>
+								<strong>End Time:</strong> <span th:text="${bookingUI.endTime}">null</span>
+							</p>
+
+						</div>
+						<hr>
+						<div class="grid-x text-right">
+							<div class="cell small-6 text-right">
+								<button type="submit" class="button large">Book the
+									Room...</button>
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+
+		</div>
+
+
+
+
+	</section>
+	<!-- Content ends -->
+</body>
+
+</html>
