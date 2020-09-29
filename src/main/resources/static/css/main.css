@@ -118,3 +118,37 @@ footer a:link,footer a:visited,footer a:hover,footer a:active
   position: absolute;
   right: 0px;
 }
+
+.banner {
+	background: #ddd; 
+	border-bottom: 2px solid #ff6000; 
+	margin-bottom: 2rem;
+}
+.room-item{
+	margin-bottom: 2rem;
+}
+.room-name-title {
+	font-size: 1.5rem;
+}
+
+p.room-name-title {
+	margin-bottom: .23rem;
+}
+
+.number-room-item-seats{
+	padding-left: 2rem; 
+	font-weight: 400;
+}
+
+.room-item-img {
+	padding-right: 1rem; 
+	padding-left: 2rem; 
+	padding-top: .85rem
+}
+
+.orange {
+	color: #ff6000;
+}
+
+
+
