@@ -4,23 +4,22 @@
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	layout:decorate="~{layout}">
 
-<body>
+<body onload="bookingPageLoad()">
 	<!-- Content starts -->
-	<section class="my-3 p-3 bg-white rounded box-shadow"
+	<section 
 		layout:fragment="content">
-
 
 		<br />
 		<div class="grid-container row">
 
-			<div class="card columns large-6">
+			<div class="card">
 				<div class="card-divider">
 					<h4>
 						<i class="far fa-calendar-check fa-lg"></i> My account Details
 					</h4>
 					<p class="right">
 						<a class="button large" th:href="@{/saml/logout}"> Logout</a><br />
-						
+
 					</p>
 				</div>
 
@@ -55,7 +54,7 @@
 				</div>
 			</div>
 
-			<div class="card columns large-6" th:if="${bookingUI != null}">
+			<div class="card">
 				<div class="card-divider">
 					<h4>
 						<i class="far fa-calendar-check fa-lg"></i> Booking Details
@@ -67,33 +66,37 @@
 					<div class="card-section lead">
 						<div style="margin-left: 2rem;" class="lead">
 
+							<input type="hidden" id="bookRoomNumber" name="bookRoomNumber" />
+
 							<p>
-								<strong>Room:</strong> <span th:text="${bookingUI.roomName}">null</span>
+								<strong>Room:</strong> <input type="text" readonly
+									id="bookRoomName" name="bookRoomName" />
 							</p>
 
 							<p>
-								<strong>Date:</strong> <span th:text="${bookingUI.date}">null</span>
+								<strong>Date:</strong> <input type="text" readonly id="bookDate"
+									name="bookDate" />
 							</p>
 							<p>
-								<strong>Start Time:</strong> <span
-									th:text="${bookingUI.startTime}">null</span>
+								<strong>Start Time:</strong> <input type="text" readonly
+									id="bookStartTime" name="bookStartTime" />
 							</p>
 							<p>
-								<strong>End Time:</strong> <span th:text="${bookingUI.endTime}">null</span>
+								<strong>End Time:</strong> <input type="text" readonly
+									id="bookEndTime" name="bookEndTime" />
 							</p>
 
 						</div>
 						<hr>
 						<div class="grid-x text-right">
 							<div class="cell small-6 text-right">
-								<button type="submit" class="button large">Book the
+								<button type="submit" class="button large" th:onclick="cleanSession()">Book the
 									Room...</button>
 							</div>
 						</div>
 					</div>
 				</form>
 			</div>
-
 		</div>
 
 

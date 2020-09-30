@@ -3,8 +3,10 @@ package com.okstatelibrary.spacesui.util;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.ChronoUnit;
 import java.util.Date;
 
 public class DateTimeUtil {
@@ -24,7 +26,7 @@ public class DateTimeUtil {
 
 		return formatter.format(time);
 	}
-	
+
 	public static String convertToTime(String dateTime) {
 		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss-05:00");
 		DateFormat formatter = new SimpleDateFormat("hh:mm a");
@@ -73,14 +75,19 @@ public class DateTimeUtil {
 		return formatter.format(time);
 	}
 
-	public static String convertToISODateTime(String datetime) {
-		
-		String str = datetime;
-		System.out.println("str " + str);
-		
+	public static String convertToISODateTime(String date , String time) {
+
+		String str = date + " " + time;
+
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-M-dd hh:mm a");
 		LocalDateTime dateTime = LocalDateTime.parse(str, formatter);
-		
+
+		// When booking the 11.30 PM  - 11.59 PM time slot the ending time should be 
+		// newt day 00.00 AM 
+		if (time.equals("11:59 PM")) {
+			dateTime = dateTime.plus(Duration.of(1, ChronoUnit.MINUTES));
+		}
+
 		return dateTime.toString() + ":00-0500";
 
 	}

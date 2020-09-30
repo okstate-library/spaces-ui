@@ -8,14 +8,14 @@ public class Availability {
 
 	private String from;
 	private String to;
-
-	private String fromDateTime;
-	private String toDateTime;
-
-	private String fromTime;
-	private String toTime;
-
-	private boolean visible;
+//
+//	private String fromDateTime;
+//	private String toDateTime;
+//
+//	private String fromTime;
+//	private String toTime;
+//
+//	private boolean visible;
 	private boolean booked;
 
 	@JsonCreator

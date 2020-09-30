@@ -3,20 +3,17 @@ package com.okstatelibrary.spacesui.models;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class BookingConfirmation extends ErrorDetails {
+public class BookingConfirmation  {
 	private String booking_id;
 	private String _cost;
+	private ErrorDetails _errorDetails;
 
-	@JsonCreator
-	public BookingConfirmation(@JsonProperty("errors") String _errors) {
-		super(_errors);
+	public BookingConfirmation(String _errors) {	
+		this.setErrorDetails(new ErrorDetails(_errors));
 	}
 
 	@JsonCreator
-	public BookingConfirmation(@JsonProperty("booking_id") String _booking_id, @JsonProperty("cost") String _cost,
-			@JsonProperty("errors") String _errors) {
-
-		super(_errors);
+	public BookingConfirmation(@JsonProperty("booking_id") String _booking_id, @JsonProperty("cost") String _cost) {
 
 		this.setBooking_id(_booking_id);
 		this.set_cost(_cost);
@@ -36,6 +33,14 @@ public class BookingConfirmation extends ErrorDetails {
 
 	public void set_cost(String _cost) {
 		this._cost = _cost;
+	}
+
+	public ErrorDetails getErrorDetails() {
+		return _errorDetails;
+	}
+
+	public void setErrorDetails(ErrorDetails _errorDetails) {
+		this._errorDetails = _errorDetails;
 	}
 
 }

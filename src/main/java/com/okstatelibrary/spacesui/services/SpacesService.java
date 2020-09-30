@@ -17,28 +17,26 @@ import com.okstatelibrary.spacesui.models.BookedItem;
 import com.okstatelibrary.spacesui.models.BookingConfirmation;
 import com.okstatelibrary.spacesui.models.CancelConfirmation;
 import com.okstatelibrary.spacesui.models.Category;
-import com.okstatelibrary.spacesui.models.ErrorDetails;
 import com.okstatelibrary.spacesui.models.Room;
 import com.okstatelibrary.spacesui.models.RoomBookingPayload;
 import com.okstatelibrary.spacesui.models.SpaceItem;
 
 @Service
 public class SpacesService {
-	
+
 	private RestTemplate restTemplate = new RestTemplate();
-	
+
 	ObjectMapper mapper = new ObjectMapper();
-	
+
 	public Category[] getRoomsByCategory(String accessToken, String url)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + accessToken);
 		HttpEntity<String> request = new HttpEntity<String>(headers);
 		try {
-			
-			ResponseEntity<Category[]> response = restTemplate.exchange(url, HttpMethod.GET, request,
-					Category[].class);
-			
+
+			ResponseEntity<Category[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Category[].class);
+
 			Category[] spaceItem = response.getBody();
 			return spaceItem;
 		} catch (Exception e) {
@@ -48,7 +46,7 @@ public class SpacesService {
 			return null;
 		}
 	}
-	
+
 	public SpaceItem[] getItems(String accessToken, String url)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException {
 		HttpHeaders headers = new HttpHeaders();
@@ -74,6 +72,14 @@ public class SpacesService {
 		HttpEntity<?> request = new HttpEntity<Object>(payload, headers);
 		try {
 
+			ObjectMapper Obj = new ObjectMapper();
+			String jsonStr = Obj.writeValueAsString(payload);
+
+			// Displaying JSON String
+			System.out.println("payload--" + jsonStr);
+
+			System.out.println("payload--" + payload.toString());
+
 			ResponseEntity<BookingConfirmation> roomBookingResponse = restTemplate.exchange(url, HttpMethod.POST,
 					request, BookingConfirmation.class);
 
@@ -81,8 +87,8 @@ public class SpacesService {
 
 		} catch (Exception e) {
 
-			return new BookingConfirmation(e.getMessage()) ;
-			
+			return new BookingConfirmation(e.getMessage());
+
 //			System.out.println("Buffer Error" + e.getMessage());
 //
 //			e.getMessage();

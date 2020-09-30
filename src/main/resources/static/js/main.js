@@ -23,7 +23,6 @@ $(document).ready(function() {
 
 function aboutThisRoomModal(roomName, roomDesc) {
 	alert(roomName + roomDesc.toString());
-
 }
 
 var selectedSlots = [];
@@ -34,8 +33,8 @@ var buttons = [];
 function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 		booked) {
 
-	//if (booked == 'false') {
-		
+	if (booked == 'false') {
+
 		if (selectedRoomName == null) {
 
 			selectedRoomName = roomName;
@@ -118,31 +117,7 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 			}
 		}
 
-		// alert(selectedSlots[0]);
-		//	
-		// if (date1.getTime() > date2.getTime()) {
-		// alert("The first date is after the second date!");
-		// }
-
-		// var ul = document.getElementById("dynamic-list");
-		// var li = document.createElement("li");
-		// li.setAttribute('id', fromTime + ' - ' + toTime + ' - ' +
-		// fromDateTime);
-		// li.appendChild(document.createTextNode(fromTime + ' - ' + toTime + '
-		// - '
-		// + fromDateTime));
-		// ul.appendChild(li);
-
 		selectedSlots.sort(compare);
-
-		// var roomNameSpan = document.getElementById("roomName");
-		// roomNameSpan.textContent = roomName;
-
-		// var startTime = document.getElementById("startTime");
-		// startTime.textContent = selectedSlots[0].from;
-		//
-		// var endTime = document.getElementById("endTime");
-		// endTime.textContent = selectedSlots[selectedSlots.length - 1].to;
 
 		var mainDivName = "confirmWindow-" + roomId;
 
@@ -156,17 +131,9 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 		var endTime = document.querySelector("#" + mainDivName + " #endTime");
 		endTime.textContent = selectedSlots[selectedSlots.length - 1].to;
 
-		document.getElementById('hid_startTime-' + roomId).value = selectedSlots[0].from;
-		document.getElementById('hid_endTime-' + roomId).value = selectedSlots[selectedSlots.length - 1].to;
-
-		// var hid_startTime = document.querySelector("#" + mainDivName + "
-		// #hid_startTime");
-		// hid_startTime.textContent = selectedSlots[0].from;
-		//	
-		// var hid_endTime = document.querySelector("#" + mainDivName + "
-		// #hid_endTime");
-		// hid_endTime.textContent = selectedSlots[selectedSlots.length - 1].to;
-	//}
+//		document.getElementById('hid_startTime-' + roomId).value = selectedSlots[0].from;
+//		document.getElementById('hid_endTime-' + roomId).value = selectedSlots[selectedSlots.length - 1].to;
+	}
 }
 
 function getTimeValue(time) {
@@ -205,4 +172,41 @@ function clearSelection() {
 
 	buttons = [];
 
+}
+
+function storeSelection() {
+
+	sessionStorage.setItem("selectedRoomId", selectedRoomId);
+
+	sessionStorage.setItem("roomName", selectedRoomName);
+
+	sessionStorage.setItem("dateString",
+			document.getElementById('dateString').value);
+
+	sessionStorage.setItem("hid_startTime", selectedSlots[0].from);
+
+	sessionStorage.setItem("hid_endTime", selectedSlots[selectedSlots.length - 1].to);
+
+}
+
+function bookingPageLoad() {
+
+	var roomId = sessionStorage.getItem("selectedRoomId");
+	var roomName = sessionStorage.getItem("roomName");
+	var dateString = sessionStorage.getItem("dateString");
+
+	var startTime = sessionStorage.getItem("hid_startTime");
+	var endTime = sessionStorage.getItem("hid_endTime");
+
+	document.getElementById("bookRoomNumber").value = roomId;
+	document.getElementById("bookRoomName").value = roomName;
+	document.getElementById("bookDate").value = dateString;
+	document.getElementById("bookStartTime").value = startTime;
+	document.getElementById("bookEndTime").value = endTime;
+
+	// cleanSession();
+}
+
+function cleanSession() {
+	sessionStorage.clear()
 }
