@@ -59,9 +59,11 @@ public class HomeController {
 	@Autowired
 	com.okstatelibrary.spacesui.util.SystemProperties myProperties;
 
+	// Access Token service 
 	@Autowired
 	AccessTokenService accessTokenService;
 
+	// Spaces Service 
 	@Autowired
 	SpacesService spaceService;
 
@@ -70,6 +72,11 @@ public class HomeController {
 
 	// All the time slots
 	private static final List<Availability> fixedTimeSlots = new ArrayList<Availability>() {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
 		{
 			add(new Availability("00:00:00-05:00", "00:30:00-05:00"));
 			add(new Availability("00:30:00-05:00", "01:00:00-05:00"));

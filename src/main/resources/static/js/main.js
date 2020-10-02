@@ -131,8 +131,10 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 		var endTime = document.querySelector("#" + mainDivName + " #endTime");
 		endTime.textContent = selectedSlots[selectedSlots.length - 1].to;
 
-//		document.getElementById('hid_startTime-' + roomId).value = selectedSlots[0].from;
-//		document.getElementById('hid_endTime-' + roomId).value = selectedSlots[selectedSlots.length - 1].to;
+		// document.getElementById('hid_startTime-' + roomId).value =
+		// selectedSlots[0].from;
+		// document.getElementById('hid_endTime-' + roomId).value =
+		// selectedSlots[selectedSlots.length - 1].to;
 	}
 }
 
@@ -185,28 +187,37 @@ function storeSelection() {
 
 	sessionStorage.setItem("hid_startTime", selectedSlots[0].from);
 
-	sessionStorage.setItem("hid_endTime", selectedSlots[selectedSlots.length - 1].to);
+	sessionStorage.setItem("hid_endTime",
+			selectedSlots[selectedSlots.length - 1].to);
 
 }
 
 function bookingPageLoad() {
 
 	var roomId = sessionStorage.getItem("selectedRoomId");
-	var roomName = sessionStorage.getItem("roomName");
-	var dateString = sessionStorage.getItem("dateString");
 
-	var startTime = sessionStorage.getItem("hid_startTime");
-	var endTime = sessionStorage.getItem("hid_endTime");
+	if (roomId === undefined || roomId === null) {
+		document.getElementById("bookingCard").style.display = "none";
+	} else {
 
-	document.getElementById("bookRoomNumber").value = roomId;
-	document.getElementById("bookDate").value = dateString;
-	document.getElementById("bookStartTime").value = startTime;
-	document.getElementById("bookEndTime").value = endTime;
-	
-	document.getElementById("spanRoomName").textContent = roomName;
-	document.getElementById("spanbookDate").textContent = dateString;
-	document.getElementById("spanStartTime").textContent = startTime;
-	document.getElementById("spanEndTime").textContent = endTime;
+		document.getElementById("bookingCard").style.visibility = "visible";
+
+		var roomName = sessionStorage.getItem("roomName");
+		var dateString = sessionStorage.getItem("dateString");
+
+		var startTime = sessionStorage.getItem("hid_startTime");
+		var endTime = sessionStorage.getItem("hid_endTime");
+
+		document.getElementById("bookRoomNumber").value = roomId;
+		document.getElementById("bookDate").value = dateString;
+		document.getElementById("bookStartTime").value = startTime;
+		document.getElementById("bookEndTime").value = endTime;
+
+		document.getElementById("spanRoomName").textContent = roomName;
+		document.getElementById("spanbookDate").textContent = dateString;
+		document.getElementById("spanStartTime").textContent = startTime;
+		document.getElementById("spanEndTime").textContent = endTime;
+	}
 
 	// cleanSession();
 }
