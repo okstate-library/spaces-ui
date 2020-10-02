@@ -9,7 +9,7 @@ public class BookedItem {
 	private String eid;
 	private String cid;
 	private String lid;
-	private String date;
+	//private String date;
 	private String fromDate;
 	private String toDate;
 	private String firstName;
@@ -132,8 +132,8 @@ public class BookedItem {
 		this.room = room;
 	}
 
-	public void setDate(String date) {
-		this.date = date;
-	}
+//	public void setDate(String date) {
+//		this.date = date;
+//	}
 
 }

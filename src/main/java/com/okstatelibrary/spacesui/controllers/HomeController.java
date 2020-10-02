@@ -204,7 +204,7 @@ public class HomeController {
 			@ModelAttribute("bookDate") String bookDate, @ModelAttribute("bookStartTime") String startTime,
 			@ModelAttribute("bookEndTime") String endTime, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
-
+		
 		HttpSession session = request.getSession();
 
 		SAMLUser samlUser = SAMLUserList.getInstance().getSAMLUser(session.getId());

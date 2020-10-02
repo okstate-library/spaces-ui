@@ -6,8 +6,7 @@
 
 <body onload="bookingPageLoad()">
 	<!-- Content starts -->
-	<section 
-		layout:fragment="content">
+	<section layout:fragment="content">
 
 		<br />
 		<div class="grid-container row">
@@ -67,31 +66,35 @@
 						<div style="margin-left: 2rem;" class="lead">
 
 							<input type="hidden" id="bookRoomNumber" name="bookRoomNumber" />
+							<input type="hidden" id="bookDate" name="bookDate" /> <input
+								type="hidden" id="bookStartTime" name="bookStartTime" /> <input
+								type="hidden" readonly id="bookEndTime" name="bookEndTime" />
 
 							<p>
-								<strong>Room:</strong> <input type="text" readonly
-									id="bookRoomName" name="bookRoomName" />
+								<strong>Room:</strong> <span id="spanRoomName">null</span>
+
 							</p>
 
 							<p>
-								<strong>Date:</strong> <input type="text" readonly id="bookDate"
-									name="bookDate" />
+								<strong>Date:</strong> <span id="spanbookDate">null</span>
 							</p>
 							<p>
-								<strong>Start Time:</strong> <input type="text" readonly
-									id="bookStartTime" name="bookStartTime" />
+								<strong>Start Time:</strong> <span id="spanStartTime">null</span>
+
+
 							</p>
 							<p>
-								<strong>End Time:</strong> <input type="text" readonly
-									id="bookEndTime" name="bookEndTime" />
+								<strong>End Time:</strong> <span id="spanEndTime">null</span>
+
+
 							</p>
 
 						</div>
 						<hr>
 						<div class="grid-x text-right">
 							<div class="cell small-6 text-right">
-								<button type="submit" class="button large" th:onclick="cleanSession()">Book the
-									Room...</button>
+								<button type="submit" class="button large"
+									th:onclick="cleanSession()">Book the Room...</button>
 							</div>
 						</div>
 					</div>

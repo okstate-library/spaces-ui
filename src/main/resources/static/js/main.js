@@ -199,10 +199,14 @@ function bookingPageLoad() {
 	var endTime = sessionStorage.getItem("hid_endTime");
 
 	document.getElementById("bookRoomNumber").value = roomId;
-	document.getElementById("bookRoomName").value = roomName;
 	document.getElementById("bookDate").value = dateString;
 	document.getElementById("bookStartTime").value = startTime;
 	document.getElementById("bookEndTime").value = endTime;
+	
+	document.getElementById("spanRoomName").textContent = roomName;
+	document.getElementById("spanbookDate").textContent = dateString;
+	document.getElementById("spanStartTime").textContent = startTime;
+	document.getElementById("spanEndTime").textContent = endTime;
 
 	// cleanSession();
 }
