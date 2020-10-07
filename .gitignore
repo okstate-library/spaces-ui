@@ -46,3 +46,4 @@ hs_err_pid*
 CNAME
 src/main/resources/application-dev.properties
 src/main/resources/application-prod.properties
+/bin/
