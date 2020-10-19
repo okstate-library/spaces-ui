@@ -150,5 +150,44 @@ p.room-name-title {
 	color: #ff6000;
 }
 
+/****** Confirmation page styling  ******/
+
+.steps {
+	color: #aaa;
+	padding: 2rem 0;
+}
+.progress-active{
+	color: #000;
+	font-weight: 900;
+}
+.large-divider{
+	margin: 1rem 0 4rem 0;
+	
+}
+
+.details-header{
+	margin-bottom: 1rem; 
+	margin-top: 1rem;
+	font-size: 1.86rem;
+}
+
+.account-header{
+	margin-bottom: 1rem; 
+	margin-top: 1.5rem;
+	font-size: 1.23rem;
+}
+
+.room-name{
+	font-weight: 900;
+	font-size: 1.66rem;
+}
+.left-indent-2{
+	margin-left: 2
+}
+
+.top-margin-4{
+	margin-top: 4rem;
+}
+
 
 
