@@ -7,103 +7,116 @@
 <body onload="bookingPageLoad()">
 	<!-- Content starts -->
 	<section layout:fragment="content">
+		
+		<!-- Progress Indicator -->
+		<div class="grid-x">
+		  <div class="cell small-12 medium-8 medium-offset-2">
+		    <ul class="menu align-center simple steps">
+		      <li>1 Select</li>
+		      <li>&gt;</li>
+		      <li>2 Login</li>
+		      <li>&gt;</li>
+		      <li class="progress-active">3 Checkout</li>
+		      <li>&gt;</li>
+		      <li>4 Confirmation</li>
+		    </ul>
+		  </div>
+		</div>
 
 		<br />
-		<div class="grid-container row">
-
-			<div class="card">
+		<div class="grid-container">
+			<!-- Card -->
+			<div class="card" id="bookingCard">
+				<!-- Card Header -->
 				<div class="card-divider">
-					<h4>
-						<i class="far fa-calendar-check fa-lg"></i> My account Details
-					</h4>
+					<h2 class="h2 orange primary"><i class="far fa-check-circle"></i>  Approve your reservation</h2>
+					<!--
 					<p class="right">
 						<a class="button large" th:href="@{/saml/logout}"> Logout</a><br />
 
 					</p>
+					-->
 				</div>
 
 
 				<div class="card-section lead">
-					<div style="margin-left: 2rem;" class="lead">
-
-						<p>
-							<strong>User name:</strong> <span th:text="${userName}">null</span>
-						</p>
-
-						<p>
-							<strong>First name:</strong> <span th:text="${firstName}">null</span>
-						</p>
-						<p>
-							<strong>Last name:</strong> <span th:text="${lastName}">null</span>
-						</p>
-						<p>
-							<strong>Email:</strong> <span th:text="${email}">null</span>
-						</p>
-						<p>
-							<strong>CWID:</strong> <span th:text="${cwid}">null</span>
-						</p>
-					</div>
+						
+					<!-- Account Details -->
+					<p class="details-header">
+						Reservation for <strong> <span th:text="${firstName}">null</span> <span th:text="${lastName}">null</span></strong> <small>(<span th:text="${email}">null</span>)</small>
+					</p>
+						
 					<hr>
-					<div class="grid-x text-right">
-						<div class="cell small-6 text-right">
-							<a th:href="@{/}" type="button" class="button large">
-								Continue...</a>
+						
+					<!-- Booking Details -->
+					<div class="left-indent-2">	
+						
+						<!-- Room Name -->
+						<div class="grid-x  grid-padding-y align-bottom">
+							<div class="cell small-3 medium-2">
+								Room:
+							</div>
+							<div class="cell small-9 mediun-10">
+								<strong><span id="spanRoomName">null</span></strong>
+							</div>
 						</div>
-					</div>
-				</div>
-			</div>
-
-			<div class="card" id="bookingCard">
-				<div class="card-divider">
-					<h4>
-						<i class="far fa-calendar-check fa-lg"></i> Booking Details
-					</h4>
-				</div>
-
-				<form class="form-group" method="post" th:action="@{/reserve}">
-
-					<div class="card-section lead">
-						<div style="margin-left: 2rem;" class="lead">
-
-							<input type="hidden" id="bookRoomNumber" name="bookRoomNumber" />
-							<input type="hidden" id="bookDate" name="bookDate" /> <input
-								type="hidden" id="bookStartTime" name="bookStartTime" /> <input
-								type="hidden" readonly id="bookEndTime" name="bookEndTime" />
-
-							<p>
-								<strong>Room:</strong> <span id="spanRoomName">null</span>
-
-							</p>
-
-							<p>
-								<strong>Date:</strong> <span id="spanbookDate">null</span>
-							</p>
-							<p>
-								<strong>Start Time:</strong> <span id="spanStartTime">null</span>
-
-
-							</p>
-							<p>
-								<strong>End Time:</strong> <span id="spanEndTime">null</span>
-
-
-							</p>
-
+						
+						<!-- Date -->
+						<div class="grid-x grid-padding-y align-bottom">
+							<div class="cell small-3 medium-2">
+								Date:
+							</div>
+							<div class="cell small-9 mediun-10">
+								<strong><span id="spanbookDate">null</span></strong>
+							</div>
 						</div>
-						<hr>
-						<div class="grid-x text-right">
-							<div class="cell small-6 text-right">
-								<button type="submit" class="button large"
-									th:onclick="cleanSession()">Book the Room...</button>
+						
+						<!-- Time  -->
+						<div class="grid-x grid-padding-y align-bottom">
+							<div class="cell small-3 medium-2">
+								Time:
+							</div>
+							<div class="cell small-9 mediun-10">
+								<strong><span id="spanStartTime">null</span> - <span id="spanEndTime">null</span></strong>
 							</div>
 						</div>
 					</div>
-				</form>
+					
+					<!-- Form to process the request  -->
+					<form class="form-group" method="post" th:action="@{/reserve}">
+						<div style="margin-left: 2rem;" class="lead">
+							
+							<!-- Reservation Details to submit  -->
+							<input type="hidden" id="bookRoomNumber" name="bookRoomNumber" />
+							<input type="hidden" id="bookDate" name="bookDate" /> 
+							<input type="hidden" id="bookStartTime" name="bookStartTime" /> 
+							<input type="hidden" readonly id="bookEndTime" name="bookEndTime" />
+							
+							<!-- Buttons  -->
+							<div class="grid-x top-margin-4" >	
+								<div class="cell">	
+									<div class="grid-x">
+										
+										<!-- Clear and Start oover  -->
+										<div class="cell small-5 small-offset-1  medium-3 medium-offset-5 text-left">
+											<!-- Damith, Styling not applied -->
+											<a th:href="@{/}" type="button" class="button  hollow secondary expanded" ><i class="fas fa-times"></i> Clear selection</a>
+										</div>
+										
+										<!-- Submit Booking  -->
+										<div class="cell small-5 small-offset-1   medium-3 medium-offset-1 text-right">
+											<button type="submit" class="button expanded" th:onclick="cleanSession()"><i class="far fa-check-square"></i> Book the Room...</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					
+					
+					</form>
+				</div>
 			</div>
 		</div>
-
-
-
 
 	</section>
 	<!-- Content ends -->
