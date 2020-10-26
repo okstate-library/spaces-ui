@@ -13,27 +13,28 @@
 
 			<div class="grid-x">
 				<div class="cell auto">
-					<div class="card" style="xwidth: 480px;">
+					<div class="card">
 						<div class="card-divider">
-							<h4>[[${errorMessage}]]</h4>
+							<h2 class="h3 orange">[[${errorMessage}]]</h2>
+						</div>
+						<div class="card-section">
+							<div class="cell medium-4" th:replace="common/helpinfo:: helpinfo">
+							</div>
+						</div>
+						<div class="grid-x">
+							<!-- Cancel Booking  -->
+							<div class="cell small-5 small-offset-7   medium-3 medium-offset-9 text-right">
+								<a th:href="@{/}" type="button" class="button expanded">
+							Continue...</a>
+							</div>
 						</div>
 					</div>
-					<div class="cell medium-4" th:replace="common/helpinfo:: helpinfo">
-					</div>
+					
 				</div>
 			</div>
 
 
-			<div class="grid-x">
-
-				<div>
-					<div class="cell medium-3 small-6">
-						<a th:href="@{/}" type="button" class="button large">
-							Continue...</a>
-					</div>
-
-				</div>
-			</div>
+			
 		</div>
 
 	</section>

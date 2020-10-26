@@ -29,7 +29,7 @@
 			<div class="card" id="bookingCard">
 				<!-- Card Header -->
 				<div class="card-divider">
-					<h2 class="h2 orange primary"><i class="far fa-check-circle"></i>  Approve your reservation</h2>
+					<h2 class="h3 orange primary"><i class="far fa-check-circle"></i>  Approve your reservation</h2>
 					<!--
 					<p class="right">
 						<a class="button large" th:href="@{/saml/logout}"> Logout</a><br />
@@ -57,7 +57,7 @@
 								Room:
 							</div>
 							<div class="cell small-9 mediun-10">
-								<strong><span id="spanRoomName">null</span></strong>
+								<strong><span id="spanRoomName" class="details-header">null</span></strong>
 							</div>
 						</div>
 						
@@ -97,10 +97,13 @@
 								<div class="cell">	
 									<div class="grid-x">
 										
-										<!-- Clear and Start oover  -->
+										<!-- Clear and Start over  -->
 										<div class="cell small-5 small-offset-1  medium-3 medium-offset-5 text-left">
-											<!-- Damith, Styling not applied -->
+											
 											<a th:href="@{/}" type="button" class="button  hollow secondary expanded" ><i class="fas fa-times"></i> Clear selection</a>
+											<!-- Damith, Styling not applied 
+											<a role="button" th:href="@{/}" th:onclick="cleanSession()" class="button hollow expanded">Clear selection</a>
+											-->
 										</div>
 										
 										<!-- Submit Booking  -->
