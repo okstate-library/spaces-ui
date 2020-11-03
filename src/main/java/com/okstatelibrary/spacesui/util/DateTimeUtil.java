@@ -11,8 +11,10 @@ import java.util.Date;
 
 public class DateTimeUtil {
 
+	private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
+	
 	public static String convertTo12HourTime(String dateTime) {
-		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss-05:00");
+		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");
 		DateFormat formatter = new SimpleDateFormat("hh:mm a");
 
 		Date time = null;
@@ -28,7 +30,6 @@ public class DateTimeUtil {
 	}
 
 	public static String convertToTime(String dateTime) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss-05:00");
 		DateFormat formatter = new SimpleDateFormat("hh:mm a");
 
 		Date time = null;
@@ -44,7 +45,6 @@ public class DateTimeUtil {
 	}
 
 	public static String convertToDateTime(String dateTime) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss-05:00");
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd hh:mm a");
 
 		Date time = null;
@@ -60,7 +60,6 @@ public class DateTimeUtil {
 	}
 
 	public static String convertToDate(String dateTime) {
-		DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss-05:00");
 		DateFormat formatter = new SimpleDateFormat("yyyy-MM-dd");
 
 		Date time = null;
@@ -88,7 +87,7 @@ public class DateTimeUtil {
 			dateTime = dateTime.plus(Duration.of(1, ChronoUnit.MINUTES));
 		}
 
-		return dateTime.toString() + ":00-0500";
+		return dateTime.toString() + ":00";
 
 	}
 }
