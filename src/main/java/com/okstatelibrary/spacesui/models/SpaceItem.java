@@ -70,11 +70,17 @@ public class SpaceItem {
 
 	public void setRoomDescription(String description) {
 
-		String htmlRemoveStirng = description.replaceAll("\\<[^>]*>", "");
+//		String htmlRemoveStirng = description.replaceAll("\\<[^>]*>", "");
+//
+//		int amenitiIndex = htmlRemoveStirng.indexOf("Available Amenities:");
 
-		int amenitiIndex = htmlRemoveStirng.indexOf("Available Amenities:");
+		this.roomDescription = description;
 
-		this.roomDescription = htmlRemoveStirng.substring(0, amenitiIndex);
+//		String htmlRemoveStirng = description.replaceAll("\\<[^>]*>", "");
+//
+//		int amenitiIndex = htmlRemoveStirng.indexOf("Available Amenities:");
+//
+//		this.roomDescription = htmlRemoveStirng.substring(0, amenitiIndex);
 	}
 
 	public void setAmenities(String description) {
@@ -100,6 +106,8 @@ public class SpaceItem {
 		}
 
 		this.amenities = StringUtil.convertToPipeSeperatedString(list);
+
+		this.amenities = description;
 	}
 
 	public String getImage() {
@@ -146,5 +154,4 @@ public class SpaceItem {
 		this.availability = null;
 	}
 
-	
 }
