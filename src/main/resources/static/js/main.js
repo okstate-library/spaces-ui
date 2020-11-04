@@ -21,8 +21,13 @@ $(document).ready(function() {
 
 });
 
-function aboutThisRoomModal(roomName, roomDesc) {
-	alert(roomName + roomDesc.toString());
+function aboutThisRoomModal(roomName, roomId) {
+	
+	document.getElementById('popup_title').innerHTML = roomName;
+	document.getElementById('popup_description').innerHTML = document.getElementById("desc-" + roomId).value;
+	
+	 $('.hover_bkgr_fricc').show();
+	
 }
 
 var selectedSlots = [];
@@ -225,3 +230,16 @@ function bookingPageLoad() {
 function cleanSession() {
 	sessionStorage.clear()
 }
+
+
+$(window).load(function () {
+    $(".trigger_popup_fricc").click(function(){
+       $('.hover_bkgr_fricc').show();
+    });
+    $('.hover_bkgr_fricc').click(function(){
+        $('.hover_bkgr_fricc').hide();
+    });
+    $('.popupCloseButton').click(function(){
+        $('.hover_bkgr_fricc').hide();
+    });
+});

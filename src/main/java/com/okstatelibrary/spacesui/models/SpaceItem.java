@@ -15,7 +15,6 @@ public class SpaceItem {
 	private String image;
 	private String capacity;
 	private String formid;
-	private String amenities;
 	private Availability[] availability;
 
 	public boolean visible;
@@ -29,7 +28,6 @@ public class SpaceItem {
 		this.setName(_name);
 		this.setDescription(_description);
 		this.setRoomDescription(_description);
-		this.setAmenities(_description);
 		this.setImage(_image);
 		this.setCapacity(_capacity);
 		this.setFormid(_formid);
@@ -64,50 +62,8 @@ public class SpaceItem {
 		return roomDescription.replaceAll("\\<[^>]*>", "");
 	}
 
-	public String getAmenities() {
-		return amenities;
-	}
-
 	public void setRoomDescription(String description) {
-
-//		String htmlRemoveStirng = description.replaceAll("\\<[^>]*>", "");
-//
-//		int amenitiIndex = htmlRemoveStirng.indexOf("Available Amenities:");
-
 		this.roomDescription = description;
-
-//		String htmlRemoveStirng = description.replaceAll("\\<[^>]*>", "");
-//
-//		int amenitiIndex = htmlRemoveStirng.indexOf("Available Amenities:");
-//
-//		this.roomDescription = htmlRemoveStirng.substring(0, amenitiIndex);
-	}
-
-	public void setAmenities(String description) {
-
-		String htmlRemoveStirng = description.replaceAll("\\<[^>]*>", "");
-
-		String[] amenities = htmlRemoveStirng.split("\\r\\n\\r\\n");
-
-		List<String> list = new ArrayList<String>();
-
-		boolean isAdding = false;
-
-		for (String amenity : amenities) {
-
-			if (isAdding) {
-				list.add(amenity.trim());
-			}
-
-			if (amenity.contains("Available Amenities:")) {
-				isAdding = true;
-			}
-
-		}
-
-		this.amenities = StringUtil.convertToPipeSeperatedString(list);
-
-		this.amenities = description;
 	}
 
 	public String getImage() {

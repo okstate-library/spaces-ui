@@ -137,8 +137,6 @@ public class HomeController {
 		AccessToken accessToken = accessTokenService.getAccessToken("https://okstate.libcal.com/1.1/oauth/token",
 				myProperties.getSpringShareClientId(), myProperties.getSpringShareSecretkey());
 
-		System.out.println("AccessToken " + accessToken.getAccessToken());
-
 		return new ResponseEntity<AccessToken>(accessToken, HttpStatus.OK);
 	}
 
@@ -170,8 +168,6 @@ public class HomeController {
 	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
 	public String cancel(@ModelAttribute("bookingId") String bookingId, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
-
-		System.out.println(bookingId);
 
 		if (bookingId.isEmpty() || bookingId == null) {
 
@@ -372,9 +368,6 @@ public class HomeController {
 					URLs.getSpacesURL(categoryItems[0].getItems(), date));
 
 			for (SpaceItem spaceItem : spaceItems) {
-
-				
-				System.out.println(spaceItem.getName() + "    " + spaceItem.getAmenities());
 				
 				if (spaceItem.getAvailability().length > 0) {
 
@@ -387,7 +380,6 @@ public class HomeController {
 
 						if (DateTimeUtil.convertToDate(availability.getFrom()).equals(date)) {
 							availabilityList.add(availability);
-
 						}
 
 					}
