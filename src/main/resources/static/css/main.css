@@ -247,5 +247,16 @@ p.room-name-title {
     display: inline-block;
     font-weight: bold;
 }
+
+#popup_title{
+	font-weight: 900;
+	font-size: larger;
+	text-align: left;
+	margin-bottom: 1rem;
+}
+#popup_description{
+	text-align: left;
+	margin-left: 2rem;
+}
 /* Popup box BEGIN */
 
