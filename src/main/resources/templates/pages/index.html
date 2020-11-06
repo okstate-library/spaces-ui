@@ -105,7 +105,7 @@
 									<form class="form-group" method="post" th:action="@{/booking}">
 										<div class="grid-x">
 
-											<div class="small-6">
+											<div class="cell small-10 small-offset-2 medium-6 medium-offset-0">
 
 												Room: <strong>[[${room.name}]]</strong><br> Time: <strong>
 													<span id="startTime"></span> to <span id="endTime"></span>
@@ -121,9 +121,11 @@
 													th:id="'hid_startTime-' + ${room.id}" /> <input
 													type="hidden" name="hid_endTime"
 													th:id="'hid_endTime-' + ${room.id}" />
+													<br class="show-for-small-only">
+													<br class="show-for-small-only">
 											</div>
 
-											<div class="small-6">
+											<div class="cell small-9 small-offset-3   medium-6 medium-offset-0">
 												<div class="button-group expanded ">
 
 													<button type="button" class="hollow secondary button"
