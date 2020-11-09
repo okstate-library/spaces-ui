@@ -193,6 +193,19 @@ public class HomeController {
 		return "pages/summary";
 	}
 
+	
+	
+//	//@CrossOrigin(origins = "*")
+//	@RequestMapping(value = "/saml/SSO/**", method = RequestMethod.GET)
+//	public String samlsso(HttpServletRequest request,Model model)
+//			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
+//
+//		System.out.print("Smal SSO");
+//		//return "pages/index";
+//		return "redirect:/saml/login?disco=true";
+//	}
+
+	
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/booking", method = RequestMethod.POST)
 	public String booking()

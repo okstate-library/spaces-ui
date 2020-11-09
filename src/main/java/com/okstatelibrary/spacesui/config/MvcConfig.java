@@ -22,7 +22,6 @@ public class MvcConfig implements WebMvcConfigurer {
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("pages/index");
-		//registry.addViewController("/").setViewName("pages/summary");
 	}
 
 	@Override
@@ -36,10 +35,10 @@ public class MvcConfig implements WebMvcConfigurer {
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		argumentResolvers.add(currentUserHandlerMethodArgumentResolver);
 	}
-	
-	  @Override
-		public void addCorsMappings(CorsRegistry registry) {
-	        registry.addMapping("/**");
-	    }
+
+	@Override
+	public void addCorsMappings(CorsRegistry registry) {
+		registry.addMapping("/**");
+	}
 
 }

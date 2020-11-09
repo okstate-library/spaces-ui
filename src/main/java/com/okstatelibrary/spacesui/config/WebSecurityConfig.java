@@ -467,7 +467,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
             "/js/**",
             "/images/**",
             "/",
-            "/rest/authenticate",
             "/index",
             "/cancel",
             "/booking",
