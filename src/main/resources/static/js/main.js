@@ -1,13 +1,6 @@
-//$(document).foundation();  
 
 $(document).foundation();
 
-$('[data-reveal-id]').on('click', function() {
-	var targetModal = $('#' + $(this).data('revealId'));
-	var newText = $(this).text() + ' (' + $(this).data('myNumber') + ')';
-
-	targetModal.find('.buttonText').text(newText);
-});
 
 $(document).ready(function() {
 
@@ -21,20 +14,13 @@ $(document).ready(function() {
 
 });
 
-function aboutThisRoomModal(roomName, roomId) {
-	
-	document.getElementById('popup_title').innerHTML = roomName;
-	document.getElementById('popup_description').innerHTML = document.getElementById("desc-" + roomId).value;
-	
-	 $('.hover_bkgr_fricc').show();
-	
-}
 
 var selectedSlots = [];
 var selectedRoomName = null;
 var selectedRoomId = null;
 var buttons = [];
 
+// The method that checking for validated time slots.
 function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 		booked) {
 
@@ -73,19 +59,22 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 
 						var lastFromTime = getTimeValue(selectedSlots[selectedSlots.length - 1].fromDateTime);
 
+						// checking continuous time selection.
 						if ((firstFromTime - suppliedTime > 30)
 								|| (lastFromTime - suppliedTime < -30)) {
-							alert('Please select only contiguous time blocks! ');
+							alert('Please select continuous time slots.');
 							return;
 						}
 
+						// Checking more than 8 time slots selection.
 						if (selectedSlots.length == 8) {
-							alert('You can only select 8 time slots at a time');
+							alert('You may select up to 8 time slots at a time.');
 							return;
 						}
 
 						$(button).css('background', '#cbdbeb');
 
+						// making the slot object and push to the lost
 						selectedSlots.push({
 							from : fromTime,
 							to : toTime,
@@ -94,7 +83,7 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 
 						buttons.push(button);
 
-						console.error(selectedSlots);
+						//console.error(selectedSlots);
 
 					} else {
 
@@ -113,9 +102,7 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 							$(button).css('background', '');
 						}
 
-						console.error(selectedSlots);
-
-						// return;
+						//console.error(selectedSlots);
 
 					}
 				}
@@ -136,13 +123,10 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 		var endTime = document.querySelector("#" + mainDivName + " #endTime");
 		endTime.textContent = selectedSlots[selectedSlots.length - 1].to;
 
-		// document.getElementById('hid_startTime-' + roomId).value =
-		// selectedSlots[0].from;
-		// document.getElementById('hid_endTime-' + roomId).value =
-		// selectedSlots[selectedSlots.length - 1].to;
 	}
 }
 
+// 
 function getTimeValue(time) {
 	var timeSlotLength = 60000;
 
@@ -159,8 +143,8 @@ function compare(a, b) {
 	return 0;
 }
 
+// Clear the selecrtion in the index page.
 function clearSelection() {
-	// selectedSlots = [];
 
 	var mainDivName = "confirmWindow-" + selectedRoomId;
 
@@ -181,6 +165,7 @@ function clearSelection() {
 
 }
 
+// Session values storage
 function storeSelection() {
 
 	sessionStorage.setItem("selectedRoomId", selectedRoomId);
@@ -197,6 +182,7 @@ function storeSelection() {
 
 }
 
+// Booking page
 function bookingPageLoad() {
 
 	var roomId = sessionStorage.getItem("selectedRoomId");
@@ -227,19 +213,9 @@ function bookingPageLoad() {
 	// cleanSession();
 }
 
+// Clear the session data.
 function cleanSession() {
 	sessionStorage.clear()
 }
 
 
-$(window).load(function () {
-    $(".trigger_popup_fricc").click(function(){
-       $('.hover_bkgr_fricc').show();
-    });
-    $('.hover_bkgr_fricc').click(function(){
-        $('.hover_bkgr_fricc').hide();
-    });
-    $('.popupCloseButton').click(function(){
-        $('.hover_bkgr_fricc').hide();
-    });
-});

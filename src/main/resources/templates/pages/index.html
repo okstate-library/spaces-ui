@@ -29,6 +29,7 @@
 					</div>
 				</div>
 
+
 			</div>
 
 		</div>
@@ -66,39 +67,29 @@
 							<div class="cell small-12">
 								<p class="room-name-title">
 
-									<strong data-th-text="${room.name}">...</strong>
-									<small class="number-room-item-seats"
-										data-th-text="${room.capacity}">
-									</small> 
-									<small>
-										Seats
-									</small>
-									<button class="button clear" type="button"   th:data-toggle="'desc-' + ${room.id}" style="padding:0 .5rem; margin-bottom:0;"><i class="fas fa-info-circle orange"></i> <span class="show-for-sr">View Room Details<span></button>
-									
-									<div class="dropdown-pane" th:id="'desc-' + ${room.id}" data-dropdown data-auto-focus="true">
-										<p><strong data-th-text="${room.name}">...</strong></p>
-										<p href="#" th:href="@{#}" class="dropdown-toggle"
-											data-toggle="dropdown"> <span
-											th:utext="${room.description}" th:remove="tag"></span> <b
+									<strong data-th-text="${room.name}">...</strong> <small
+										class="number-room-item-seats" data-th-text="${room.capacity}">
+									</small> <small> Seats </small>
+									<button class="button clear" type="button"
+										th:data-toggle="'desc-' + ${room.id}"
+										style="padding: 0 .5rem; margin-bottom: 0;">
+										<i class="fas fa-info-circle orange"></i> <span
+											class="show-for-sr">View Room Details</span>
+									</button>
+								<div class="dropdown-pane" th:id="'desc-' + ${room.id}"
+									data-dropdown data-auto-focus="true">
+									<p>
+										<strong data-th-text="${room.name}">...</strong>
+									</p>
+									<p th:href="@{#}" class="dropdown-toggle"
+										data-toggle="dropdown">
+										<span th:utext="${room.description}" th:remove="tag"></span> <b
 											class="caret"></b>
-										</p>
-									</div>
-									<!-- <a
-										th:onclick="aboutThisRoomModal('[(${room.name})]', '[(${room.id})]')">
-											<i class="fas fa-info-circle orange"></i>
-									</a>
-									<input th:id="'desc-' + ${room.id}" type="hidden"
-										th:value="${room.description}" /> -->
-							
-
-
-
-
+									</p>
+								</div>
 								</p>
 
 							</div>
-
-
 						</div>
 
 						<div class="grid-x">

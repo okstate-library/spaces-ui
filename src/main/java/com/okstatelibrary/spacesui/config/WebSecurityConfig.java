@@ -82,12 +82,16 @@ import org.springframework.security.web.csrf.CsrfFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 import com.okstatelibrary.spacesui.core.SAMLUserDetailsServiceImpl;
+import com.okstatelibrary.spacesui.util.SystemProperties;
  
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(securedEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements InitializingBean, DisposableBean {
  
+	@Autowired
+	SystemProperties myProperties;
+	
 	private Timer backgroundTaskTimer;
 	private MultiThreadedHttpConnectionManager multiThreadedHttpConnectionManager;
 
@@ -246,10 +250,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
 	public ExtendedMetadataDelegate ssoCircleExtendedMetadataProvider()
 			throws MetadataProviderException {
 		
-		String idpSSOCircleMetadataURL = "https://stgcas.okstate.edu/cas/idp/metadata";
-		
 		HTTPMetadataProvider httpMetadataProvider = new HTTPMetadataProvider(
-				this.backgroundTaskTimer, httpClient(), idpSSOCircleMetadataURL);
+				this.backgroundTaskTimer, httpClient(), myProperties.getIdpMetadataURL());
 		httpMetadataProvider.setParserPool(parserPool());
 		
 		ExtendedMetadataDelegate extendedMetadataDelegate = 
@@ -278,7 +280,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
     @Bean
     public MetadataGenerator metadataGenerator() {
         MetadataGenerator metadataGenerator = new MetadataGenerator();
-        metadataGenerator.setEntityId("edu:okstate:library:spacest");
+        metadataGenerator.setEntityId(myProperties.getMetadataEntityId());
         metadataGenerator.setExtendedMetadata(extendedMetadata());
         metadataGenerator.setIncludeDiscoveryExtension(false);
         //metadataGenerator.setKeyManager(keyManager()); 
