@@ -65,15 +65,35 @@
 						<div class="grid-x">
 							<div class="cell small-12">
 								<p class="room-name-title">
-									<strong data-th-text="${room.name}">...</strong> <small
-										class="number-room-item-seats" data-th-text="${room.capacity}"></small>
-									<small>Seats <a
+
+
+									<!-- <a
 										th:onclick="aboutThisRoomModal('[(${room.name})]', '[(${room.id})]')">
 											<i class="fas fa-info-circle orange"></i>
 									</a>
-									</small> <input th:id="'desc-' + ${room.id}" type="hidden"
-										th:value="${room.description}" />
+									<input th:id="'desc-' + ${room.id}" type="hidden"
+										th:value="${room.description}" /> -->
+								<ul class="dropdown menu" data-dropdown-menu>
+									<li><a href="#"> <strong data-th-text="${room.name}">...</strong>
+											<small class="number-room-item-seats"
+											data-th-text="${room.capacity}"></small> <small>Seats
+
+										</small>
+									</a>
+										<ul class="menu">
+											<li><a href="#" th:href="@{#}" class="dropdown-toggle"
+												data-toggle="dropdown"> <span
+													th:utext="${room.description}" th:remove="tag"></span> <b
+													class="caret"></b>
+											</a></li>
+										</ul></li>
+								</ul>
+
+
+
+
 								</p>
+
 							</div>
 
 
@@ -86,7 +106,8 @@
 										class="room-item-img">
 								</p>
 							</div>
-							<div class="cell small-11 small-offset-1  medium-offset-0 large-offset-0  medium-10">
+							<div
+								class="cell small-11 small-offset-1  medium-offset-0 large-offset-0  medium-10">
 
 								<div data-th-each="timeslot : ${room.availability}"
 									style="display: inline;">
@@ -105,7 +126,8 @@
 									<form class="form-group" method="post" th:action="@{/booking}">
 										<div class="grid-x">
 
-											<div class="cell small-10 small-offset-2 medium-6 medium-offset-0">
+											<div
+												class="cell small-10 small-offset-2 medium-6 medium-offset-0">
 
 												Room: <strong>[[${room.name}]]</strong><br> Time: <strong>
 													<span id="startTime"></span> to <span id="endTime"></span>
@@ -120,12 +142,13 @@
 													type="hidden" name="hid_startTime"
 													th:id="'hid_startTime-' + ${room.id}" /> <input
 													type="hidden" name="hid_endTime"
-													th:id="'hid_endTime-' + ${room.id}" />
-													<br class="show-for-small-only">
-													<br class="show-for-small-only">
+													th:id="'hid_endTime-' + ${room.id}" /> <br
+													class="show-for-small-only"> <br
+													class="show-for-small-only">
 											</div>
 
-											<div class="cell small-9 small-offset-3   medium-6 medium-offset-0">
+											<div
+												class="cell small-9 small-offset-3   medium-6 medium-offset-0">
 												<div class="button-group expanded ">
 
 													<button type="button" class="hollow secondary button"
@@ -169,7 +192,7 @@
 				<div id="popup_description"></div>
 			</div>
 		</div>
-		
+
 	</section>
 	<!-- Content ends -->
 <body>
