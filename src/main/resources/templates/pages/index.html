@@ -7,43 +7,48 @@
 <body>
 	<section layout:fragment="content">
 
-		<div class="banner">
+		<div class="banner" style="padding: .75rem 0;">
 
 			<div class="grid-container">
-				<h5>
-					<strong>Reserve a Study Room for</strong>
-				</h5>
+				<!--
+					<h5>
+						<strong>Reserve a Study Room for</strong>
+						</h5>
+				-->
 				<form id="dp-form" method="get" th:action="@{/}">
 					<div class="grid-x">
-						<div class="cell small-8 medium-4">
-
-							<div class="input-group">
-								<span class="input-group-label"><strong>Date: </strong></span> <input
+						<div class="cell small-8 medium-4 ">
+							<label>
+								<strong>Date: </strong>
+								<input
 									type="text" th:value="${dateString}" name="date" id="date"
 									class="input-group-field">
 
-							</div>
-
+							</label>
+							
 						</div>
-						<div class="cell small-8 medium-4">
-							<div class="input-group">
-								<span class="input-group-label"><strong>Seats: </strong></span>
+						<div class="cell small-8 medium-4 medium-offset-1">
+							<label>
+							     <strong>Capacity: </strong>
 								<select onchange="this.form.submit()" th:selected="${seatCount}"
-									name="seats" id="seats">
+									name="seats" id="seats"  class="input-group-field">
 									<option value="0">Any</option>
 									<option value="2">2+</option>
 									<option value="4">4+</option>
 									<option value="6">6+</option>
 									<option value="8">8+</option>
 								</select>
-							</div>
+							</label>
+							
 						</div>
 
-						<div class="cell small-8 medium-4">
-							<div class="input-group">
+						<div class="cell small-8 medium-3  hide-for-small-only" style="padding-left: 1rem;">
+							<label>
+								<strong>Available Rooms: </strong>
 								<input type="text" readonly="readonly" th:value="${totalRooms}"
 									class="input-group-field">
-							</div>
+
+							</label>
 						</div>
 
 					</div>
