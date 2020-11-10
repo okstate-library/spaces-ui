@@ -6,6 +6,8 @@ import java.text.ParseException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 
@@ -133,27 +135,40 @@ public class HomeController {
 	/// Index method. List all the available room with time slots in the index page.
 	///
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(HttpServletRequest request, @ModelAttribute("date") String date, Model model)
-			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException,
-			ParseException {
+	public String index(HttpServletRequest request, @ModelAttribute("date") String date,
+			@ModelAttribute("seats") String seats, Model model) throws JsonParseException, JsonMappingException,
+			RestClientException, IOException, JSONException, ParseException {
 
-		if (date.isEmpty() || date == null) {
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			LocalDateTime now = LocalDateTime.now();
+		try {
+			if (date.isEmpty() || date == null) {
+				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+				LocalDateTime now = LocalDateTime.now();
 
-			date = dtf.format(now);
+				date = dtf.format(now);
+			}
+
+			if (seats.isEmpty() || seats == null) {
+				seats = "0";
+			}
+
+			SpaceItem[] spaceItems = madeAvaliableTimeSlots(date, seats);
+
+			model.addAttribute("spaceList", spaceItems);
+
+			model.addAttribute("dateString", date);
+			model.addAttribute("seatCount", seats);
+			model.addAttribute("totalRooms", spaceItems.length + " Rooms found...");
+
+			HttpSession session = request.getSession();
+			session.setMaxInactiveInterval(300);
+
+			return "pages/index";
+
+		} catch (Exception e) {
+			// Block of code to handle errors
 		}
 
-		SpaceItem[] spaceItems = madeAvaliableTimeSlots(date);
-
-		model.addAttribute("spaceList", spaceItems);
-
-		model.addAttribute("dateString", date);
-
-		HttpSession session = request.getSession();
-		session.setMaxInactiveInterval(300);
-
-		return "pages/index";
+		return "redirect:/errorpage";
 	}
 
 	///
@@ -305,8 +320,9 @@ public class HomeController {
 	}
 
 	///
-	/// After IDP redirects, this will redirects to the relevant page to populate user and booking details.
- 	///
+	/// After IDP redirects, this will redirects to the relevant page to populate
+	/// user and booking details.
+	///
 	@RequestMapping("/landing")
 	public String landing(HttpServletRequest request, @CurrentUser User user, Model model) {
 
@@ -337,7 +353,8 @@ public class HomeController {
 	}
 
 	///
-	/// IDP Selection proceed. If user not logged to relevant IDP it will redirects to the SSO.
+	/// IDP Selection proceed. If user not logged to relevant IDP it will redirects
+	/// to the SSO.
 	///
 	@RequestMapping(value = "/discovery", method = RequestMethod.GET)
 	public String idpSelection(HttpServletRequest request, Model model)
@@ -371,8 +388,10 @@ public class HomeController {
 	/// Also based on the time slot it returns already booked time slots.
 	/// So user can get better idea of what time slots can book.
 	///
-	private SpaceItem[] madeAvaliableTimeSlots(String date) throws JsonParseException, JsonMappingException,
-			RestClientException, IOException, JSONException, ParseException {
+	private SpaceItem[] madeAvaliableTimeSlots(String date, String seats) throws JsonParseException,
+			JsonMappingException, RestClientException, IOException, JSONException, ParseException {
+
+		int seatsCount = Integer.parseInt(seats);
 
 		Category[] categoryItems = spaceService.getRoomsByCategory(getAccessTokenFromRequest(),
 				URLs.GET_ROOMS_BY_CATEGORY);
@@ -389,7 +408,7 @@ public class HomeController {
 
 			for (SpaceItem spaceItem : spaceItems) {
 
-				if (spaceItem.getAvailability().length > 0) {
+				if (spaceItem.getAvailability().length > 0 && Integer.parseInt(spaceItem.getCapacity()) >= seatsCount) {
 
 					List<Availability> availabilityList = new ArrayList<>();
 
@@ -448,6 +467,14 @@ public class HomeController {
 		if (list.size() > 0) {
 			spaceItems = list.toArray(new SpaceItem[0]);
 		}
+
+		// Sorting rooms by name
+		Arrays.sort(spaceItems, new Comparator<SpaceItem>() {
+			@Override
+			public int compare(SpaceItem o1, SpaceItem o2) {
+				return o1.getName().compareTo(o2.getName());
+			}
+		});
 
 		return spaceItems;
 	}

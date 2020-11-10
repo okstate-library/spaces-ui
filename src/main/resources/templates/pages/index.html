@@ -13,24 +13,44 @@
 				<h5>
 					<strong>Reserve a Study Room for</strong>
 				</h5>
+				<form id="dp-form" method="get" th:action="@{/}">
+					<div class="grid-x">
+						<div class="cell small-8 medium-4">
 
-				<div class="grid-x">
-					<div class="cell small-8 medium-2">
-
-
-						<form id="dp-form" method="get" th:action="@{/}">
 							<div class="input-group">
 								<span class="input-group-label"><strong>Date: </strong></span> <input
 									type="text" th:value="${dateString}" name="date" id="date"
 									class="input-group-field">
 
 							</div>
-						</form>
+
+						</div>
+						<div class="cell small-8 medium-4">
+							<div class="input-group">
+								<span class="input-group-label"><strong>Seats: </strong></span>
+								<select onchange="this.form.submit()" th:selected="${seatCount}"
+									name="seats" id="seats">
+									<option value="0">Any</option>
+									<option value="2">2+</option>
+									<option value="4">4+</option>
+									<option value="6">6+</option>
+									<option value="8">8+</option>
+								</select>
+							</div>
+						</div>
+
+						<div class="cell small-8 medium-4">
+							<div class="input-group">
+								<input type="text" readonly="readonly" th:value="${totalRooms}"
+									class="input-group-field">
+							</div>
+						</div>
+
 					</div>
-				</div>
-
-
+				</form>
 			</div>
+
+
 
 		</div>
 
