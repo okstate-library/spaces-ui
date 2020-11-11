@@ -28,6 +28,9 @@ public class SpacesService {
 
 	ObjectMapper mapper = new ObjectMapper();
 
+	///
+	/// Get all the available categories.
+	///
 	public Category[] getRoomsByCategory(String accessToken, String url)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException {
 		HttpHeaders headers = new HttpHeaders();
@@ -47,6 +50,9 @@ public class SpacesService {
 		}
 	}
 
+	///
+	/// Get all available rooms.
+	///
 	public SpaceItem[] getItems(String accessToken, String url)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException {
 		HttpHeaders headers = new HttpHeaders();
@@ -65,6 +71,9 @@ public class SpacesService {
 		}
 	}
 
+	///
+	/// Returns whether booking confirms or any error related to the booking.
+	///
 	public BookingConfirmation bookARoom(String accessToken, RoomBookingPayload payload, String url) {
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("Authorization", "Bearer " + accessToken);
@@ -88,17 +97,13 @@ public class SpacesService {
 		} catch (Exception e) {
 
 			return new BookingConfirmation(e.getMessage());
-
-//			System.out.println("Buffer Error" + e.getMessage());
-//
-//			e.getMessage();
-//			e.printStackTrace();
-//			e.toString();
-//
-//			return null;
 		}
 	}
 
+	///
+	/// Returns detail related to the booked session.
+	/// otherwise an error.
+	///
 	public BookedItem[] getBookedItems(String accessToken, String url)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException {
 
@@ -121,6 +126,9 @@ public class SpacesService {
 		}
 	}
 
+	///
+	/// Get the relevant room details otherwise an error.
+	///
 	public Room[] getRoom(String accessToken, String url)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException {
 
@@ -142,6 +150,9 @@ public class SpacesService {
 		}
 	}
 
+	///
+	/// Returns the booking cancellation and otherwise an error.
+	///
 	public CancelConfirmation[] cancel(String accessToken, String url)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException {
 
