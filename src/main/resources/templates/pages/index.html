@@ -17,36 +17,43 @@
 				-->
 				<form id="dp-form" method="get" th:action="@{/}">
 					<div class="grid-x">
-						<div class="cell small-8 medium-4 ">
-							<label>
-								<strong>Date: </strong>
-								<input
-									type="text" th:value="${dateString}" name="date" id="date"
-									class="input-group-field">
+						<div class="cell small-8 medium-2">
+							<label> <strong>Date: </strong> <input type="text"
+								th:value="${dateString}" name="date" id="date"
+								class="input-group-field">
 
 							</label>
-							
+
 						</div>
-						<div class="cell small-8 medium-4 medium-offset-1">
-							<label>
-							     <strong>Capacity: </strong>
-								<select onchange="this.form.submit()" th:selected="${seatCount}"
-									name="seats" id="seats"  class="input-group-field">
-									<option value="0">Any</option>
-									<option value="2">2+</option>
-									<option value="4">4+</option>
-									<option value="6">6+</option>
-									<option value="8">8+</option>
-								</select>
+						<div class="cell small-8 medium-2 medium-offset-1">
+							<label> <strong>Capacity: </strong> <select name="seats"
+								id="seatsDropDown" onchange="this.form.submit()">
+									<option th:each="dropDownItem : ${seats}"
+										th:value="${dropDownItem.key}"
+										th:selected="${dropDownItem.key} == *{selectedSeat}"
+										th:text="${dropDownItem.value}" />
+							</select>
 							</label>
-							
+
+						</div>
+						
+						<div class="cell small-8 medium-2 medium-offset-1">
+							<label> <strong>Floor: </strong> <select name="floor"
+								id="floorDropDown" onchange="this.form.submit()">
+									<option th:each="dropDownItem : ${floors}"
+										th:value="${dropDownItem.key}"
+										th:selected="${dropDownItem.key} == *{selectedFloor}"
+										th:text="${dropDownItem.value}" />
+							</select>
+							</label>
+
 						</div>
 
-						<div class="cell small-8 medium-3  hide-for-small-only" style="padding-left: 1rem;">
-							<label>
-								<strong>Available Rooms: </strong>
-								<input type="text" readonly="readonly" th:value="${totalRooms}"
-									class="input-group-field">
+						<div class="cell small-8 medium-2 medium-offset-1 hide-for-small-only"
+							style="padding-left: 1rem;">
+							<label> <strong>Available Rooms: </strong> <input
+								type="text" readonly="readonly" th:value="${totalRooms}"
+								class="input-group-field">
 
 							</label>
 						</div>

@@ -8,7 +8,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
@@ -18,8 +20,6 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -71,6 +71,37 @@ public class HomeController {
 
 	// Logger
 	private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
+
+	// Defines the seat count drop down list
+	private static final Map<String, String> seatList = new HashMap<String, String>() {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		{
+			put("2", "2+");
+			put("4", "4+");
+			put("6", "6+");
+			put("8", "8+");
+			put("10", "10+");
+		}
+	};
+
+	// Defines the floor drop down list
+	private static final Map<String, String> floorList = new HashMap<String, String>() {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 1L;
+
+		{
+			put("0", "Any");
+			put("1", "First");
+			put("2", "Second");
+			put("3", "Third");
+		}
+	};
 
 	// All the time slots
 	private static final List<Availability> fixedTimeSlots = new ArrayList<Availability>() {
@@ -136,36 +167,47 @@ public class HomeController {
 	///
 	@RequestMapping(value = "/", method = RequestMethod.GET)
 	public String index(HttpServletRequest request, @ModelAttribute("date") String date,
-			@ModelAttribute("seats") String seats, Model model) throws JsonParseException, JsonMappingException,
-			RestClientException, IOException, JSONException, ParseException {
+			@ModelAttribute("seats") String seats, @ModelAttribute("floor") String floor, Model model)
+			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException,
+			ParseException {
 
-		try {
-			if (date.isEmpty() || date == null) {
-				DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-				LocalDateTime now = LocalDateTime.now();
+		 try {
+		if (date.isEmpty() || date == null) {
+			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+			LocalDateTime now = LocalDateTime.now();
 
-				date = dtf.format(now);
-			}
+			date = dtf.format(now);
+		}
 
-			if (seats.isEmpty() || seats == null) {
-				seats = "0";
-			}
+		if (seats.isEmpty() || seats == null) {
+			seats = "0";
+		}
 
-			SpaceItem[] spaceItems = madeAvaliableTimeSlots(date, seats);
+		if (floor.isEmpty() || floor == null) {
+			floor = "0";
+		}
 
-			model.addAttribute("spaceList", spaceItems);
+		SpaceItem[] spaceItems = madeAvaliableTimeSlots(date, seats, floor);
 
-			model.addAttribute("dateString", date);
-			model.addAttribute("seatCount", seats);
-			model.addAttribute("totalRooms", spaceItems.length + " Rooms found...");
+		model.addAttribute("spaceList", spaceItems);
 
-			HttpSession session = request.getSession();
-			session.setMaxInactiveInterval(300);
+		model.addAttribute("dateString", date);
 
-			return "pages/index";
+		model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0) + " Rooms found...");
+
+		model.addAttribute("seats", seatList);
+		model.addAttribute("selectedSeat", seats);
+
+		model.addAttribute("floors", floorList);
+		model.addAttribute("selectedFloor", floor);
+
+		HttpSession session = request.getSession();
+		session.setMaxInactiveInterval(300);
+
+		return "pages/index";
 
 		} catch (Exception e) {
-			// Block of code to handle errors
+			System.out.print(e.getStackTrace());
 		}
 
 		return "redirect:/errorpage";
@@ -240,8 +282,11 @@ public class HomeController {
 			BookingConfirmation bookingConfirmation = spaceService.bookARoom(getAccessTokenFromRequest(),
 					roomBookingPayLoad, URLs.BOOK_A_ROOM_URL);
 
+			SAMLUserList.getInstance().removeFromArray(samlUser);
+
 			if (bookingConfirmation != null && bookingConfirmation.getBooking_id() != null
 					&& !bookingConfirmation.getBooking_id().isEmpty()) {
+
 				return "redirect:/summary/" + bookingConfirmation.getBooking_id() + "/true";
 
 			} else {
@@ -261,7 +306,7 @@ public class HomeController {
 	}
 
 	///
-	/// Redirects to the relevant error page with meesage.
+	/// Redirects to the relevant error page with message.
 	///
 	@RequestMapping(value = { "/errorpage", "/errorpage/{id}" })
 	public String error(@PathVariable(required = false) String id, Model model)
@@ -327,6 +372,7 @@ public class HomeController {
 	public String landing(HttpServletRequest request, @CurrentUser User user, Model model) {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
 		if (auth == null)
 			LOG.debug("Current authentication instance from security context is null");
 		else
@@ -340,8 +386,8 @@ public class HomeController {
 
 		SAMLUser samlUser = SAMLUserList.getInstance().getSAMLUser(session.getId());
 
-		if (samlUser.getFirstName().isEmpty()) {
-			LOG.debug("SAML USER  NNull");
+		if (samlUser == null || samlUser.getFirstName() == null || samlUser.getFirstName().isEmpty()) {
+			return "redirect:/"; // Redirects to home page.
 		}
 
 		model.addAttribute("firstName", samlUser.getFirstName());
@@ -388,7 +434,7 @@ public class HomeController {
 	/// Also based on the time slot it returns already booked time slots.
 	/// So user can get better idea of what time slots can book.
 	///
-	private SpaceItem[] madeAvaliableTimeSlots(String date, String seats) throws JsonParseException,
+	private SpaceItem[] madeAvaliableTimeSlots(String date, String seats, String floor) throws JsonParseException,
 			JsonMappingException, RestClientException, IOException, JSONException, ParseException {
 
 		int seatsCount = Integer.parseInt(seats);
@@ -408,7 +454,8 @@ public class HomeController {
 
 			for (SpaceItem spaceItem : spaceItems) {
 
-				if (spaceItem.getAvailability().length > 0 && Integer.parseInt(spaceItem.getCapacity()) >= seatsCount) {
+				if (spaceItem.getAvailability().length > 0 && Integer.parseInt(spaceItem.getCapacity()) >= seatsCount
+						&& (floor.equals("0") ? true : floor.equals(spaceItem.getFloor()))) {
 
 					List<Availability> availabilityList = new ArrayList<>();
 
@@ -466,15 +513,15 @@ public class HomeController {
 
 		if (list.size() > 0) {
 			spaceItems = list.toArray(new SpaceItem[0]);
-		}
 
-		// Sorting rooms by name
-		Arrays.sort(spaceItems, new Comparator<SpaceItem>() {
-			@Override
-			public int compare(SpaceItem o1, SpaceItem o2) {
-				return o1.getName().compareTo(o2.getName());
-			}
-		});
+			// Sorting rooms by name
+			Arrays.sort(spaceItems, new Comparator<SpaceItem>() {
+				@Override
+				public int compare(SpaceItem o1, SpaceItem o2) {
+					return o1.getName().compareTo(o2.getName());
+				}
+			});
+		}
 
 		return spaceItems;
 	}

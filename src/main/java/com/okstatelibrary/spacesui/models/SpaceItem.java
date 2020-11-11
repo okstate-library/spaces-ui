@@ -14,6 +14,7 @@ public class SpaceItem {
 	private String roomDescription;
 	private String image;
 	private String capacity;
+	private String floor;
 	private String formid;
 	private Availability[] availability;
 
@@ -108,6 +109,10 @@ public class SpaceItem {
 
 	public void emptyAvailability() {
 		this.availability = null;
+	}
+
+	public String getFloor() {
+		return Character.toString(this.name.charAt(0));
 	}
 
 }

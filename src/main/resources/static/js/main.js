@@ -14,7 +14,6 @@ $(document).ready(function() {
 
 });
 
-
 var selectedSlots = [];
 var selectedRoomName = null;
 var selectedRoomId = null;
@@ -83,7 +82,7 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 
 						buttons.push(button);
 
-						//console.error(selectedSlots);
+						// console.error(selectedSlots);
 
 					} else {
 
@@ -102,7 +101,7 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 							$(button).css('background', '');
 						}
 
-						//console.error(selectedSlots);
+						// console.error(selectedSlots);
 
 					}
 				}

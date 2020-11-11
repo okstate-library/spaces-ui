@@ -47,3 +47,4 @@ CNAME
 src/main/resources/application-dev.properties
 src/main/resources/application-prod.properties
 /bin/
+${sys:LOG_PATH}/2020-11/app-2020-11-10-22-1.log.gz
