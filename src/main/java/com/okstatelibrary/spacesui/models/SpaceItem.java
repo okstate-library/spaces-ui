@@ -1,11 +1,7 @@
 package com.okstatelibrary.spacesui.models;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.okstatelibrary.spacesui.util.StringUtil;
 
 public class SpaceItem {
 	private String id;
@@ -113,6 +109,10 @@ public class SpaceItem {
 
 	public String getFloor() {
 		return Character.toString(this.name.charAt(0));
+	}
+
+	public void setFloor(String floor) {
+		this.floor = floor;
 	}
 
 }
