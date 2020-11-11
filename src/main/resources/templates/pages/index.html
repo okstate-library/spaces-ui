@@ -17,7 +17,7 @@
 				-->
 				<form id="dp-form" method="get" th:action="@{/}">
 					<div class="grid-x">
-						<div class="cell small-8 medium-2">
+						<div class="cell small-8 medium-3">
 							<label> <strong>Date: </strong> <input type="text"
 								th:value="${dateString}" name="date" id="date"
 								class="input-group-field">
@@ -25,7 +25,7 @@
 							</label>
 
 						</div>
-						<div class="cell small-8 medium-2 medium-offset-1">
+						<div class="cell small-8 medium-3 medium-offset-1">
 							<label> <strong>Capacity: </strong> <select name="seats"
 								id="seatsDropDown" onchange="this.form.submit()">
 									<option th:each="dropDownItem : ${seats}"
@@ -36,7 +36,7 @@
 							</label>
 
 						</div>
-						
+						<!--
 						<div class="cell small-8 medium-2 medium-offset-1">
 							<label> <strong>Floor: </strong> <select name="floor"
 								id="floorDropDown" onchange="this.form.submit()">
@@ -48,8 +48,9 @@
 							</label>
 
 						</div>
+						-->
 
-						<div class="cell small-8 medium-2 medium-offset-1 hide-for-small-only"
+						<div class="cell small-8 medium-3 medium-offset-1 hide-for-small-only"
 							style="padding-left: 1rem;">
 							<label> <strong>Available Rooms: </strong> <input
 								type="text" readonly="readonly" th:value="${totalRooms}"
