@@ -13,17 +13,31 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.okstatelibrary.spacesui.core.CurrentUserHandlerMethodArgumentResolver;
 
+/**
+ * MVC configurations
+ * @author Damith
+ *
+ */
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
 
+	/**
+	 * 
+	 */
 	@Autowired
 	CurrentUserHandlerMethodArgumentResolver currentUserHandlerMethodArgumentResolver;
 
+	/**
+	 *
+	 */
 	@Override
 	public void addViewControllers(ViewControllerRegistry registry) {
 		registry.addViewController("/").setViewName("pages/index");
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void addResourceHandlers(ResourceHandlerRegistry registry) {
 		if (!registry.hasMappingForPattern("/static/**")) {
@@ -31,11 +45,17 @@ public class MvcConfig implements WebMvcConfigurer {
 		}
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
 		argumentResolvers.add(currentUserHandlerMethodArgumentResolver);
 	}
 
+	/**
+	 *
+	 */
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 		registry.addMapping("/**");

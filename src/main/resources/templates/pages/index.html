@@ -3,7 +3,6 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{layout}">
 
-
 <body>
 	<section layout:fragment="content">
 
@@ -15,7 +14,7 @@
 						<strong>Reserve a Study Room for</strong>
 						</h5>
 				-->
-				<form id="dp-form" method="get" th:action="@{/}">
+				<form id="dp-form" method="post" th:action="@{/}">
 					<div class="grid-x">
 						<div class="cell small-8 medium-3">
 							<label> <strong>Date: </strong> <input type="text"
@@ -27,14 +26,13 @@
 						</div>
 						<div class="cell small-8 medium-3 medium-offset-1">
 							<label> <strong>Capacity: </strong> <select name="seats"
-								id="seatsDropDown" onchange="this.form.submit()">
+								id="seatsDropDown" >
 									<option th:each="dropDownItem : ${seats}"
 										th:value="${dropDownItem.key}"
 										th:selected="${dropDownItem.key} == *{selectedSeat}"
 										th:text="${dropDownItem.value}" />
 							</select>
 							</label>
-
 						</div>
 						<!--
 						<div class="cell small-8 medium-2 medium-offset-1">

@@ -30,8 +30,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.client.RestClientException;
 
 import com.fasterxml.jackson.core.JsonParseException;
@@ -55,27 +58,51 @@ import com.okstatelibrary.spacesui.util.DateTimeUtil;
 import com.okstatelibrary.spacesui.util.Messages;
 import com.okstatelibrary.spacesui.util.URLs;
 
+/**
+ * 
+ * Home Controller class
+ * 
+ * @author Damith
+ *
+ */
 @Controller
 public class HomeController {
 
+	/**
+	 * Custom defines system properties.
+	 */
 	@Autowired
-	com.okstatelibrary.spacesui.util.SystemProperties myProperties;
+	com.okstatelibrary.spacesui.util.SystemProperties systemProperties;
 
-	// Access Token service
+	/**
+	 * Access Token service
+	 */
 	@Autowired
 	AccessTokenService accessTokenService;
 
-	// Spaces Service
+	/**
+	 * Space services
+	 */
 	@Autowired
 	SpacesService spaceService;
 
-	// Logger
+	/**
+	 * Metadata Manager class
+	 */
+	@Autowired
+	private MetadataManager metadata;
+
+	/**
+	 * Logger
+	 */
 	private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
-	// Defines the seat count drop down list
+	/**
+	 * Defines the seat count drop down list
+	 */
 	private static final Map<String, String> seatList = new HashMap<String, String>() {
 		/**
-		 * 
+		 * Put defines data.
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -88,10 +115,12 @@ public class HomeController {
 		}
 	};
 
-	// Defines the floor drop down list
+	/**
+	 * Defines the floor drop down list
+	 */
 	private static final Map<String, String> floorList = new HashMap<String, String>() {
 		/**
-		 * 
+		 * put predefine floor list
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -103,10 +132,12 @@ public class HomeController {
 		}
 	};
 
-	// All the time slots
+	/**
+	 * All the time slots
+	 */
 	private static final List<Availability> fixedTimeSlots = new ArrayList<Availability>() {
 		/**
-		 * 
+		 * Add predefine time slots
 		 */
 		private static final long serialVersionUID = 1L;
 
@@ -162,49 +193,101 @@ public class HomeController {
 		}
 	};
 
-	///
-	/// Index method. List all the available room with time slots in the index page.
-	///
+	/**
+	 * Initial method of page loading.
+	 * 
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws RestClientException
+	 * @throws IOException
+	 * @throws JSONException
+	 * @throws ParseException
+	 */
 	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(HttpServletRequest request, @ModelAttribute("date") String date,
-			@ModelAttribute("seats") String seats, @ModelAttribute("floor") String floor, Model model)
-			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException,
-			ParseException {
+	public String index(HttpServletRequest request, Model model) throws JsonParseException, JsonMappingException,
+			RestClientException, IOException, JSONException, ParseException {
 
-		 try {
-		if (date.isEmpty() || date == null) {
-			DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
-			LocalDateTime now = LocalDateTime.now();
+		String selectedSeats = "0";
+		String selectedFloor = "0";
 
-			date = dtf.format(now);
-		}
-
-		if (seats.isEmpty() || seats == null) {
-			seats = "0";
-		}
-
-		if (floor.isEmpty() || floor == null) {
-			floor = "0";
-		}
-
-		SpaceItem[] spaceItems = madeAvaliableTimeSlots(date, seats, floor);
+		SpaceItem[] spaceItems = madeAvaliableTimeSlots(DateTimeUtil.getTodayDate(), selectedSeats, selectedFloor);
 
 		model.addAttribute("spaceList", spaceItems);
 
-		model.addAttribute("dateString", date);
+		model.addAttribute("dateString", DateTimeUtil.getTodayDate());
 
 		model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0) + " Rooms found...");
 
 		model.addAttribute("seats", seatList);
-		model.addAttribute("selectedSeat", seats);
+		model.addAttribute("selectedSeat", selectedSeats);
 
 		model.addAttribute("floors", floorList);
-		model.addAttribute("selectedFloor", floor);
+		model.addAttribute("selectedFloor", selectedFloor);
 
 		HttpSession session = request.getSession();
 		session.setMaxInactiveInterval(300);
 
 		return "pages/index";
+
+	}
+
+	/**
+	 * Index method. List all the available room with time slots in the index page.
+	 * 
+	 * @param request
+	 * @param date
+	 * @param seats
+	 * @param floor
+	 * @param model
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws RestClientException
+	 * @throws IOException
+	 * @throws JSONException
+	 * @throws ParseException
+	 */
+	@RequestMapping(value = "/", method = RequestMethod.POST)
+	public String index(HttpServletRequest request, @ModelAttribute("date") String date,
+			@ModelAttribute("seats") String seats, @ModelAttribute("floor") String floor, Model model)
+			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException,
+			ParseException {
+
+		try {
+			if (date.isEmpty() || date == null) {
+
+				date = DateTimeUtil.getTodayDate();
+			}
+
+			if (seats.isEmpty() || seats == null) {
+				seats = "0";
+			}
+
+			if (floor.isEmpty() || floor == null) {
+				floor = "0";
+			}
+
+			SpaceItem[] spaceItems = madeAvaliableTimeSlots(date, seats, floor);
+
+			model.addAttribute("spaceList", spaceItems);
+
+			model.addAttribute("dateString", date);
+
+			model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0) + " Rooms found...");
+
+			model.addAttribute("seats", seatList);
+			model.addAttribute("selectedSeat", seats);
+
+			model.addAttribute("floors", floorList);
+			model.addAttribute("selectedFloor", floor);
+
+			HttpSession session = request.getSession();
+			session.setMaxInactiveInterval(300);
+
+			return "pages/index";
 
 		} catch (Exception e) {
 			System.out.print(e.getStackTrace());
@@ -213,9 +296,19 @@ public class HomeController {
 		return "redirect:/errorpage";
 	}
 
-	///
-	/// Cancellation of the booking.
-	///
+	/**
+	 * 
+	 * Cancellation of the booking.
+	 * 
+	 * @param bookingId
+	 * @param model
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws RestClientException
+	 * @throws IOException
+	 * @throws JSONException
+	 */
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
 	public String cancel(@ModelAttribute("bookingId") String bookingId, Model model)
@@ -245,10 +338,16 @@ public class HomeController {
 		return "pages/summary";
 	}
 
-	///
-	/// Booking method. If someone not logged this will redirect to their login
-	/// page.
-	///
+	/**
+	 * Booking method. If someone not logged this will redirect to their login page.
+	 * 
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws RestClientException
+	 * @throws IOException
+	 * @throws JSONException
+	 */
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/booking", method = RequestMethod.POST)
 	public String booking()
@@ -257,9 +356,22 @@ public class HomeController {
 		return "redirect:/saml/login?disco=true";
 	}
 
-	///
-	/// Reserve the room.
-	///
+	/**
+	 * Reserve the room.
+	 * 
+	 * @param request
+	 * @param roomNumber
+	 * @param bookDate
+	 * @param startTime
+	 * @param endTime
+	 * @param model
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws RestClientException
+	 * @throws IOException
+	 * @throws JSONException
+	 */
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/reserve", method = RequestMethod.POST)
 	public String reserve(HttpServletRequest request, @ModelAttribute("bookRoomNumber") String roomNumber,
@@ -305,9 +417,18 @@ public class HomeController {
 		return "redirect:/errorpage/";
 	}
 
-	///
-	/// Redirects to the relevant error page with message.
-	///
+	/**
+	 * Redirects to the relevant error page with message.
+	 * 
+	 * @param id
+	 * @param model
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws RestClientException
+	 * @throws IOException
+	 * @throws JSONException
+	 */
 	@RequestMapping(value = { "/errorpage", "/errorpage/{id}" })
 	public String error(@PathVariable(required = false) String id, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
@@ -328,9 +449,19 @@ public class HomeController {
 		return "pages/error";
 	}
 
-	///
-	/// Displays the summary of the booking.
-	///
+	/**
+	 * Displays the summary of the booking.
+	 * 
+	 * @param id
+	 * @param isBooked
+	 * @param model
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws RestClientException
+	 * @throws IOException
+	 * @throws JSONException
+	 */
 	@RequestMapping(value = { "/summary/{id}", "/summary/{id}/{isBooked}" })
 	public String summary(@PathVariable("id") String id, @PathVariable(required = false) boolean isBooked, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
@@ -364,10 +495,16 @@ public class HomeController {
 		return "pages/summary";
 	}
 
-	///
-	/// After IDP redirects, this will redirects to the relevant page to populate
-	/// user and booking details.
-	///
+	/**
+	 * 
+	 * After IDP redirects, this will redirects to the relevant page to populate
+	 * user and booking details
+	 * 
+	 * @param request
+	 * @param user
+	 * @param model
+	 * @return
+	 */
 	@RequestMapping("/landing")
 	public String landing(HttpServletRequest request, @CurrentUser User user, Model model) {
 
@@ -398,10 +535,20 @@ public class HomeController {
 		return "pages/booking";
 	}
 
-	///
-	/// IDP Selection proceed. If user not logged to relevant IDP it will redirects
-	/// to the SSO.
-	///
+	/**
+	 * 
+	 * IDP Selection proceed. If user not logged to relevant IDP it will redirectsto
+	 * the SSO.
+	 * 
+	 * @param request
+	 * @param model
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws RestClientException
+	 * @throws IOException
+	 * @throws JSONException
+	 */
 	@RequestMapping(value = "/discovery", method = RequestMethod.GET)
 	public String idpSelection(HttpServletRequest request, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
@@ -428,12 +575,24 @@ public class HomeController {
 		}
 	}
 
-	///
-	/// Returns the available rooms with available time slots.
-	/// While populating the time it converts 24 hr time to 12 hr time.
-	/// Also based on the time slot it returns already booked time slots.
-	/// So user can get better idea of what time slots can book.
-	///
+	/**
+	 * 
+	 * Returns the available rooms with available time slots. While populating the
+	 * time it converts 24 hr time to 12 hr time. Also based on the time slot it
+	 * returns already booked time slots. aSo user can get better idea of what time
+	 * slots can book.
+	 * 
+	 * @param date
+	 * @param seats
+	 * @param floor
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws RestClientException
+	 * @throws IOException
+	 * @throws JSONException
+	 * @throws ParseException
+	 */
 	private SpaceItem[] madeAvaliableTimeSlots(String date, String seats, String floor) throws JsonParseException,
 			JsonMappingException, RestClientException, IOException, JSONException, ParseException {
 
@@ -445,9 +604,6 @@ public class HomeController {
 		List<SpaceItem> list = new ArrayList<>();
 
 		if (categoryItems.length > 0) {
-
-//			SpaceItem[] spaceItems = spaceService.getItems(getAccessTokenFromRequest(),
-//					URLs.getSpacesURL("26354,26355", date));
 
 			SpaceItem[] spaceItems = spaceService.getItems(getAccessTokenFromRequest(),
 					URLs.getSpacesURL(categoryItems[0].getItems(), date));
@@ -526,9 +682,12 @@ public class HomeController {
 		return spaceItems;
 	}
 
-	///
-	/// Returns the relevant time slot index.
-	///
+	/**
+	 * Returns the relevant time slot index.
+	 * 
+	 * @param fromTime
+	 * @return
+	 */
 	private int getFixedTimeSlotIndex(String fromTime) {
 
 		for (int i = 0; i < fixedTimeSlots.size(); i++) {
@@ -540,9 +699,17 @@ public class HomeController {
 		return -1;
 	}
 
-	///
-	/// Returns the room name.
-	///
+	/**
+	 * Returns the room name.
+	 * 
+	 * @param roomId
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws RestClientException
+	 * @throws IOException
+	 * @throws JSONException
+	 */
 	private String getRoomDetails(String roomId)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 		Room[] rooms = spaceService.getRoom(getAccessTokenFromRequest(), URLs.GET_ROOM_DETAILS_URL + roomId);
@@ -550,9 +717,16 @@ public class HomeController {
 		return rooms[0].getName();
 	}
 
-	///
-	/// Returns the Access token.
-	///
+	/**
+	 * Returns the Access token.
+	 * 
+	 * @return
+	 * @throws JsonParseException
+	 * @throws RestClientException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 * @throws JSONException
+	 */
 	private String getAccessTokenFromRequest()
 			throws JsonParseException, RestClientException, JsonMappingException, IOException, JSONException {
 
@@ -562,20 +736,25 @@ public class HomeController {
 
 	}
 
-	///
-	/// Returns the Access Token.
-	///
+	/**
+	 * 
+	 * Returns the Access Token.
+	 * 
+	 * @return
+	 * @throws RestClientException
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws IOException
+	 * @throws JSONException
+	 */
 	private AccessToken getAuthenticate()
 			throws RestClientException, JsonParseException, JsonMappingException, IOException, JSONException {
 
 		AccessToken accessToken = accessTokenService.getAccessToken(URLs.GET_AUTH_TOKEN_URL,
 
-				myProperties.getSpringShareClientId(), myProperties.getSpringShareSecretkey());
+				systemProperties.getSpringShareClientId(), systemProperties.getSpringShareSecretkey());
 
 		return accessToken;
 	}
-
-	@Autowired
-	private MetadataManager metadata;
 
 }

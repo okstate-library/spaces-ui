@@ -1,17 +1,22 @@
 
 $(document).foundation();
 
+var dateToday = new Date(); 
+dateToday.setDate(dateToday.getDate() - 1);
 
 $(document).ready(function() {
 
 	$('#date').fdatepicker({
+		startDate: dateToday ,
 		format : 'yyyy-mm-dd'
 	}).on('changeDate', function(event) {
 		var pickedDate = $("#date").val();
-		// alert(pickedDate);
-		$("#dp-form").submit();
+		  $("#dp-form").submit();
 	});
-
+	
+	$('#seatsDropDown').on('change', function(){
+		 $("#dp-form").submit();
+	});
 });
 
 var selectedSlots = [];

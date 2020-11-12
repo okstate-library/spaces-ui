@@ -15,12 +15,22 @@ import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.okstatelibrary.spacesui.models.AccessToken;
 
+/**
+ * @author Damith
+ *
+ */
 @Service
 public class AccessTokenService {
 
+	/// Rest Template
 	private RestTemplate restTemplate = new RestTemplate();
+	
+	/// Object Mapper class.
 	ObjectMapper mapper = new ObjectMapper();
 
+	///
+	/// Returns the access token for validation purposes.
+	///
 	public AccessToken getAccessToken(String url, String clientID, String clientSecret)
 			throws RestClientException, JSONException, JsonParseException, JsonMappingException, IOException {
 

@@ -15,15 +15,25 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 import com.okstatelibrary.spacesui.stereotypes.CurrentUser;
 
+/**
+ * @author Damith
+ *
+ */
 @Component
 public class CurrentUserHandlerMethodArgumentResolver implements
 		HandlerMethodArgumentResolver {
 
+	/**
+	 * 
+	 */
 	public boolean supportsParameter(MethodParameter methodParameter) {
 		return methodParameter.getParameterAnnotation(CurrentUser.class) != null
 				&& methodParameter.getParameterType().equals(User.class);
 	}
 
+	/**
+	 *
+	 */
 	public Object resolveArgument(MethodParameter methodParameter,
 			ModelAndViewContainer mavContainer, NativeWebRequest webRequest,
 			WebDataBinderFactory binderFactory) throws Exception {

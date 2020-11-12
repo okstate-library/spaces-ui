@@ -22,14 +22,29 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 import com.okstatelibrary.spacesui.models.SAMLUser;
 import com.okstatelibrary.spacesui.models.SAMLUserList;
 
+/**
+ * @author Damith
+ *
+ */
 @Service
 public class SAMLUserDetailsServiceImpl implements SAMLUserDetailsService {
 
 	// Logger
+	/**
+	 * 
+	 */
 	private static final Logger LOG = LoggerFactory.getLogger(SAMLUserDetailsServiceImpl.class);
 
+	//
+	/**
+	 * 
+	 */
 	HttpServletRequest request;
 
+	
+	/**
+	 * Load the user based on SAML 
+	 */
 	public Object loadUserBySAML(SAMLCredential credential) throws UsernameNotFoundException {
 
 		// The method is supposed to identify local account of user referenced by
@@ -37,21 +52,10 @@ public class SAMLUserDetailsServiceImpl implements SAMLUserDetailsService {
 
 		String userID = credential.getNameID().getValue();
 
-		LOG.info("userID ID: " + userID);
-
-		// Getting the Attributes name.
-		// for (Attribute att : credential.getAttributes())
-		// {
-		// LOG.info(att.getName() + "---" +
-		// credential.getAttributeAsString(att.getName()));
-		// }
-
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes())
 				.getRequest();
 
 		HttpSession session = request.getSession();
-
-		LOG.info("Session ID: ******************* " + session.getId());
 
 		String cwid = credential.getAttributeAsString("cwid");
 		String mail = credential.getAttributeAsString("urn:oid:0.9.2342.19200300.100.1.3");
