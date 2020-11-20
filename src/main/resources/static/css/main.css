@@ -10,10 +10,12 @@
   }
 #site-branding{
     margin-left: 125px; 
+    font-style: italic;
 }
 #site-name{
     font-size: 1.75rem;
-    font-weight: 900;
+    font-weight: 700;
+    text-transform: uppercase;
     
   }
 #tagline{
