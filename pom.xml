@@ -19,6 +19,12 @@
 			<email>charmdm@okstate.edu</email>
 			<timezone>+1</timezone>
 		</developer>
+		<developer>
+			<id>roydegler</id>
+			<name>Roy Degler</name>
+			<email>roy.degler@okstate.edu</email>
+			<timezone>+1</timezone>
+		</developer>
 	</developers>
 	<contributors>
 		<contributor>

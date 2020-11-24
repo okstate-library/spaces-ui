@@ -24,7 +24,7 @@ public class AccessTokenService {
 
 	/// Rest Template
 	private RestTemplate restTemplate = new RestTemplate();
-	
+
 	/// Object Mapper class.
 	ObjectMapper mapper = new ObjectMapper();
 
@@ -34,14 +34,20 @@ public class AccessTokenService {
 	public AccessToken getAccessToken(String url, String clientID, String clientSecret)
 			throws RestClientException, JSONException, JsonParseException, JsonMappingException, IOException {
 
-		MultiValueMap<String, String> parametersMap = new LinkedMultiValueMap<String, String>();
-		parametersMap.set("client_id", clientID);
-		parametersMap.set("client_secret", clientSecret);
-		parametersMap.set("grant_type", "client_credentials");
-		AccessToken accesstoken = mapper.readValue(restTemplate.postForObject(url, parametersMap, String.class),
-				new TypeReference<AccessToken>() {
-				});
-		return accesstoken;
+		try {
+
+			MultiValueMap<String, String> parametersMap = new LinkedMultiValueMap<String, String>();
+			parametersMap.set("client_id", clientID);
+			parametersMap.set("client_secret", clientSecret);
+			parametersMap.set("grant_type", "client_credentials");
+			AccessToken accesstoken = mapper.readValue(restTemplate.postForObject(url, parametersMap, String.class),
+					new TypeReference<AccessToken>() {
+					});
+			return accesstoken;
+		} catch (Exception e) {
+			return null;
+		}
+
 	}
 
 }

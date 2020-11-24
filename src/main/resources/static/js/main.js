@@ -1,21 +1,20 @@
-
 $(document).foundation();
 
-var dateToday = new Date(); 
+var dateToday = new Date();
 dateToday.setDate(dateToday.getDate() - 1);
 
 $(document).ready(function() {
 
 	$('#date').fdatepicker({
-		startDate: dateToday ,
+		startDate : dateToday,
 		format : 'yyyy-mm-dd'
 	}).on('changeDate', function(event) {
 		var pickedDate = $("#date").val();
-		  $("#dp-form").submit();
+		$("#dp-form").submit();
 	});
-	
-	$('#seatsDropDown').on('change', function(){
-		 $("#dp-form").submit();
+
+	$('#seatsDropDown').on('change', function() {
+		$("#dp-form").submit();
 	});
 });
 
@@ -35,7 +34,8 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 			selectedRoomName = roomName;
 			selectedRoomId = roomId;
 
-			$(button).css('background', '#cbdbeb');
+			// change the button style
+			selectButtonStyle($(button));
 
 			buttons.push(button);
 
@@ -76,7 +76,8 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 							return;
 						}
 
-						$(button).css('background', '#cbdbeb');
+						// change the button style
+						selectButtonStyle($(button));
 
 						// making the slot object and push to the lost
 						selectedSlots.push({
@@ -93,7 +94,9 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 
 						if (selectedSlots[0].from == fromTime) {
 							selectedSlots.splice(0, 1);
-							$(button).css('background', '');
+
+							// change the button unselected style
+							unselectButtonStyle($(button));
 
 							if (selectedSlots.length == 0) {
 								clearSelection();
@@ -103,7 +106,10 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 						} else if (selectedSlots[selectedSlots.length - 1].from == fromTime) {
 
 							selectedSlots.splice(selectedSlots.length - 1, 1);
-							$(button).css('background', '');
+
+							// change the button unselected style
+							unselectButtonStyle($(button));
+
 						}
 
 						// console.error(selectedSlots);
@@ -130,7 +136,19 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 	}
 }
 
-// 
+//change the button selected style
+function selectButtonStyle(button) {
+	$(button).css('background', '#14679E');
+	$(button).css('color', '#fff');
+}
+
+// change the button unselected style
+function unselectButtonStyle(button) {
+	$(button).css('color', '#14679E');
+	$(button).css('background', '');
+}
+
+// Time value based on 
 function getTimeValue(time) {
 	var timeSlotLength = 60000;
 
@@ -162,7 +180,8 @@ function clearSelection() {
 
 	for (i = 0; i < buttons.length; i++) {
 
-		$(buttons[i]).css('background', '');
+		unselectButtonStyle($(buttons[i]));
+		//$(buttons[i]).css('background', '');
 	}
 
 	buttons = [];
@@ -217,9 +236,14 @@ function bookingPageLoad() {
 	// cleanSession();
 }
 
+function spacesPageLoad() {
+
+	setTimeout(function(){
+        window.location.href = 'https://okstate.libcal.com/reserve/spaces/library';
+     }, 5000);
+}
+
 // Clear the session data.
 function cleanSession() {
 	sessionStorage.clear()
 }
-
-

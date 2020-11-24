@@ -107,6 +107,7 @@ public class HomeController {
 		private static final long serialVersionUID = 1L;
 
 		{
+			put("1", "1+");
 			put("2", "2+");
 			put("4", "4+");
 			put("6", "6+");
@@ -210,27 +211,36 @@ public class HomeController {
 	public String index(HttpServletRequest request, Model model) throws JsonParseException, JsonMappingException,
 			RestClientException, IOException, JSONException, ParseException {
 
-		String selectedSeats = "0";
-		String selectedFloor = "0";
+		String accessToken = getAccessTokenFromRequest();
 
-		SpaceItem[] spaceItems = madeAvaliableTimeSlots(DateTimeUtil.getTodayDate(), selectedSeats, selectedFloor);
+		if (accessToken == null || accessToken.isEmpty()) {
+			System.out.println("API not working");
 
-		model.addAttribute("spaceList", spaceItems);
+			return "redirect:/spaces";
 
-		model.addAttribute("dateString", DateTimeUtil.getTodayDate());
+		} else {
+			String selectedSeats = "0";
+			String selectedFloor = "0";
 
-		model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0) + " Rooms found...");
+			SpaceItem[] spaceItems = madeAvaliableTimeSlots(DateTimeUtil.getTodayDate(), selectedSeats, selectedFloor);
 
-		model.addAttribute("seats", seatList);
-		model.addAttribute("selectedSeat", selectedSeats);
+			model.addAttribute("spaceList", spaceItems);
 
-		model.addAttribute("floors", floorList);
-		model.addAttribute("selectedFloor", selectedFloor);
+			model.addAttribute("dateString", DateTimeUtil.getTodayDate());
 
-		HttpSession session = request.getSession();
-		session.setMaxInactiveInterval(300);
+			model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0) + " Rooms found...");
 
-		return "pages/index";
+			model.addAttribute("seats", seatList);
+			model.addAttribute("selectedSeat", selectedSeats);
+
+			model.addAttribute("floors", floorList);
+			model.addAttribute("selectedFloor", selectedFloor);
+
+			HttpSession session = request.getSession();
+			session.setMaxInactiveInterval(300);
+
+			return "pages/index";
+		}
 
 	}
 
@@ -450,6 +460,26 @@ public class HomeController {
 	}
 
 	/**
+	 * Redirects to the relevant error page with message.
+	 * 
+	 * @param id
+	 * @param model
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws RestClientException
+	 * @throws IOException
+	 * @throws JSONException
+	 */
+	@RequestMapping(value = { "/spaces" })
+	public String spaces(Model model) {
+
+		System.out.println("spaces");
+		
+		return "pages/spaces";
+	}
+
+	/**
 	 * Displays the summary of the booking.
 	 * 
 	 * @param id
@@ -599,7 +629,7 @@ public class HomeController {
 		int seatsCount = Integer.parseInt(seats);
 
 		Category[] categoryItems = spaceService.getRoomsByCategory(getAccessTokenFromRequest(),
-				URLs.GET_ROOMS_BY_CATEGORY);
+				URLs.getRoomsByCategoryURL(systemProperties.getCategoryId()));
 
 		List<SpaceItem> list = new ArrayList<>();
 
@@ -680,6 +710,7 @@ public class HomeController {
 		}
 
 		return spaceItems;
+
 	}
 
 	/**
@@ -730,31 +761,34 @@ public class HomeController {
 	private String getAccessTokenFromRequest()
 			throws JsonParseException, RestClientException, JsonMappingException, IOException, JSONException {
 
-		AccessToken accessToken = getAuthenticate();
-
-		return accessToken.getAccessToken();
-
-	}
-
-	/**
-	 * 
-	 * Returns the Access Token.
-	 * 
-	 * @return
-	 * @throws RestClientException
-	 * @throws JsonParseException
-	 * @throws JsonMappingException
-	 * @throws IOException
-	 * @throws JSONException
-	 */
-	private AccessToken getAuthenticate()
-			throws RestClientException, JsonParseException, JsonMappingException, IOException, JSONException {
+		// AccessToken accessToken = getAuthenticate();
 
 		AccessToken accessToken = accessTokenService.getAccessToken(URLs.GET_AUTH_TOKEN_URL,
 
 				systemProperties.getSpringShareClientId(), systemProperties.getSpringShareSecretkey());
 
-		return accessToken;
+		if (accessToken != null) {
+			return accessToken.getAccessToken();
+		} else {
+			return null;
+		}
 	}
+
+//	/**
+//	 * 
+//	 * Returns the Access Token.
+//	 * 
+//	 * @return
+//	 * @throws RestClientException
+//	 * @throws JsonParseException
+//	 * @throws JsonMappingException
+//	 * @throws IOException
+//	 * @throws JSONException
+//	 */
+//	private AccessToken getAuthenticate()
+//			throws RestClientException, JsonParseException, JsonMappingException, IOException, JSONException {
+//
+//		
+//	}
 
 }

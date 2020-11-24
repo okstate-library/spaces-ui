@@ -473,6 +473,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
             "/cancel",
             "/booking",
             "/reserve",
+            "/spaces",
             "/summary/*",
             "/summary/*/*", 
             "/errorpage/*/*",

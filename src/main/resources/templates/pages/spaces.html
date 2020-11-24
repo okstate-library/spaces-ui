@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
+	layout:decorate="~{layout}">
+
+
+<body onload="spacesPageLoad()">
+
+
+	<!-- Content starts -->
+	<section class="my-3 p-3 bg-white rounded box-shadow"
+		layout:fragment="content">
+		<br />
+		<div class="grid-container">
+
+			<div class="grid-x">
+				<div class="cell auto">
+					<div class="card">
+						<div class="card-divider">
+							<h6 class="h3 orange">The external system is not Working.</h6>
+						</div>
+
+						<div class="card-section">
+
+							<p>
+								Click the following link or else within 5 seconds you will
+								redirects to main system for bookings. <a
+									href="https://okstate.libcal.com/reserve/spaces/library"
+									class="expanded">
+									https://okstate.libcal.com/reserve/spaces/library</a>
+
+
+							</p>
+						</div>
+
+					</div>
+
+				</div>
+			</div>
+
+
+
+		</div>
+
+	</section>
+	<!-- Content ends -->
+</body>
+
+</html>
