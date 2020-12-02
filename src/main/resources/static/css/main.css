@@ -308,3 +308,32 @@ p.room-name-title {
 
     }
 
+
+/*==================================================
+=          Error Page Styling                     =
+==================================================*/    
+
+    	.error-page-title{
+		color: #ff6000; 
+		margin: 3rem 0 1rem 0; 
+		border-bottom: 1px solid #666;
+	}
+	
+	.error-cta-text{
+		margin: 2rem  0;	
+	}
+	
+	dl.error-cta-list{
+		font-size: 125%;
+		margin-left: 2.3rem;	
+	}
+	
+	.error-cta-list dt{
+		margin-top: 2rem;
+				
+	}
+	
+	.error-cta-list dd{
+		margin-left: 2.3rem;	
+	}
+

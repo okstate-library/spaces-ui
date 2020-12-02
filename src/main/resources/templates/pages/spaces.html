@@ -5,46 +5,51 @@
 	layout:decorate="~{layout}">
 
 
-<body onload="spacesPageLoad()">
+<body xonload="spacesPageLoad()">
 
 
 	<!-- Content starts -->
 	<section class="my-3 p-3 bg-white rounded box-shadow"
 		layout:fragment="content">
-		<br />
 		<div class="grid-container">
-
-			<div class="grid-x">
-				<div class="cell auto">
-					<div class="card">
-						<div class="card-divider">
-							<h6 class="h3 orange">The external system is not Working.</h6>
-						</div>
-
-						<div class="card-section">
-
-							<p>
-								Click the following link or else within 5 seconds you will
-								redirects to main system for bookings. <a
-									href="https://okstate.libcal.com/reserve/spaces/library"
-									class="expanded">
-									https://okstate.libcal.com/reserve/spaces/library</a>
-
-
-							</p>
-						</div>
-
+			<div class="cell auto">	
+				<h1 class="h2 error-page-title"> <i class="fas fa-exclamation orange"></i> Oops, something went wrong.</h1>
+				 
+				<div class=" grid-x">
+					<div class="cell small-12 medium-10 medium-offset-1">
+						<p class="xlead h2">The suggestions below may help. </p>
+						<dl class="error-cta-list">
+							<dt>Wait and Try Again</dt>
+							<dd >The problem might be temporary, wait a few minutes and please <a href="https://spaces.library.okstate.edu">try again</a>.</dd>
+							<dt>Use our Alternate Booking Site</dt>
+							<dd >Try our backup room <a href="https://okstate.libcal.com/reserve/study-rooms">reservation system</a>.</dd>
+							<dt>Contact Us</dt>
+							<dd>
+								<p>
+									Circulation and Information Desk<br> <strong>405-744-9775</strong>
+								</p>
+								<p>
+									Send us an email at<br> <strong> <a href="https://library.okstate.edu/forms/ask-circulation/contact-the-circulation-and-information-desk">lib-cir@okstate.edu</a></strong>
+								</p>
+							</dd>
+						</dl>
+						
 					</div>
-
 				</div>
 			</div>
-
-
-
+		
 		</div>
+		
 
 	</section>
 	<!-- Content ends -->
 </body>
 
 </html>
+
+<style>
+	.error-page-title{
+		color: #ff6000; 
+		margin: 3rem 0 1rem 0; 
+		border-bottom: 1px solid #666;
+	}
