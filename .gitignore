@@ -46,5 +46,7 @@ hs_err_pid*
 CNAME
 src/main/resources/application-dev.properties
 src/main/resources/application-prod.properties
-/bin/
-${sys:LOG_PATH}/2020-11/app-2020-11-10-22-1.log.gz
+src/main/resources/application-testprod.properties
+/bin//
+
+src/main/resources/keystore.jks

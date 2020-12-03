@@ -216,7 +216,7 @@ public class HomeController {
 		if (accessToken == null || accessToken.isEmpty()) {
 			System.out.println("API not working");
 
-			return "redirect:/spaces";
+			return "error";
 
 		} else {
 			String selectedSeats = "0";
@@ -761,8 +761,6 @@ public class HomeController {
 	private String getAccessTokenFromRequest()
 			throws JsonParseException, RestClientException, JsonMappingException, IOException, JSONException {
 
-		// AccessToken accessToken = getAuthenticate();
-
 		AccessToken accessToken = accessTokenService.getAccessToken(URLs.GET_AUTH_TOKEN_URL,
 
 				systemProperties.getSpringShareClientId(), systemProperties.getSpringShareSecretkey());
@@ -773,22 +771,5 @@ public class HomeController {
 			return null;
 		}
 	}
-
-//	/**
-//	 * 
-//	 * Returns the Access Token.
-//	 * 
-//	 * @return
-//	 * @throws RestClientException
-//	 * @throws JsonParseException
-//	 * @throws JsonMappingException
-//	 * @throws IOException
-//	 * @throws JSONException
-//	 */
-//	private AccessToken getAuthenticate()
-//			throws RestClientException, JsonParseException, JsonMappingException, IOException, JSONException {
-//
-//		
-//	}
 
 }

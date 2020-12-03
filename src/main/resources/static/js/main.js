@@ -55,8 +55,6 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 
 					if (!(selectedSlots.some(el => el.from === fromTime))) {
 
-						var timeSlotLength = 60000;
-
 						var firstFromTime = getTimeValue(selectedSlots[0].fromDateTime);
 
 						var suppliedTime = getTimeValue(fromDateTime)
@@ -234,13 +232,6 @@ function bookingPageLoad() {
 	}
 
 	// cleanSession();
-}
-
-function spacesPageLoad() {
-
-	setTimeout(function(){
-        window.location.href = 'https://okstate.libcal.com/reserve/spaces/library';
-     }, 5000);
 }
 
 // Clear the session data.
