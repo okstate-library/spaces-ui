@@ -216,7 +216,8 @@ public class HomeController {
 		if (accessToken == null || accessToken.isEmpty()) {
 			System.out.println("API not working");
 
-			return "error";
+			//return "errorp/101";
+			return "redirect:/errorp/101";
 
 		} else {
 			String selectedSeats = "0";
@@ -303,7 +304,7 @@ public class HomeController {
 			System.out.print(e.getStackTrace());
 		}
 
-		return "redirect:/errorpage";
+		return "redirect:/errorp";
 	}
 
 	/**
@@ -415,16 +416,16 @@ public class HomeController {
 
 				if (bookingConfirmation.getErrorDetails() != null
 						&& !bookingConfirmation.getErrorDetails().getErrorId().isEmpty()) {
-					return "redirect:/errorpage/" + bookingConfirmation.getErrorDetails().getErrorId();
+					return "redirect:/errorp/" + bookingConfirmation.getErrorDetails().getErrorId();
 
 				} else {
-					return "redirect:/errorpage";
+					return "redirect:/errorp";
 				}
 
 			}
 		}
 
-		return "redirect:/errorpage/";
+		return "redirect:/error";
 	}
 
 	/**
@@ -439,7 +440,7 @@ public class HomeController {
 	 * @throws IOException
 	 * @throws JSONException
 	 */
-	@RequestMapping(value = { "/errorpage", "/errorpage/{id}" })
+	@RequestMapping(value = { "/errorp", "/errorp/{id}" })
 	public String error(@PathVariable(required = false) String id, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
@@ -447,16 +448,22 @@ public class HomeController {
 
 		if (id != null && !id.isEmpty()) {
 
+			System.out.println("iddsadsad" + id);
+			
 			if (id.equals("303")) {
 				errorMessage = Messages.ERROR_BOOKING_EXCEED_DAYIL_LIMIT;
 			} else if (id.equals("302")) {
 				errorMessage = Messages.ERROR_BOOKING_TRY_ALREADY_BOOKED_TIMESLOT;
+			}else if (id.equals("101")) {
+				errorMessage = Messages.ERROR_EXTERNAL_API_NOT_WORKING;
 			}
+			
+			model.addAttribute("errorMessageId", id);
 		}
 
 		model.addAttribute("errorMessage", errorMessage);
 
-		return "pages/error";
+		return "error";
 	}
 
 	/**

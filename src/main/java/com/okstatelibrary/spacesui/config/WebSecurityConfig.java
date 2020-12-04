@@ -464,10 +464,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
      
     
     private static final String[] PUBLIC_MATCHERS = {
-            "/webjars/**",
             "/css/**",
             "/js/**",
-            "/images/**",
             "/",
             "/index",
             "/cancel",
@@ -477,7 +475,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
             "/summary/*/*", 
             "/errorpage/*/*",
             "/error/**/*",
-            "/console/**"
+            "/console/**",
+            "/error",
+            "/errorpage",
     };
     
     /**
@@ -495,6 +495,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
         		.addFilterBefore(metadataGeneratorFilter(), ChannelProcessingFilter.class)
         		.addFilterAfter(samlFilter(), BasicAuthenticationFilter.class)
         		.addFilterBefore(samlFilter(), CsrfFilter.class);
+        
         http        
             .authorizeRequests()
             	.antMatchers("/").permitAll()
@@ -503,7 +504,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
            		.antMatchers("/css/**").permitAll()
            		.antMatchers("/img/**").permitAll()
            		.antMatchers("/js/**").permitAll()
-           		.anyRequest().authenticated();
+           		.anyRequest().permitAll();//.authenticated();
+        
         http
         		.logout()
         			.disable();	// The logout procedure is already handled by SAML filters.
