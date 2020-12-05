@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+<meta charset="utf-8">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="Spaces - UI">
+<meta name="author" content="Damith Perera">
+<link rel="icon" th:href="@{/img/favicon.ico}">
+<title>Oklahoma State University- Edmon Low Library &mdash;
+	Spaces- Room Booking System</title>
+
+<script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+
+<link rel="stylesheet"
+	href="/css/foundation-6.6.3.css" />
+
+<link rel="stylesheet" href="/css/main.css" />
+
+<link href="css/foundation-datepicker.css" rel="stylesheet"
+	type="text/css">
+
+<script
+	src="/js/foundation-6.6.3.js"></script>
+
+</head>
+
+<body>
+	<!-- Main starts -->
+	<div role="main">
+
+		<div class="xy-branding">
+
+			<div class="grid-container">
+				<div class="grid-x">
+					<div class="cell small-12">
+						<img
+							src="https://library.okstate.edu/template-b/images/logo-banner.png"
+							alt="logo" style="position: absolute; z-index: 11;">
+						<div id="site-branding">
+							<a href="//library.okstate.edu" id="site-name">Edmon Low
+								Library</a>
+							<p id="tagline">
+								&amp; <a href="https://library.okstate.edu/about/locations/" class="banner-link">Branch
+									Libraries</a>
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="title-bar" data-responsive-toggle="example-menu"
+			data-hide-for="medium">
+			<div class="title-bar-right">
+				<button class="menu-icon" type="button" data-toggle="example-menu">
+					<span class="sr-only">Menu</span>
+				</button>
+			</div>
+
+		</div>
+
+
+
+		<div class="top-bar-wrapper">
+			<div class="grid-container">
+				<div class="top-bar" id="example-menu">
+					<div class="top-bar-left">
+						<ul class="vertical medium-horizontal menu">
+							<li class="menu-text make-125px hide-for-small-only">&nbsp;</li>
+							<li><a href="https://library.okstate.edu">Home</a></li>
+						</ul>
+					</div>
+					<div class="top-bar-right">
+						<ul class="vertical medium-horizontal  menu">
+							<li><a href="https://library.okstate.edu/chat">Chat</a></li>
+							<li class=""><a href="#" data-open="search-modal"><i
+									class="fa fa-search" aria-hidden="true"></i> <span
+									class="sr-only">Search</span></a></li>
+						</ul>
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+
+	
+		<!-- Header ends -->
+
+		<!-- Content starts -->
+		<section layout:fragment="content">
+			<!-- Page content goes here! -->
+
+		</section>
+
+
+		<!-- Content ends -->
+
+		<!-- Footer starts -->
+		<footer role="footer">
+			<ul class="footer-note">
+				<li><i class="far fa-copyright"></i> Copyright 2020</li>
+				<li><a href="https://library.okstate.edu/"> Digital
+						Resources and Discovery Services &mdash; Edmon Low Library</a></li>
+				<li><a href="https://go.okstate.edu/">Oklahoma State
+						University</a></li>
+			</ul>
+		</footer>
+		<!-- Footer ends -->
+	</div>
+	<!-- Main ends -->
+	
+
+
+	<!--------------------------->
+	<!--        Modals         -->
+	<!--------------------------->
+	
+	
+	<!-- Search Modal -->
+	<div class="reveal" id="exampleModal1" data-reveal>
+		<h1>Study Room Policies</h1>
+	
+		<ul>
+			<li>A study room reservation can only be booked for up to 4
+				hours at a time.</li>
+			<li>Only 2 active study room reservations can be made at one
+				time.</li>
+			<li>Room keys can be checked out at the Circulation &
+				Information Desk on the first floor of the Library.</li>
+			<li>Study room doors must be locked at the end of each
+				reservation.</li>
+			<li>Smart board equipment is unavaiable at this time.</li>
+			<li>If it is your first time checking out a study room, you
+				will be asked to sign a "Statement of Responsibility" when you come
+				to the Circulation & Information Desk. This signed statement will
+				remain active for one calendar year.</li>
+			<li>Reservations will be held for 15 minutes after the
+				beginning of the reservation. At that time, the room may be
+				reassigned.</li>
+			<li>White noise machines are available for checkout with study
+				room reservations.</li>
+			<li>Study rooms are cleaned each night by the Library's
+				custodial team. Cleaning supplies are available by request if you
+				wish to sanitize before or after a reservation.</li>
+			<li>If you do not receive a confirmation email within 30
+				minutes of making your reservation, please call the
+				Circulation/Information Desk at 405-744-9741.</li>
+			<li>All study room occupants must wear face coverings in study
+				rooms and follow posted occupancy guidelines. Failure to do so may
+				result in a report to Student Conduct. .</li>
+	
+		</ul>
+		<button class="close-button" data-close aria-label="Close modal"
+			type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+
+	</div>
+	
+	<!-- Search Modal -->
+	<div class="reveal" id="search-modal" data-reveal>
+		<h1>Search</h1>
+		<form action="https://library.okstate.edu/search-results" method="get" >
+			<div class="input-group">
+				
+				<input type="text" name="s" id="search" value="" placeholder="Search the library website" class="input-group-field" >
+				<div class="input-group-button">
+					<input type="submit" class="button" value="Search">
+				</div>
+			</div>
+	     </form>
+	
+	
+		<button class="close-button" data-close aria-label="Close modal"
+			type="button">
+			<span aria-hidden="true">&times;</span>
+		</button>
+	
+	
+	</div>
+
+	<!-- Foundation scripts -->
+	<script th:src="@{/js/main.js}"></script>
+	<script th:src="@{/js/foundation-datepicker.js}"></script>
+	<script th:src="@{/js/foundation-datepicker.js}"></script>
+
+	<!-- Font Awesome scripts -->
+	<script defer
+		src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"></script>
+
+
+
+</body>
+
+</html>

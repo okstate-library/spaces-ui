@@ -10,7 +10,7 @@ public class Messages {
 	
 	public static String ERROR_BOOKING_EXCEED_DAYIL_LIMIT = "You have exceeded the daily limit.";
 
-	public static String ERROR_BOOKING_TRY_ALREADY_BOOKED_TIMESLOT = "The time slot you’ve selected is already booked. Please select another and try again.";
+	public static String ERROR_BOOKING_TRY_ALREADY_BOOKED_TIMESLOT = "The time slot you’ve selected is already booked.";
 
 	public static String ERROR_BOOKING_SOMETING_WENT_WRONG = "Something went wrong with booking process. Please try again later. "
 			+ "If you continue to receive this error please contact OSU Library Circulation Desk.";

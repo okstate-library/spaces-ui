@@ -24,37 +24,15 @@
 
 				<div class=" grid-x">
 					<div class="cell small-12 medium-10 medium-offset-1">
-						<p class="h2">The suggestions below may help.</p>
-						
-						<!-- Unidentified error -->
+						<p class="xlead h2">The suggestions below may help.</p>
 						<dl class="error-cta-list" th:if="${errorMessage == null}">
 
 							<dt>Wait and Try Again</dt>
 							<dd>
-								The problem might be temporary, wait a few minutes and please <strong><a
+								xxxThe problem might be temporary, wait a few minutes and please <strong><a
 									href="https://spaces.library.okstate.edu">try again</a></strong>.
 							</dd>
 						</dl>
-						
-						<!-- Room is already booked -->
-						<dl class="error-cta-list" th:if="${errorMessageId == '302'}">
-
-							<dt>Please Try Again</dt>
-							<dd>
-								<strong><a href="https://spaces.library.okstate.edu">Start over</a></strong>s and select a different room or time.
-							</dd>
-						</dl>
-						
-						
-						<!-- Room is already booked -->
-						<dl class="error-cta-list" th:if="${errorMessageId == '303'}">
-							<dt>Select a Different Day</dt>
-							<dd>
-								<strong><a href="https://spaces.library.okstate.edu">Start over</a></strong> and select a different <em>date</em>.
-							</dd>
-						</dl>
-						
-						<!-- API Error -->
 						<dl class="error-cta-list" th:if="${errorMessageId == '101' }">
 							<dt>Wait and Try Again</dt>
 							<dd>
@@ -71,7 +49,6 @@
 							</dd>
 							-->
 						</dl>
-						<!-- Contact information is always displayed -->
 						<dl class="error-cta-list">
 							<dt>Contact Us</dt>
 							<dd>
@@ -84,7 +61,6 @@
 								</p>
 							</dd>
 						</dl>
-						
 
 					</div>
 				</div>
