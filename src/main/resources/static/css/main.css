@@ -337,3 +337,15 @@ p.room-name-title {
 		margin-left: 2.3rem;	
 	}
 
+
+/*==================================================
+=          Index Search Box                       =
+==================================================*/    
+
+	.search-button{
+		background-color: #ff6000;	
+	}
+	.search-title{
+		border-bottom: 1px solid #ccc;
+		margin-bottom: 2rem;
+	}
