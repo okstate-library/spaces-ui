@@ -81,13 +81,13 @@ public class SpacesService {
 		HttpEntity<?> request = new HttpEntity<Object>(payload, headers);
 		try {
 
-			ObjectMapper Obj = new ObjectMapper();
-			String jsonStr = Obj.writeValueAsString(payload);
+			//ObjectMapper Obj = new ObjectMapper();
+			//String jsonStr = Obj.writeValueAsString(payload);
 
 			// Displaying JSON String
-			System.out.println("payload--" + jsonStr);
+			//System.out.println("payload--" + jsonStr);
 
-			System.out.println("payload--" + payload.toString());
+			//System.out.println("payload--" + payload.toString());
 
 			ResponseEntity<BookingConfirmation> roomBookingResponse = restTemplate.exchange(url, HttpMethod.POST,
 					request, BookingConfirmation.class);
@@ -96,6 +96,8 @@ public class SpacesService {
 
 		} catch (Exception e) {
 
+			//System.out.println("get error message --" + e.getMessage());
+			
 			return new BookingConfirmation(e.getMessage());
 		}
 	}

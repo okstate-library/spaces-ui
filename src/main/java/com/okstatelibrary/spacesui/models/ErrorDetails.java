@@ -9,15 +9,17 @@ public class ErrorDetails {
 	}
 
 	public void setErrorString(String errors) {
-		
-		System.out.print("errors" + errors);
-		
+
+		//System.out.print("errors---" + errors);
+
 		if (errors.contains("Sorry, this exceeds the limit per day in this category")) {
 			this.setErrorId("303");
 		} else if (errors.contains("is not a valid starting slot")) {
 			this.setErrorId("302");
 		} else if (errors.contains("is not a valid ending slot")) {
 			this.setErrorId("302");
+		} else if (errors.contains("Sorry, this exceeds the limit at a time in this category")) {
+			this.setErrorId("304");
 		}
 	}
 
