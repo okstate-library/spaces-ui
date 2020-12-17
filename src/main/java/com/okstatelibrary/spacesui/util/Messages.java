@@ -10,7 +10,7 @@ public class Messages {
 	
 	public static String ERROR_BOOKING_EXCEED_DAYIL_LIMIT = "You have exceeded the daily limit.";
 	
-	public static String ERROR_BOOKING_EXCEED_DAYIL_ROOM_LIMIT = "You have exceeded the room selection limit per day.";
+	public static String ERROR_BOOKING_EXCEED_DAYIL_ROOM_LIMIT = "You have reached the two room reservation limit.";
 
 	public static String ERROR_BOOKING_TRY_ALREADY_BOOKED_TIMESLOT = "The time slot you’ve selected is already booked.";
 
