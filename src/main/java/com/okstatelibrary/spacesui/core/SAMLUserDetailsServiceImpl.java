@@ -7,8 +7,6 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.User;
@@ -28,12 +26,6 @@ import com.okstatelibrary.spacesui.models.SAMLUserList;
  */
 @Service
 public class SAMLUserDetailsServiceImpl implements SAMLUserDetailsService {
-
-	// Logger
-	/**
-	 * 
-	 */
-	private static final Logger LOG = LoggerFactory.getLogger(SAMLUserDetailsServiceImpl.class);
 
 	//
 	/**

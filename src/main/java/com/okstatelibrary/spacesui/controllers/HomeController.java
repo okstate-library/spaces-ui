@@ -211,7 +211,7 @@ public class HomeController {
 		if (accessToken == null || accessToken.isEmpty()) {
 			System.out.println("API not working");
 
-			//return "errorp/101";
+			// return "errorp/101";
 			return "redirect:/errorp/101";
 
 		} else {
@@ -234,6 +234,8 @@ public class HomeController {
 
 			HttpSession session = request.getSession();
 			session.setMaxInactiveInterval(300);
+
+			System.out.println("working");
 
 			return "pages/index";
 		}
@@ -444,17 +446,17 @@ public class HomeController {
 		if (id != null && !id.isEmpty()) {
 
 			System.out.println("iddsadsad" + id);
-			
+
 			if (id.equals("303")) {
 				errorMessage = Messages.ERROR_BOOKING_EXCEED_DAYIL_LIMIT;
 			} else if (id.equals("302")) {
 				errorMessage = Messages.ERROR_BOOKING_TRY_ALREADY_BOOKED_TIMESLOT;
-			}else if (id.equals("101")) {
+			} else if (id.equals("101")) {
 				errorMessage = Messages.ERROR_EXTERNAL_API_NOT_WORKING;
-			}else if (id.equals("304")) {
+			} else if (id.equals("304")) {
 				errorMessage = Messages.ERROR_BOOKING_EXCEED_DAYIL_ROOM_LIMIT;
 			}
-			
+
 			model.addAttribute("errorMessageId", id);
 		}
 
@@ -479,7 +481,7 @@ public class HomeController {
 	public String spaces(Model model) {
 
 		System.out.println("spaces");
-		
+
 		return "pages/spaces";
 	}
 
@@ -766,7 +768,6 @@ public class HomeController {
 			throws JsonParseException, RestClientException, JsonMappingException, IOException, JSONException {
 
 		AccessToken accessToken = accessTokenService.getAccessToken(URLs.GET_AUTH_TOKEN_URL,
-
 				systemProperties.getSpringShareClientId(), systemProperties.getSpringShareSecretkey());
 
 		if (accessToken != null) {

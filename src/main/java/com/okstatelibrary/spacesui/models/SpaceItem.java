@@ -5,11 +5,12 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 /**
  * Space Item class
+ * 
  * @author Damith
  *
  */
 public class SpaceItem {
-	
+
 	/**
 	 * 
 	 */
@@ -46,6 +47,10 @@ public class SpaceItem {
 	/**
 	 * 
 	 */
+	private String zoneId;
+	/**
+	 * 
+	 */
 	private Availability[] availability;
 
 	/**
@@ -55,19 +60,21 @@ public class SpaceItem {
 
 	/**
 	 * Initialing the Space item class
+	 * 
 	 * @param _id
 	 * @param _name
 	 * @param _description
 	 * @param _image
 	 * @param _capacity
 	 * @param _formid
+	 * @param _zoneId
 	 * @param _availability
 	 */
 	@JsonCreator
 	public SpaceItem(@JsonProperty("id") String _id, @JsonProperty("name") String _name,
 			@JsonProperty("description") String _description, @JsonProperty("image") String _image,
 			@JsonProperty("capacity") String _capacity, @JsonProperty("formid") String _formid,
-			@JsonProperty("availability") Availability[] _availability) {
+			@JsonProperty("zoneId") String _zoneId, @JsonProperty("availability") Availability[] _availability) {
 		this.setId(_id);
 		this.setName(_name);
 		this.setDescription(_description);
@@ -75,6 +82,7 @@ public class SpaceItem {
 		this.setImage(_image);
 		this.setCapacity(_capacity);
 		this.setFormid(_formid);
+		this.setZoneId(_zoneId);
 		this.setAvailability(_availability);
 	}
 
@@ -215,7 +223,7 @@ public class SpaceItem {
 	 * @return
 	 */
 	public String getFloor() {
-		return Character.toString(this.name.charAt(0));
+		return Character.toString(this.zoneId.charAt(this.zoneId.length() - 1));
 	}
 
 	/**
@@ -223,6 +231,14 @@ public class SpaceItem {
 	 */
 	public void setFloor(String floor) {
 		this.floor = floor;
+	}
+
+	public String getZoneId() {
+		return zoneId;
+	}
+
+	public void setZoneId(String zoneId) {
+		this.zoneId = zoneId;
 	}
 
 }

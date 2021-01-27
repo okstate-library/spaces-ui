@@ -5,7 +5,8 @@
 
 #bin
 /bin//
-bin/
+bin/*
+bin/.*
 
 # Maven
 log/
@@ -14,6 +15,7 @@ target/
 
 # Compiled class file
 *.class
+.metadata/
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
@@ -45,7 +47,6 @@ hs_err_pid*
 
 # Mac
 .DS_Store
-
 # Custom domain settings
 CNAME
 src/main/resources/application-dev.properties
