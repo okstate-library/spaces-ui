@@ -13,13 +13,7 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.okstatelibrary.spacesui.models.BookedItem;
-import com.okstatelibrary.spacesui.models.BookingConfirmation;
-import com.okstatelibrary.spacesui.models.CancelConfirmation;
-import com.okstatelibrary.spacesui.models.Category;
-import com.okstatelibrary.spacesui.models.Room;
-import com.okstatelibrary.spacesui.models.RoomBookingPayload;
-import com.okstatelibrary.spacesui.models.SpaceItem;
+import com.okstatelibrary.spacesui.models.*;
 
 @Service
 public class SpacesService {
@@ -81,14 +75,6 @@ public class SpacesService {
 		HttpEntity<?> request = new HttpEntity<Object>(payload, headers);
 		try {
 
-			//ObjectMapper Obj = new ObjectMapper();
-			//String jsonStr = Obj.writeValueAsString(payload);
-
-			// Displaying JSON String
-			//System.out.println("payload--" + jsonStr);
-
-			//System.out.println("payload--" + payload.toString());
-
 			ResponseEntity<BookingConfirmation> roomBookingResponse = restTemplate.exchange(url, HttpMethod.POST,
 					request, BookingConfirmation.class);
 
@@ -96,8 +82,6 @@ public class SpacesService {
 
 		} catch (Exception e) {
 
-			//System.out.println("get error message --" + e.getMessage());
-			
 			return new BookingConfirmation(e.getMessage());
 		}
 	}
@@ -168,6 +152,30 @@ public class SpacesService {
 					CancelConfirmation[].class);
 
 			return (CancelConfirmation[]) response.getBody();
+
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.getMessage();
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	///
+	/// Get the relevant room details otherwise an error.
+	///
+	public Location[] getHours(String accessToken, String url)
+			throws JsonParseException, JsonMappingException, RestClientException, IOException {
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Authorization", "Bearer " + accessToken);
+		HttpEntity<String> request = new HttpEntity<String>(headers);
+
+		try {
+
+			ResponseEntity<Location[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Location[].class);
+
+			return (Location[]) response.getBody();
 
 		} catch (Exception e) {
 			// TODO: handle exception

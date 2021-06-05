@@ -7,23 +7,21 @@
 <meta name="viewport"
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="Spaces - UI">
-<meta name="author" content="Damith Perera">
+<meta name="author" content="Roy Degler,Damith Perera">
 <link rel="icon" th:href="@{/img/favicon.ico}">
 <title>Oklahoma State University- Edmon Low Library &mdash;
 	Spaces- Room Booking System</title>
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
-<link rel="stylesheet"
-	href="/css/foundation-6.6.3.css" />
+<link rel="stylesheet" href="/css/foundation-6.6.3.css" />
 
 <link rel="stylesheet" href="/css/main.css" />
 
 <link href="css/foundation-datepicker.css" rel="stylesheet"
 	type="text/css">
 
-<script
-	src="/js/foundation-6.6.3.js"></script>
+<script src="/js/foundation-6.6.3.js"></script>
 
 </head>
 
@@ -35,7 +33,7 @@
 
 			<div class="grid-container">
 				<div class="grid-x">
-					<div class="cell small-12">
+					<div class="cell small-6">
 						<img
 							src="https://library.okstate.edu/template-b/images/logo-banner.png"
 							alt="logo" style="position: absolute; z-index: 11;">
@@ -43,11 +41,22 @@
 							<a href="//library.okstate.edu" id="site-name">Edmon Low
 								Library</a>
 							<p id="tagline">
-								&amp; <a href="https://library.okstate.edu/about/locations/" class="banner-link">Branch
-									Libraries</a>
+								&amp; <a href="https://library.okstate.edu/about/locations/"
+									class="banner-link">Branch Libraries</a>
 							</p>
 						</div>
 					</div>
+					<div class="cell small-2 hide-for-small-only" style="text-align: center"
+						th:if="${location_status != null}">
+
+						<span class="hours_heading">[[${dateString}]] library hours</span> <br />
+						<span class="hours"> [[${location_status}]] </span><br /> <span><a
+							href="https://library.okstate.edu/about/hours" target="_blank"><small>View
+									all hours</small></a></span>
+
+
+					</div>
+					<div class="cell small-4"></div>
 				</div>
 			</div>
 		</div>
@@ -87,7 +96,7 @@
 			</div>
 		</div>
 
-	
+
 		<!-- Header ends -->
 
 		<!-- Content starts -->
@@ -112,18 +121,18 @@
 		<!-- Footer ends -->
 	</div>
 	<!-- Main ends -->
-	
+
 
 
 	<!--------------------------->
 	<!--        Modals         -->
 	<!--------------------------->
-	
-	
+
+
 	<!-- Search Modal -->
 	<div class="reveal" id="exampleModal1" data-reveal>
 		<h1>Study Room Policies</h1>
-	
+
 		<ul>
 			<li>A study room reservation can only be booked for up to 4
 				hours at a time.</li>
@@ -134,22 +143,21 @@
 			<li>Study room doors must be locked at the end of each
 				reservation.</li>
 			<li>Smart board equipment is unavailable at this time.</li>
-			<li>If it is your first time checking out a study room, you
-				will be asked to sign a "Statement of Responsibility" when you come
-				to the Circulation & Information Desk. This signed statement will
+			<li>If it is your first time checking out a study room, you will
+				be asked to sign a "Statement of Responsibility" when you come to
+				the Circulation & Information Desk. This signed statement will
 				remain active for one calendar year.</li>
-			<li>Reservations will be held for 15 minutes after the
-				beginning of the reservation. At that time, the room may be
-				reassigned.</li>
+			<li>Reservations will be held for 15 minutes after the beginning
+				of the reservation. At that time, the room may be reassigned.</li>
 			<li>White noise machines are available for checkout with study
 				room reservations.</li>
 			<li>Study rooms are cleaned each night by the Library's
 				custodial team. Cleaning supplies are available by request if you
 				wish to sanitize before or after a reservation.</li>
-			<li>If you do not receive a confirmation email within 30
-				minutes of making your reservation, please call the
-				Circulation/Information Desk at 405-744-9741.</li>
-	
+			<li>If you do not receive a confirmation email within 30 minutes
+				of making your reservation, please call the Circulation/Information
+				Desk at 405-744-9741.</li>
+
 		</ul>
 		<button class="close-button" data-close aria-label="Close modal"
 			type="button">
@@ -161,26 +169,27 @@
 	<!-- Search Modal -->
 	<div class="reveal" id="search-modal" data-reveal>
 		<p class="orange search-title">Search the Library Website</p>
-		<form action="https://library.okstate.edu/search-results" method="get" >
+		<form action="https://library.okstate.edu/search-results" method="get">
 			<div class="input-group">
-				
-				<input type="text" name="s" id="search" value="" placeholder="Search the library website" class="input-group-field" >
+
+				<input type="text" name="s" id="search" value=""
+					placeholder="Search the library website" class="input-group-field">
 				<div class="input-group-button">
-					
+
 					<button type="submit" class="button search-button">
-                    <i class="fas fa-search"></i> <span class="show-for-sr">Search</span>
-                </button>
+						<i class="fas fa-search"></i> <span class="show-for-sr">Search</span>
+					</button>
 				</div>
 			</div>
-	     </form>
-	
-	
+		</form>
+
+
 		<button class="close-button" data-close aria-label="Close modal"
 			type="button">
 			<span aria-hidden="true">&times;</span>
 		</button>
-	
-	
+
+
 	</div>
 
 	<!-- Foundation scripts -->

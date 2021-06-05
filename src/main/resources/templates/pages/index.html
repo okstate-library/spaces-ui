@@ -26,7 +26,7 @@
 						</div>
 						<div class="cell small-8 medium-3 xmedium-offset-1">
 							<label> <strong>Capacity: </strong> <select name="seats"
-								id="seatsDropDown" >
+								id="seatsDropDown">
 									<option th:each="dropDownItem : ${seats}"
 										th:value="${dropDownItem.key}"
 										th:selected="${dropDownItem.key} == *{selectedSeat}"
@@ -34,8 +34,9 @@
 							</select>
 							</label>
 						</div>
-						
-						<div class="cell small-8 medium-3 xmedium-offset-1 hide-for-small-only">
+
+						<div
+							class="cell small-8 medium-3 xmedium-offset-1 hide-for-small-only">
 							<label> <strong>Floor: </strong> <select name="floor"
 								id="floorDropDown" onchange="this.form.submit()">
 									<option th:each="dropDownItem : ${floors}"
@@ -46,7 +47,7 @@
 							</label>
 
 						</div>
-						
+
 
 						<div
 							class="cell small-8 medium-3 xmedium-offset-1 hide-for-small-only"
@@ -94,112 +95,114 @@
 					<div data-th-each="room : ${spaceList}" class=" room-item">
 
 
+						<div th:if="${selectedRoomId == null} ? true : ${selectedRoomId == room.id}">
+						
+							<div class="grid-x">
+								<div class="cell small-12">
+									<p class="room-name-title">
 
-						<div class="grid-x">
-							<div class="cell small-12">
-								<p class="room-name-title">
-
-									<strong data-th-text="${room.name}">...</strong> <small
-										class="number-room-item-seats" data-th-text="${room.capacity}">
-									</small> <small> Seats </small>
-									<button class="button clear" type="button"
-										th:data-toggle="'desc-' + ${room.id}"
-										style="padding: 0 .5rem; margin-bottom: 0;">
-										<i class="fas fa-info-circle orange"></i> <span
-											class="show-for-sr">View Room Details</span>
-									</button>
-								<div class="dropdown-pane" th:id="'desc-' + ${room.id}"
-									data-dropdown data-auto-focus="true">
-									<!--
+										<strong data-th-text="${room.name}">...</strong> <small
+											class="number-room-item-seats"
+											data-th-text="${room.capacity}"> </small> <small>
+											Seats </small>
+										<button class="button clear" type="button"
+											th:data-toggle="'desc-' + ${room.id}"
+											style="padding: 0 .5rem; margin-bottom: 0;">
+											<i class="fas fa-info-circle orange"></i> <span
+												class="show-for-sr">View Room Details</span>
+										</button>
+									<div class="dropdown-pane" th:id="'desc-' + ${room.id}"
+										data-dropdown data-auto-focus="true">
+										<!--
 									<p>
 										<strong data-th-text="${room.name}">...</strong>
 									</p>
 									-->
-									<p th:href="@{#}" class="dropdown-toggle"
-										data-toggle="dropdown">
-										<span th:utext="${room.description}" th:remove="tag"></span> <b
-											class="caret"></b>
+										<p th:href="@{#}" class="dropdown-toggle"
+											data-toggle="dropdown">
+											<span th:utext="${room.description}" th:remove="tag"></span>
+											<b class="caret"></b>
+										</p>
+									</div>
+								</div>
+							</div>
+
+							<div class="grid-x">
+								<div class="cell medium-2   hide-for-small-only">
+									<p>
+										<img th:src="${room.image}" alt="${room.name}"
+											class="room-item-img">
 									</p>
 								</div>
-							</div>
-						</div>
+								<div
+									class="cell small-11 small-offset-1  medium-offset-0 large-offset-0  medium-10">
 
-						<div class="grid-x">
-							<div class="cell medium-2   hide-for-small-only">
-								<p>
-									<img th:src="${room.image}" alt="${room.name}"
-										class="room-item-img">
-								</p>
-							</div>
-							<div
-								class="cell small-11 small-offset-1  medium-offset-0 large-offset-0  medium-10">
+									<div data-th-each="timeslot : ${room.availability}"
+										style="display: inline;">
 
-								<div data-th-each="timeslot : ${room.availability}"
-									style="display: inline;">
-
-									<button class="button"
-										th:classappend="${ timeslot.booked ? 'disabled' : 'clear '}"
-										th:onclick="addItem(this, '[(${room.name})]','[(${room.id})]', '[(${timeslot.fromTime})]' 
+										<button class="button"
+											th:classappend="${ timeslot.booked ? 'disabled' : 'clear '}"
+											th:onclick="addItem(this, '[(${room.name})]','[(${room.id})]', '[(${timeslot.fromTime})]' 
 										, '[(${timeslot.toTime})]' , '[(${timeslot.fromDateTime})]' , '[(${timeslot.booked})]' );"
-										data-th-text="${timeslot.fromTime}">...</button>
-								</div>
+											data-th-text="${timeslot.fromTime}">...</button>
+									</div>
 
-								<div th:id="'confirmWindow-' + ${room.id}" class="callout"
-									style="margin-top: 1.5rem; display: none;">
+									<div th:id="'confirmWindow-' + ${room.id}" class="callout"
+										style="margin-top: 1.5rem; display: none;">
 
 
-									<form class="form-group" method="post" th:action="@{/booking}">
-										<div class="grid-x">
+										<form class="form-group" method="post" th:action="@{/booking}">
+											<div class="grid-x">
 
-											<div
-												class="cell small-10 small-offset-2 medium-6 medium-offset-0">
+												<div
+													class="cell small-10 small-offset-2 medium-6 medium-offset-0">
 
-												Room: <strong>[[${room.name}]]</strong><br> Time: <strong>
-													<span id="startTime"></span> to <span id="endTime"></span>
-												</strong> <input type="hidden" th:value="${room.id}"
-													name="roomNumber" th:id="'roomNumber-' + ${room.id}" /> <input
-													type="hidden" th:value="${room.name}" name="roomName"
-													th:id="'roomName-' + ${room.name}" /> <input type="hidden"
-													th:value="${dateString}" name="dateString" id="dateString" />
+													Room: <strong>[[${room.name}]]</strong><br> Time: <strong>
+														<span id="startTime"></span> to <span id="endTime"></span>
+													</strong> <input type="hidden" th:value="${room.id}"
+														name="roomNumber" th:id="'roomNumber-' + ${room.id}" /> <input
+														type="hidden" th:value="${room.name}" name="roomName"
+														th:id="'roomName-' + ${room.name}" /> <input
+														type="hidden" th:value="${dateString}" name="dateString"
+														id="dateString" /> <input type="hidden"
+														name="hid_dateString"
+														th:id="'hid_dateString-' + ${room.id}" /> <input
+														type="hidden" name="hid_startTime"
+														th:id="'hid_startTime-' + ${room.id}" /> <input
+														type="hidden" name="hid_endTime"
+														th:id="'hid_endTime-' + ${room.id}" /> <br
+														class="show-for-small-only"> <br
+														class="show-for-small-only">
+												</div>
 
-												<input type="hidden" name="hid_dateString"
-													th:id="'hid_dateString-' + ${room.id}" /> <input
-													type="hidden" name="hid_startTime"
-													th:id="'hid_startTime-' + ${room.id}" /> <input
-													type="hidden" name="hid_endTime"
-													th:id="'hid_endTime-' + ${room.id}" /> <br
-													class="show-for-small-only"> <br
-													class="show-for-small-only">
-											</div>
+												<div
+													class="cell small-9 small-offset-3   medium-6 medium-offset-0">
+													<div class="button-group expanded ">
 
-											<div
-												class="cell small-9 small-offset-3   medium-6 medium-offset-0">
-												<div class="button-group expanded ">
+														<button type="button" class="hollow secondary button"
+															th:onclick="clearSelection()">
+															<i class="fas fa-times"></i> Clear Selection
+														</button>
+														<button class="button" th:onclick="storeSelection()">
+															<i class="far fa-calendar-check"></i> Confirm
+														</button>
 
-													<button type="button" class="hollow secondary button"
-														th:onclick="clearSelection()">
-														<i class="fas fa-times"></i> Clear Selection
-													</button>
-													<button class="button" th:onclick="storeSelection()">
-														<i class="far fa-calendar-check"></i> Confirm
-													</button>
-
+													</div>
 												</div>
 											</div>
-										</div>
 
-									</form>
-
+										</form>
 
 
+
+									</div>
 								</div>
+
+
+
+
 							</div>
-
-
-
-
 						</div>
-
 					</div>
 
 				</div>

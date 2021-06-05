@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -36,16 +37,7 @@ import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.okstatelibrary.spacesui.models.AccessToken;
 import com.okstatelibrary.spacesui.models.Availability;
-import com.okstatelibrary.spacesui.models.BookedItem;
-import com.okstatelibrary.spacesui.models.BookingConfirmation;
-import com.okstatelibrary.spacesui.models.Bookings;
-import com.okstatelibrary.spacesui.models.CancelConfirmation;
-import com.okstatelibrary.spacesui.models.Category;
-import com.okstatelibrary.spacesui.models.Room;
-import com.okstatelibrary.spacesui.models.RoomBookingPayload;
-import com.okstatelibrary.spacesui.models.SAMLUser;
-import com.okstatelibrary.spacesui.models.SAMLUserList;
-import com.okstatelibrary.spacesui.models.SpaceItem;
+import com.okstatelibrary.spacesui.models.*;
 import com.okstatelibrary.spacesui.services.AccessTokenService;
 import com.okstatelibrary.spacesui.services.SpacesService;
 import com.okstatelibrary.spacesui.stereotypes.CurrentUser;
@@ -202,9 +194,10 @@ public class HomeController {
 	 * @throws JSONException
 	 * @throws ParseException
 	 */
-	@RequestMapping(value = "/", method = RequestMethod.GET)
-	public String index(HttpServletRequest request, Model model) throws JsonParseException, JsonMappingException,
-			RestClientException, IOException, JSONException, ParseException {
+	@RequestMapping(value = { "/", "/{id}" }, method = RequestMethod.GET)
+	public String index(@PathVariable(name = "id", required = false) String roomName, HttpServletRequest request,
+			Model model) throws JsonParseException, JsonMappingException, RestClientException, IOException,
+			JSONException, ParseException {
 
 		String accessToken = getAccessTokenFromRequest();
 
@@ -224,7 +217,31 @@ public class HomeController {
 
 			model.addAttribute("dateString", DateTimeUtil.getTodayDate());
 
-			model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0) + " Rooms found...");
+			int roomCount = 0;
+			String roomId = null;
+
+			if (spaceItems != null) {
+
+				if (roomName != null && !roomName.isEmpty()) {
+
+					SpaceItem spaceItem = Arrays.stream(spaceItems)
+							.filter(customer -> roomName.equals(customer.getName())).findAny().orElse(null);
+
+					if (spaceItem != null) {
+						roomCount = 1;
+						roomId = spaceItem.getId();
+					} else {
+						roomCount = spaceItems.length;
+					}
+
+				} else {
+					roomCount = spaceItems.length;
+				}
+
+			}
+
+			model.addAttribute("totalRooms", roomCount + " Rooms found...");
+			model.addAttribute("selectedRoomId", roomId);
 
 			model.addAttribute("seats", seatList);
 			model.addAttribute("selectedSeat", selectedSeats);
@@ -232,10 +249,10 @@ public class HomeController {
 			model.addAttribute("floors", floorList);
 			model.addAttribute("selectedFloor", selectedFloor);
 
+			model.addAttribute("location_status", getLocationHours(accessToken, DateTimeUtil.getTodayDate()));
+
 			HttpSession session = request.getSession();
 			session.setMaxInactiveInterval(300);
-
-			System.out.println("working");
 
 			return "pages/index";
 		}
@@ -291,6 +308,8 @@ public class HomeController {
 
 			model.addAttribute("floors", floorList);
 			model.addAttribute("selectedFloor", floor);
+
+			model.addAttribute("location_status", getLocationHours(getAccessTokenFromRequest(), date));
 
 			HttpSession session = request.getSession();
 			session.setMaxInactiveInterval(300);
@@ -442,10 +461,11 @@ public class HomeController {
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
 		String errorMessage = Messages.ERROR_BOOKING_SOMETING_WENT_WRONG;
+		System.out.println("Error ID - " + id);
 
 		if (id != null && !id.isEmpty()) {
 
-			System.out.println("iddsadsad" + id);
+			System.out.println("Error ID - " + id);
 
 			if (id.equals("303")) {
 				errorMessage = Messages.ERROR_BOOKING_EXCEED_DAYIL_LIMIT;
@@ -646,6 +666,9 @@ public class HomeController {
 
 			for (SpaceItem spaceItem : spaceItems) {
 
+				// Print room id with name.
+				// System.out.println(spaceItem.getId() + " " + spaceItem.getName());
+
 				if (spaceItem.getAvailability().length > 0 && Integer.parseInt(spaceItem.getCapacity()) >= seatsCount
 						&& (floor.equals("0") ? true : floor.equals(spaceItem.getFloor()))) {
 
@@ -752,6 +775,53 @@ public class HomeController {
 		Room[] rooms = spaceService.getRoom(getAccessTokenFromRequest(), URLs.GET_ROOM_DETAILS_URL + roomId);
 
 		return rooms[0].getName();
+	}
+
+	private String getLocationHours(String accessToken, String date)
+			throws JSONException, JsonParseException, JsonMappingException, RestClientException, IOException {
+
+		String locationHours = "Closed";
+
+		try {
+
+			String url = URLs.GET_LOCATION_HOURS_URL + systemProperties.getLocationId() + "?&from=" + date + "&to="
+					+ date;
+
+			Location[] hoursJson = spaceService.getHours(accessToken, url);
+
+			if (hoursJson.length > 0) {
+				org.json.JSONObject object = new org.json.JSONObject(hoursJson[0].getDates().toString());
+
+				Iterator<?> keys = object.keys();
+
+				while (keys.hasNext()) {
+					// loop to get the dynamic key
+					String currentDynamicKey = (String) keys.next();
+
+					// get the value of the dynamic key
+					org.json.JSONObject currentDynamicValue = object.getJSONObject(currentDynamicKey);
+
+					String status = currentDynamicValue.getString("status");
+
+					if (status.equalsIgnoreCase("open")) {
+						org.json.JSONArray hours = currentDynamicValue.getJSONArray("hours");
+
+						String hour_string = hours.getJSONObject(0).getString("from") + " - "
+								+ hours.getJSONObject(0).getString("to");
+
+						locationHours = hour_string;
+					}
+				}
+			}
+		} catch (Exception e) {
+			// do something clever with the exception
+			System.out.println(e.getMessage());
+			System.out.println("No Hour details avaliable");
+
+			locationHours = null;
+		}
+
+		return locationHours;
 	}
 
 	/**
