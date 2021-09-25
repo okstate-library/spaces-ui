@@ -357,17 +357,21 @@ dl.error-cta-list {
 /*==================================================
 =          HOURS                   =
 ==================================================*/
-.hours {
-	margin-bottom: 20px;
-	font-size: 16px;
-	font-weight: 800;
-	line-height: 1.4;
+.todays-hours, .todays-hours>a {
+	text-align: left;
+	color: #fff;
 }
 
-.hours_heading
-{
+.hours_heading {
 	margin-top: 20px;
 	font-size: 12px;
 	font-weight: 800;
 	line-height: 1.4;
+}
+
+hours {
+	font-size: 21px;
+}
+
+@media screen and (max-width: 39.9375em) {
 }

@@ -162,7 +162,7 @@ public class SpacesService {
 	}
 
 	///
-	/// Get the relevant room details otherwise an error.
+	/// Get the library opening hours otherwise an error.
 	///
 	public Location[] getHours(String accessToken, String url)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException {

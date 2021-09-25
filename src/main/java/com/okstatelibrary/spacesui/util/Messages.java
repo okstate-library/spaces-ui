@@ -7,10 +7,12 @@ public class Messages {
 	public static String ERROR_FREINDS_EMAIL_FORMAT = "Please enter valid okstate email address(es) separated with comma.";
 
 	public static String ERROR_EXTERNAL_API_NOT_WORKING = "Oops, something went wrong.";
-	
+
 	public static String ERROR_BOOKING_EXCEED_DAYIL_LIMIT = "You have exceeded the daily limit.";
-	
+
 	public static String ERROR_BOOKING_EXCEED_DAYIL_ROOM_LIMIT = "You have reached the two room reservation limit.";
+
+	public static String ERROR_BOOKING_RESERVATION_WITHIN_TWO_HOURS = "You already have a reservation within two hours before or after the time you are trying to book.";
 
 	public static String ERROR_BOOKING_TRY_ALREADY_BOOKED_TIMESLOT = "The time slot you’ve selected is already booked.";
 

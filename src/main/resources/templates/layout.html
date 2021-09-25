@@ -9,8 +9,8 @@
 <meta name="description" content="Spaces - UI">
 <meta name="author" content="Roy Degler,Damith Perera">
 <link rel="icon" th:href="@{/img/favicon.ico}">
-<title>Oklahoma State University- Edmon Low Library &mdash;
-	Spaces- Room Booking System</title>
+<title>Spaces:Room Booking System - Edmon Low Library - Oklahoma
+	State University</title>
 
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
@@ -32,8 +32,9 @@
 		<div class="xy-branding">
 
 			<div class="grid-container">
+
 				<div class="grid-x">
-					<div class="cell small-6">
+					<div class="cell small-12 large-6">
 						<img
 							src="https://library.okstate.edu/template-b/images/logo-banner.png"
 							alt="logo" style="position: absolute; z-index: 11;">
@@ -46,17 +47,12 @@
 							</p>
 						</div>
 					</div>
-					<div class="cell small-2 hide-for-small-only" style="text-align: center"
-						th:if="${location_status != null}">
-
-						<span class="hours_heading">[[${dateString}]] library hours</span> <br />
-						<span class="hours"> [[${location_status}]] </span><br /> <span><a
-							href="https://library.okstate.edu/about/hours" target="_blank"><small>View
-									all hours</small></a></span>
-
-
+					<div class="cell small-6 todays-hours invisible">
+						<span class="hours_heading"> [[${dateString}]] hours</span> <br>
+						<span class="hours"> [[${location_status}]] </span><br> <span><a
+							href="https://library.okstate.edu/about/hours" target="_blank"
+							style="color: #fff;"><small>View all hours</small></a></span>
 					</div>
-					<div class="cell small-4"></div>
 				</div>
 			</div>
 		</div>
@@ -138,6 +134,8 @@
 				hours at a time.</li>
 			<li>Only 2 active study room reservations can be made at one
 				time.</li>
+			<li>Study room reservations must allow at least two hours in
+				between the end of a reservation and the beginning of another one.</li>
 			<li>Room keys can be checked out at the Circulation &
 				Information Desk on the first floor of the Library.</li>
 			<li>Study room doors must be locked at the end of each
@@ -204,5 +202,4 @@
 
 
 </body>
-
 </html>

@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.okstatelibrary.spacesui</groupId>
 	<artifactId>spaces-ui</artifactId>
-	<version>1.0.0.RELEASE</version>
+	<version>1.0.2.RELEASE</version>
 	<packaging>jar</packaging>
 	<!-- Project description -->
 	<name>Spaces - UI  </name>
@@ -26,14 +26,6 @@
 			<timezone>+1</timezone>
 		</developer>
 	</developers>
-	<contributors>
-		<contributor>
-			<name>Vincenzo De Notaris</name>
-		</contributor>
-		<contributor>
-			<name>Alexey Syrtsev</name>
-		</contributor>
-	</contributors>
 	<licenses>
 		<license>
 			<name>MIT License</name>
@@ -141,11 +133,6 @@
 		</dependency>
 
 	</dependencies>
-	<scm>
-		<connection>scm:git:git@github.com:vdenotaris/spring-boot-security-saml-sample.git</connection>
-		<url>scm:git:git@github.com:vdenotaris/spring-boot-security-saml-sample.git</url>
-		<developerConnection>scm:git:git@github.com:vdenotaris/spring-boot-security-saml-sample.git</developerConnection>
-	</scm>
 	<build>
 		<plugins>
 			<plugin>

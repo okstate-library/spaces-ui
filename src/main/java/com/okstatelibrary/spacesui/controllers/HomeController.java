@@ -410,6 +410,11 @@ public class HomeController {
 
 		SAMLUser samlUser = SAMLUserList.getInstance().getSAMLUser(session.getId());
 
+		System.out.println("roomNumber - " + roomNumber);
+		System.out.println("bookDate - " + bookDate);
+		System.out.println("startTime - " + startTime);
+		System.out.println("endTime ID - " + endTime);
+
 		if (!roomNumber.isEmpty() && !bookDate.isEmpty() && !startTime.isEmpty() && !endTime.isEmpty()) {
 
 			Bookings bookings = new Bookings(roomNumber, DateTimeUtil.convertToISODateTime(bookDate, endTime));
@@ -422,6 +427,8 @@ public class HomeController {
 					roomBookingPayLoad, URLs.BOOK_A_ROOM_URL);
 
 			SAMLUserList.getInstance().removeFromArray(samlUser);
+
+			System.out.println("bookingConfirmation - " + bookingConfirmation.getErrorDetails());
 
 			if (bookingConfirmation != null && bookingConfirmation.getBooking_id() != null
 					&& !bookingConfirmation.getBooking_id().isEmpty()) {
@@ -475,6 +482,8 @@ public class HomeController {
 				errorMessage = Messages.ERROR_EXTERNAL_API_NOT_WORKING;
 			} else if (id.equals("304")) {
 				errorMessage = Messages.ERROR_BOOKING_EXCEED_DAYIL_ROOM_LIMIT;
+			} else if (id.equals("305")) {
+				errorMessage = Messages.ERROR_BOOKING_RESERVATION_WITHIN_TWO_HOURS;
 			}
 
 			model.addAttribute("errorMessageId", id);
@@ -810,6 +819,12 @@ public class HomeController {
 								+ hours.getJSONObject(0).getString("to");
 
 						locationHours = hour_string;
+					} else if (status.equalsIgnoreCase("24hours")) {
+
+						locationHours = "24 hours";
+					} else if (status.equalsIgnoreCase("text")) {
+						locationHours = currentDynamicValue.getString("text");
+
 					}
 				}
 			}

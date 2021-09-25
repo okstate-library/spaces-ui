@@ -25,17 +25,21 @@
 				<div class=" grid-x">
 					<div class="cell small-12 medium-10 medium-offset-1">
 						<p class="h2">The suggestions below may help.</p>
-						
-						
-						<div th:switch= "${errorMessageId}">
-							
+
+
+						<div th:switch="${errorMessageId}">
+
 							<!-- API Error -->
-							<dl class="error-cta-list"  th:case="101">
+							<dl class="error-cta-list" th:case="101">
 								<dt>Wait and Try Again</dt>
 								<dd>
-									<p>The problem might be temporary.  Wait a few minutes and please <strong><a
-										href="https://spaces.library.okstate.edu">try again</a></strong>.</p>
-									<p>If you continue to receive this error please contact OSU Library Circulation Desk.</p>
+									<p>
+										The problem might be temporary. Wait a few minutes and please
+										<strong><a href="https://spaces.library.okstate.edu">try
+												again</a></strong>.
+									</p>
+									<p>If you continue to receive this error please contact OSU
+										Library Circulation Desk.</p>
 								</dd>
 								<!-- Removed by Whitneys request
 								<!--
@@ -47,72 +51,98 @@
 								</dd>
 								-->
 							</dl>
-							
-							
+
+
 							<!-- Room is already booked -->
 							<dl class="error-cta-list" th:case="302">
-	
+
 								<dt>Please Try Again</dt>
 								<dd>
-									<strong><a href="https://spaces.library.okstate.edu">Start over</a></strong> and select a different room or time.
+									<strong><a href="https://spaces.library.okstate.edu">Start
+											over</a></strong> and select a different room or time.
 								</dd>
 							</dl>
-							
-							
+
+
 							<!-- Room exceeded daily limit -->
-							<dl class="error-cta-list"  th:case="303">
+							<dl class="error-cta-list" th:case="303">
 								<dt>Select a Different Day</dt>
 								<dd>
-									<strong><a href="https://spaces.library.okstate.edu">Start over</a></strong> and select a different <em>date</em>.
+									<strong><a href="https://spaces.library.okstate.edu">Start
+											over</a></strong> and select a different <em>date</em>.
 								</dd>
-							</dl>
-							
-							
-							
-							
-							<!-- Limited to two reservations MAX -->
-							<dl class="error-cta-list"  th:case="304">
-								<dt>Students are limited to 2 active study room reservations at one time. </dt>
-								<dd>
-									Please review the <strong><a href="https://info.library.okstate.edu/studyrooms/policies">Study Room Policies</a></strong>.
-								</dd>
-								
 							</dl>
 
-							
+
+							<!-- Limited to two reservations MAX -->
+							<dl class="error-cta-list" th:case="304">
+								<dt>Students are limited to 2 active study room
+									reservations at one time.</dt>
+								<dd>
+									Please review the <strong><a
+										href="https://info.library.okstate.edu/studyrooms/policies">Study
+											Room Policies</a></strong>.
+								</dd>
+
+							</dl>
+
+							<!-- Trying to book a time within before or after already booked time slot. -->
+							<dl class="error-cta-list" th:case="305">
+								<dt>You already have a reservation within two hours before
+									or after the time you are trying to book; if you are trying to
+									extend an existing reservation, please cancel the whole
+									reservation and rebook it for the full time needed.</dt>
+								<dd>
+									Please review the <strong><a
+										href="https://info.library.okstate.edu/studyrooms/policies">Study
+											Room Policies</a></strong>.
+								</dd>
+
+							</dl>
+
+
+
 							<!-- Unidentified error -->
-							<dl class="error-cta-list"  th:case="*">
+							<dl class="error-cta-list" th:case="*">
 								<dt>Wait and Try Again</dt>
 								<dd>
-									<p>The problem might be temporary. Wait a few minutes and please <strong><a
-										href="https://spaces.library.okstate.edu">try again</a></strong>.</p>
-									<p>If you continue to receive this error please contact OSU Library Circulation Desk.</p>
+									<p>
+										The problem might be temporary. Wait a few minutes and please
+										<strong><a href="https://spaces.library.okstate.edu">try
+												again</a></strong>.
+									</p>
+									<p>If you continue to receive this error please contact OSU
+										Library Circulation Desk.</p>
 								</dd>
-								
-							</dl>
-						
-						</div>
-						
 
-						
-						
-						
-						
-						
+							</dl>
+
+						</div>
+
+
+
+
+
+
+
 						<!-- Contact information is always displayed -->
 						<dl class="error-cta-list">
 							<dt>Contact Us</dt>
 							<dd>
 								<p>
-									Circulation and Information Desk<br> <strong>For immediate assistance please call 405-744-9775</strong>
+									Circulation and Information Desk<br> <strong>For
+										immediate assistance please call 405-744-9775</strong>
 								</p>
 								<p>
 									Send us an email at<br> <strong> <a
-										href="mailto:lib-cir@okstate.edu?subject=Study Room Question">lib-cir@okstate.edu</a></strong> 
+										href="mailto:lib-cir@okstate.edu?subject=Study Room Question">lib-cir@okstate.edu</a></strong>
+									<br>Emails will answered during business hours.
+
 								</p>
+
 							</dd>
 						</dl>
-						
+
 
 					</div>
 				</div>
