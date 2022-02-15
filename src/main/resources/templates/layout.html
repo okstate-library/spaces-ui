@@ -47,11 +47,18 @@
 							</p>
 						</div>
 					</div>
-					<div class="cell small-6 todays-hours invisible">
-						<span class="hours_heading"> [[${dateString}]] hours</span> <br>
-						<span class="hours"> [[${location_status}]] </span><br> <span><a
+					<!-- cell small-6 todays-hours -->
+					<div
+						class="cell small-6 todays-hours hide-for-small-only hide-for-medium-only">
+						<span th:if="${dateString ne null}" class="hours_heading">
+							[[${dateString}]] hours</span> <br> 
+							
+							<span
+							th:if="location_status != ''" class="hours">
+							[[${location_status}]] </span><br> <span><a
+							th:if="${location_status ne null}" 
 							href="https://library.okstate.edu/about/hours" target="_blank"
-							style="color: #fff;"><small>View all hours</small></a></span>
+							style="color: #fff;"><small > View all hours</small></a></span>
 					</div>
 				</div>
 			</div>
@@ -107,7 +114,7 @@
 		<!-- Footer starts -->
 		<footer role="footer">
 			<ul class="footer-note">
-				<li><i class="far fa-copyright"></i> Copyright 2020</li>
+				<li><i class="far fa-copyright"></i> Copyright <span id="year"></span></li>
 				<li><a href="https://library.okstate.edu/"> Digital
 						Resources and Discovery Services &mdash; Edmon Low Library</a></li>
 				<li><a href="https://go.okstate.edu/">Oklahoma State
@@ -198,8 +205,6 @@
 	<!-- Font Awesome scripts -->
 	<script defer
 		src="https://use.fontawesome.com/releases/v5.0.13/js/all.js"></script>
-
-
 
 </body>
 </html>

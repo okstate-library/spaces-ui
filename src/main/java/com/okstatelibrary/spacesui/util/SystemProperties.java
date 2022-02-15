@@ -49,16 +49,16 @@ public class SystemProperties {
 		this.metadataEntityId = metadataEntityId;
 	}
 
-	String categoryId;
-
-	public String getCategoryId() {
-		return categoryId;
-	}
-
-	public void setCategoryId(String categoryId) {
-		this.categoryId = categoryId;
-	}
-
+//	String categoryId;
+//
+//	public String getCategoryId() {
+//		return categoryId;
+//	}
+//
+//	public void setCategoryId(String categoryId) {
+//		this.categoryId = categoryId;
+//	}
+//
 	String locationId;
 
 	public String getLocationId() {

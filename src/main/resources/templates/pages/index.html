@@ -9,12 +9,27 @@
 		<div class="banner" style="padding: .75rem 0;">
 
 			<div class="grid-container">
-				<!--
-					<h5>
-						<strong>Reserve a Study Room for</strong>
-						</h5>
-				-->
+				
 				<form id="dp-form" method="post" th:action="@{/}">
+					
+					
+					
+					<div class="grid-x" th:if=" ${hideCategorySelection} =='false'">
+						<div class="cell small-4 medium-4">
+							<label> <strong>Location: </strong> <select
+								name="category" id="locationDropDown"
+								onchange="this.form.submit()">
+									<option th:each="dropDownItem : ${categories}"
+										th:value="${dropDownItem.key}"
+										th:selected="${dropDownItem.key} == *{selectedCategory}"
+										th:text="${dropDownItem.value}" />
+							</select>
+
+							</label>
+
+						</div>
+					</div>
+					
 					<div class="grid-x">
 						<div class="cell small-8 medium-3">
 							<label> <strong>Date: </strong> <input type="text"
@@ -35,7 +50,7 @@
 							</label>
 						</div>
 
-						<div
+						<div th:if=" ${hidefloorselection} =='false'"
 							class="cell small-8 medium-3 xmedium-offset-1 hide-for-small-only">
 							<label> <strong>Floor: </strong> <select name="floor"
 								id="floorDropDown" onchange="this.form.submit()">
@@ -95,8 +110,9 @@
 					<div data-th-each="room : ${spaceList}" class=" room-item">
 
 
-						<div th:if="${selectedRoomId == null} ? true : ${selectedRoomId == room.id}">
-						
+						<div
+							th:if="${selectedRoomId == null} ? true : ${selectedRoomId == room.id}">
+
 							<div class="grid-x">
 								<div class="cell small-12">
 									<p class="room-name-title">

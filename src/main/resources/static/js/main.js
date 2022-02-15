@@ -3,6 +3,8 @@ $(document).foundation();
 var dateToday = new Date();
 dateToday.setDate(dateToday.getDate() - 1);
 
+document.getElementById("year").innerHTML = new Date().getFullYear();
+
 $(document).ready(function() {
 
 	$('#date').fdatepicker({
@@ -16,6 +18,8 @@ $(document).ready(function() {
 	$('#seatsDropDown').on('change', function() {
 		$("#dp-form").submit();
 	});
+	
+
 });
 
 var selectedSlots = [];
@@ -203,6 +207,7 @@ function storeSelection() {
 
 }
 
+
 // Booking page
 function bookingPageLoad() {
 
@@ -211,7 +216,7 @@ function bookingPageLoad() {
 	if (roomId === undefined || roomId === null) {
 		document.getElementById("bookingCard").style.display = "none";
 	} else {
-
+		
 		document.getElementById("bookingCard").style.visibility = "visible";
 
 		var roomName = sessionStorage.getItem("roomName");

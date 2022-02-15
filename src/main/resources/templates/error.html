@@ -35,8 +35,10 @@
 								<dd>
 									<p>
 										The problem might be temporary. Wait a few minutes and please
-										<strong><a href="https://spaces.library.okstate.edu">try
-												again</a></strong>.
+										<strong> <a th:href="@{/}  + ${categoryAttribute}">
+												try again</a>
+
+										</strong>.
 									</p>
 									<p>If you continue to receive this error please contact OSU
 										Library Circulation Desk.</p>
@@ -58,8 +60,10 @@
 
 								<dt>Please Try Again</dt>
 								<dd>
-									<strong><a href="https://spaces.library.okstate.edu">Start
-											over</a></strong> and select a different room or time.
+									<strong> <a th:href="@{/}  + ${categoryAttribute}">
+											Start over</a>
+
+									</strong> and select a different room or time.
 								</dd>
 							</dl>
 
@@ -68,8 +72,11 @@
 							<dl class="error-cta-list" th:case="303">
 								<dt>Select a Different Day</dt>
 								<dd>
-									<strong><a href="https://spaces.library.okstate.edu">Start
-											over</a></strong> and select a different <em>date</em>.
+									<strong> <a th:href="@{/}  + ${categoryAttribute}">
+											Start over</a></strong> and select a different <em>date</em>.
+
+									<!-- 	<a href="https://spaces.library.okstate.edu">Start
+											over</a></strong> and select a different <em>date</em>. -->
 								</dd>
 							</dl>
 
@@ -95,7 +102,7 @@
 								<dd>
 									Please review the <strong><a
 										href="https://info.library.okstate.edu/studyrooms/policies">Study
-											Room Policies</a></strong>.
+											Room Policies</a>.</strong>
 								</dd>
 
 							</dl>
@@ -108,8 +115,9 @@
 								<dd>
 									<p>
 										The problem might be temporary. Wait a few minutes and please
-										<strong><a href="https://spaces.library.okstate.edu">try
-												again</a></strong>.
+										<strong> <a th:href="@{/}  + ${categoryAttribute}">
+												try again </a>
+										</strong>.
 									</p>
 									<p>If you continue to receive this error please contact OSU
 										Library Circulation Desk.</p>

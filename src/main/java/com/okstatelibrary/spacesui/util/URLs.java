@@ -22,7 +22,7 @@ public class URLs {
 	public static final String GET_ROOM_DETAILS_URL = SPACES_BASE_URL + "item/";
 
 	public static final String POST_ROOM_CANCEL_URL = SPACES_BASE_URL + "cancel/";
-
+	
 	public static final String GET_LOCATION_HOURS_URL = SPRINGSHARE_API_BASE_URL + "hours/";
 
 	public static String getSpacesURL(String roomidList, String date) {

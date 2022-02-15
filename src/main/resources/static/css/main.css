@@ -369,9 +369,6 @@ dl.error-cta-list {
 	line-height: 1.4;
 }
 
-hours {
+.hours {
 	font-size: 21px;
-}
-
-@media screen and (max-width: 39.9375em) {
 }
