@@ -336,7 +336,9 @@ public class HomeController {
 
 			Map<String, String> seatList = edmonLowSeatList;
 			Map<String, String> categoryList = edmonLowCategoryList;
+			
 			model.addAttribute("hideCategorySelection", "false");
+			model.addAttribute("hidefloorselection", "false");
 
 			if (roomName != null && !roomName.isEmpty()) {
 
@@ -346,6 +348,8 @@ public class HomeController {
 
 					categoryName = creativeStudioURLId;
 
+					model.addAttribute("hidefloorselection", "true");
+					
 				} else if (roomName.equals(vetMedURLID)) {
 					selectedCategory = vetMedCategoryNumber;
 					seatList = vetMedSeatList;
@@ -355,6 +359,7 @@ public class HomeController {
 					categoryList = vetMedCategoryList;
 
 					model.addAttribute("hideCategorySelection", "true");
+					model.addAttribute("hidefloorselection", "true");
 				}
 
 			}
@@ -460,7 +465,8 @@ public class HomeController {
 			String categoryName = "";
 
 			model.addAttribute("hideCategorySelection", "false");
-
+			model.addAttribute("hidefloorselection", "false");
+			
 			Map<String, String> seatList = edmonLowSeatList;
 			Map<String, String> categoryList = edmonLowCategoryList;
 

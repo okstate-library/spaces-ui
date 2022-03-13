@@ -35,7 +35,8 @@
 								<dd>
 									<p>
 										The problem might be temporary. Wait a few minutes and please
-										<strong> <a th:href="@{/}  + ${categoryAttribute}">
+										<strong> <a
+											th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
 												try again</a>
 
 										</strong>.
@@ -60,7 +61,7 @@
 
 								<dt>Please Try Again</dt>
 								<dd>
-									<strong> <a th:href="@{/}  + ${categoryAttribute}">
+									<strong> <a th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
 											Start over</a>
 
 									</strong> and select a different room or time.
@@ -72,7 +73,7 @@
 							<dl class="error-cta-list" th:case="303">
 								<dt>Select a Different Day</dt>
 								<dd>
-									<strong> <a th:href="@{/}  + ${categoryAttribute}">
+									<strong> <a th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
 											Start over</a></strong> and select a different <em>date</em>.
 
 									<!-- 	<a href="https://spaces.library.okstate.edu">Start
@@ -115,7 +116,8 @@
 								<dd>
 									<p>
 										The problem might be temporary. Wait a few minutes and please
-										<strong> <a th:href="@{/}  + ${categoryAttribute}">
+										<strong> <a 
+										th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
 												try again </a>
 										</strong>.
 									</p>
