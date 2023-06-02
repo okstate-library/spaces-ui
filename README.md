@@ -2,7 +2,9 @@
 
 Spring Boot/ Spring Security/ REST/ JavaScript/ Single Sign On (Central Authentication System)
 
-The project simulates a web application that enables patrons to perform all operations in Springshare Spaces. The application uses Springshare Spaces API and Apereo Single Sign-On to authenticate users when reserving rooms.
+The project simulates a web application that enables patrons to perform all operations in [Springshare LibCal Spaces]( https://springshare.com/libcal/ "Springshare LibCal Spaces"). The application uses Springshare Spaces API and Apereo Single Sign-On to authenticate users when reserving rooms.
+
+
 
 ## Things to run the application.
 
