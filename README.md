@@ -73,3 +73,7 @@ java -jar target/spaces-ui-1.0.1.RELEASE
 ```
 
 Check the URL "http://localhost:8080".
+
+## OKState Libraries would also appreciate recognition if you use this code.
+
+If need any help( feature development | build | hosting ) contact our developers
