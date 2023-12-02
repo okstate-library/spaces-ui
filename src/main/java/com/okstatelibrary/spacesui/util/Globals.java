@@ -70,8 +70,8 @@ public class Globals {
 		return categoryList;
 	}
 
-	public String getCategory(String categotyId) {
-		return this.categoryList.get(categotyId);
+	public static String getCategory(String categotyId) {
+		return categoryList.get(categotyId);
 	}
 
 	private List<Room> roomList;

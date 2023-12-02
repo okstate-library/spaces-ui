@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -15,6 +14,7 @@ import java.util.Set;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang3.StringUtils;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,6 +44,7 @@ import com.okstatelibrary.spacesui.stereotypes.CurrentUser;
 import com.okstatelibrary.spacesui.util.DateTimeUtil;
 import com.okstatelibrary.spacesui.util.Globals;
 import com.okstatelibrary.spacesui.util.Messages;
+import com.okstatelibrary.spacesui.util.RibbonMessage;
 import com.okstatelibrary.spacesui.util.URLs;
 
 /**
@@ -316,6 +317,15 @@ public class HomeController {
 	public String index(@PathVariable(name = "id", required = false) String roomName, HttpServletRequest request,
 			Model model) throws JsonParseException, JsonMappingException, RestClientException, IOException,
 			JSONException, ParseException {
+		
+		if (!StringUtils.isBlank(RibbonMessage.message)) {
+			model.addAttribute("ribbonmessagevisibility", "show");
+			model.addAttribute("ribbonmessage", RibbonMessage.message);
+			model.addAttribute("messageclass", "ribbon-" + RibbonMessage.messageType);
+		}
+
+		// "Please be aware that building construction noise may be disruptive.
+		// Construction activity takes place Mon-Fri between 8 a.m. and 5 p.m.");
 
 		globalSetup();
 
@@ -336,7 +346,7 @@ public class HomeController {
 
 			Map<String, String> seatList = edmonLowSeatList;
 			Map<String, String> categoryList = edmonLowCategoryList;
-			
+
 			model.addAttribute("hideCategorySelection", "false");
 			model.addAttribute("hidefloorselection", "false");
 
@@ -349,7 +359,7 @@ public class HomeController {
 					categoryName = creativeStudioURLId;
 
 					model.addAttribute("hidefloorselection", "true");
-					
+
 				} else if (roomName.equals(vetMedURLID)) {
 					selectedCategory = vetMedCategoryNumber;
 					seatList = vetMedSeatList;
@@ -408,8 +418,6 @@ public class HomeController {
 			model.addAttribute("categories", categoryList);
 			model.addAttribute("selectedCategory", selectedCategory);
 
-			model.addAttribute("location_status", getLocationHours(accessToken, DateTimeUtil.getTodayDate()));
-
 			HttpSession session = request.getSession();
 			session.setMaxInactiveInterval(300);
 
@@ -444,7 +452,6 @@ public class HomeController {
 
 		try {
 
-
 			if (date.isEmpty() || date == null) {
 
 				date = DateTimeUtil.getTodayDate();
@@ -466,7 +473,7 @@ public class HomeController {
 
 			model.addAttribute("hideCategorySelection", "false");
 			model.addAttribute("hidefloorselection", "false");
-			
+
 			Map<String, String> seatList = edmonLowSeatList;
 			Map<String, String> categoryList = edmonLowCategoryList;
 
@@ -505,8 +512,6 @@ public class HomeController {
 			model.addAttribute("spaceList", spaceItems);
 
 			model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0) + roomsFoundLabelString);
-
-			model.addAttribute("location_status", getLocationHours(getAccessTokenFromRequest(), date));
 
 			HttpSession session = request.getSession();
 			session.setMaxInactiveInterval(300);
@@ -637,7 +642,7 @@ public class HomeController {
 			BookedItem[] bookingItems = spaceService.getBookedItems(getAccessTokenFromRequest(),
 					URLs.GET_BOOKING_DETAILS_URL + bookingId);
 
-			category = globalsInstance.getCategory(bookingItems[0].getCid());
+			category = Globals.getCategory(bookingItems[0].getCid());
 
 			CancelConfirmation[] cancelConfirmation = spaceService.cancel(getAccessTokenFromRequest(),
 					URLs.POST_ROOM_CANCEL_URL + bookingId);
@@ -861,7 +866,7 @@ public class HomeController {
 				model.addAttribute("summaryModel", bookedItem);
 				model.addAttribute("isBooked", isBooked);
 
-				category = globalsInstance.getCategory(bookedItem.getCid());
+				category = Globals.getCategory(bookedItem.getCid());
 			}
 		}
 
@@ -894,7 +899,10 @@ public class HomeController {
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException,
 			ParseException {
 
-		System.out.println("category" + category);
+		System.out.println("category - " + category);
+		System.out.println("Date - " + date);
+		System.out.println("getFloor - " + floor);
+		System.out.println("getSeat - " + seats);
 
 		int seatsCount = Integer.parseInt(seats);
 
@@ -995,59 +1003,6 @@ public class HomeController {
 		}
 
 		return -1;
-	}
-
-	private String getLocationHours(String accessToken, String date)
-			throws JSONException, JsonParseException, JsonMappingException, RestClientException, IOException {
-
-		String locationHours = "Closed";
-
-		try {
-
-			String url = URLs.GET_LOCATION_HOURS_URL + systemProperties.getLocationId() + "?&from=" + date + "&to="
-					+ date;
-
-			Location[] hoursJson = spaceService.getHours(accessToken, url);
-
-			if (hoursJson.length > 0) {
-				org.json.JSONObject object = new org.json.JSONObject(hoursJson[0].getDates().toString());
-
-				Iterator<?> keys = object.keys();
-
-				while (keys.hasNext()) {
-					// loop to get the dynamic key
-					String currentDynamicKey = (String) keys.next();
-
-					// get the value of the dynamic key
-					org.json.JSONObject currentDynamicValue = object.getJSONObject(currentDynamicKey);
-
-					String status = currentDynamicValue.getString("status");
-
-					if (status.equalsIgnoreCase("open")) {
-						org.json.JSONArray hours = currentDynamicValue.getJSONArray("hours");
-
-						String hour_string = hours.getJSONObject(0).getString("from") + " - "
-								+ hours.getJSONObject(0).getString("to");
-
-						locationHours = hour_string;
-					} else if (status.equalsIgnoreCase("24hours")) {
-
-						locationHours = "24 hours";
-					} else if (status.equalsIgnoreCase("text")) {
-						locationHours = currentDynamicValue.getString("text");
-
-					}
-				}
-			}
-		} catch (Exception e) {
-			// do something clever with the exception
-			System.out.println(e.getMessage());
-			System.out.println("No Hour details avaliable");
-
-			locationHours = null;
-		}
-
-		return locationHours;
 	}
 
 	/**

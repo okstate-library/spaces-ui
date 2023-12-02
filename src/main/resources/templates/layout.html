@@ -29,6 +29,10 @@
 	<!-- Main starts -->
 	<div role="main">
 
+		<div id="bar" th:if="'show'  == ${ribbonmessagevisibility}"
+			class="ribbonclass" th:classappend="${messageclass}"
+			th:text="${ribbonmessage} + ' (click to close)'"></div>
+
 		<div class="xy-branding">
 
 			<div class="grid-container">
@@ -47,19 +51,7 @@
 							</p>
 						</div>
 					</div>
-					<!-- cell small-6 todays-hours -->
-					<div
-						class="cell small-6 todays-hours hide-for-small-only hide-for-medium-only">
-						<span th:if="${dateString ne null}" class="hours_heading">
-							[[${dateString}]] hours</span> <br> 
-							
-							<span
-							th:if="location_status != ''" class="hours">
-							[[${location_status}]] </span><br> <span><a
-							th:if="${location_status ne null}" 
-							href="https://library.okstate.edu/about/hours" target="_blank"
-							style="color: #fff;"><small > View all hours</small></a></span>
-					</div>
+
 				</div>
 			</div>
 		</div>
@@ -83,8 +75,16 @@
 						<ul class="vertical medium-horizontal menu">
 							<li class="menu-text make-125px hide-for-small-only">&nbsp;</li>
 							<li><a href="https://library.okstate.edu">Home</a></li>
+							<li><a
+								href="https://forms.library.okstate.edu/machform/view.php?id=181450">Room
+									for Testing</a></li>
+							<li><a
+								href="https://info.library.okstate.edu/lactationspace">Lactation
+									Space</a></li>
 						</ul>
+
 					</div>
+
 					<div class="top-bar-right">
 						<ul class="vertical medium-horizontal  menu">
 							<li><a href="https://library.okstate.edu/chat">Chat</a></li>

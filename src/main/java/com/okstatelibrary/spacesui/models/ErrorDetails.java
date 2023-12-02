@@ -25,6 +25,12 @@ public class ErrorDetails {
 			// has a limit of 2 hours between bookings.
 			this.setErrorId("305");
 		}
+		else if (errors.contains("this exceeds the 2 booking at a time limit in this category.")) {
+			// This booking is too close to a previous booking you have made. This category
+			// has a limit of 2 hours between bookings.
+			this.setErrorId("304");
+		}
+		
 
 	}
 

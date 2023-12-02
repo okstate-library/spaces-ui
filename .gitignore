@@ -55,3 +55,5 @@ src/main/resources/application-prod-test.properties
 
 src/main/resources/keystore.jks
 src/main/resources/21_22_library_wildcard.jks
+src/main/resources/22_23_library_wildcard.jks
+src/main/resources/23_24_library_wildcard.jks

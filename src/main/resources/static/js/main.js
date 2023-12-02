@@ -19,6 +19,13 @@ $(document).ready(function() {
 		$("#dp-form").submit();
 	});
 	
+	$("document").ready( function () {
+	    $('#bar').css("display","block");
+	});
+
+	$('#bar').click(function() {
+	      $('#bar').css("display","none");
+	});
 
 });
 

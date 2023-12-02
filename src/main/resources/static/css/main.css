@@ -372,3 +372,21 @@ dl.error-cta-list {
 .hours {
 	font-size: 21px;
 }
+
+.ribbonclass {
+	display: none;
+	width: 100%;
+	text-align: center;
+	height: 5%;
+	padding: 10px;
+}
+
+.ribbon-warn {
+	background-color: red;
+}
+
+.ribbon-info {
+	background-color: orange;
+}
+
+}
