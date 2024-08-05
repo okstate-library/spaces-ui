@@ -74,6 +74,16 @@ mvn clean build
 java -jar target/spaces-ui-1.0.1.RELEASE
 ```
 
+###### Run with warning Ribbon 
+```
+java -jar target/spaces-ui-1.0.1.RELEASE -Dmtype=warn -Dmsg="Warning messaage" 
+```
+
+###### Run with info Ribbon 
+```
+java -jar target/spaces-ui-1.0.1.RELEASE -Dmtype=info -Dmsg="Info messaage" 
+```
+
 Check the URL "http://localhost:8080".
 
 ## OKState Libraries would also appreciate recognition if you use this code.
