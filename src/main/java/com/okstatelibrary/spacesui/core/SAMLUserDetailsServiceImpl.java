@@ -33,9 +33,8 @@ public class SAMLUserDetailsServiceImpl implements SAMLUserDetailsService {
 	 */
 	HttpServletRequest request;
 
-	
 	/**
-	 * Load the user based on SAML 
+	 * Load the user based on SAML
 	 */
 	public Object loadUserBySAML(SAMLCredential credential) throws UsernameNotFoundException {
 
@@ -48,6 +47,14 @@ public class SAMLUserDetailsServiceImpl implements SAMLUserDetailsService {
 				.getRequest();
 
 		HttpSession session = request.getSession();
+
+		// Getting the Attribute values and print
+		// for (Attribute att : credential.getAttributes()) {
+		//
+		// System.out.println(att.getName() + " " + att.getFriendlyName());
+		//
+		// System.out.println(credential.getAttributeAsString(att.getName()));
+		// }
 
 		String cwid = credential.getAttributeAsString("cwid");
 		String mail = credential.getAttributeAsString("urn:oid:0.9.2342.19200300.100.1.3");

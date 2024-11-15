@@ -62,10 +62,9 @@ public class SAMLUser {
 		this.email = email;
 	}
 
-
 	public void print() {
-		 System.out.println( this.userId + "--" + this.cwid + "--" +  this.firstName + "--" + this.email);
-		
+		System.out.println(this.userId + "--" + this.cwid + "--" + this.firstName + "--" + this.email);
+
 	}
 
 }

@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SAMLUserList {
 
 	private static SAMLUserList mInstance;
-	private ArrayList<SAMLUser> list = null;
+	public ArrayList<SAMLUser> list = null;
 
 	public static SAMLUserList getInstance() {
 		if (mInstance == null)
@@ -72,6 +72,16 @@ public class SAMLUserList {
 		}
 
 	}
+
+	public ArrayList<SAMLUser> getUserArray() {
+
+		return list;
+	}
+
+//	public void clean() {
+//
+//		list = null;
+//	}
 
 	public SAMLUser findBySessionId(String sessionId) {
 		return list.stream().filter(samlUser -> sessionId.equals(samlUser.getUserId())).findFirst().orElse(null);

@@ -61,7 +61,8 @@
 
 								<dt>Please Try Again</dt>
 								<dd>
-									<strong> <a th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
+									<strong> <a
+										th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
 											Start over</a>
 
 									</strong> and select a different room or time.
@@ -73,7 +74,8 @@
 							<dl class="error-cta-list" th:case="303">
 								<dt>Select a Different Day</dt>
 								<dd>
-									<strong> <a th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
+									<strong> <a
+										th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
 											Start over</a></strong> and select a different <em>date</em>.
 
 									<!-- 	<a href="https://spaces.library.okstate.edu">Start
@@ -108,6 +110,18 @@
 
 							</dl>
 
+							<!-- User checking in Sign sign on first and then check with the FOLIO before entering to the application -->
+							<dl class="error-cta-list" th:case="306">
+								<dt>Our system does not recognize you as a current student
+									or employee. Please contact lib-cir@okstate.edu with any
+									questions.</dt>
+								<dd>
+									Please review the <strong><a
+										href="https://info.library.okstate.edu/studyrooms/policies">Study
+											Room Policies</a>.</strong>
+								</dd>
+
+							</dl>
 
 
 							<!-- Unidentified error -->
@@ -116,8 +130,8 @@
 								<dd>
 									<p>
 										The problem might be temporary. Wait a few minutes and please
-										<strong> <a 
-										th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
+										<strong> <a
+											th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
 												try again </a>
 										</strong>.
 									</p>

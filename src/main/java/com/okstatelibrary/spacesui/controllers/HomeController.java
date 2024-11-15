@@ -3,6 +3,7 @@ package com.okstatelibrary.spacesui.controllers;
 
 import java.io.IOException;
 import java.text.ParseException;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -27,6 +28,7 @@ import org.springframework.security.saml.metadata.MetadataManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,10 +37,9 @@ import org.springframework.web.client.RestClientException;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.okstatelibrary.spacesui.models.AccessToken;
-import com.okstatelibrary.spacesui.models.Availability;
 import com.okstatelibrary.spacesui.models.*;
 import com.okstatelibrary.spacesui.services.AccessTokenService;
+import com.okstatelibrary.spacesui.services.FolioService;
 import com.okstatelibrary.spacesui.services.SpacesService;
 import com.okstatelibrary.spacesui.stereotypes.CurrentUser;
 import com.okstatelibrary.spacesui.util.DateTimeUtil;
@@ -74,6 +75,12 @@ public class HomeController {
 	 */
 	@Autowired
 	SpacesService spaceService;
+
+	/**
+	 * Folio services
+	 */
+	@Autowired
+	FolioService folioService;
 
 	/**
 	 * Metadata Manager class
@@ -317,7 +324,7 @@ public class HomeController {
 	public String index(@PathVariable(name = "id", required = false) String roomName, HttpServletRequest request,
 			Model model) throws JsonParseException, JsonMappingException, RestClientException, IOException,
 			JSONException, ParseException {
-		
+
 		if (!StringUtils.isBlank(RibbonMessage.message)) {
 			model.addAttribute("ribbonmessagevisibility", "show");
 			model.addAttribute("ribbonmessage", RibbonMessage.message);
@@ -576,9 +583,14 @@ public class HomeController {
 	 * @param user
 	 * @param model
 	 * @return
+	 * @throws IOException
+	 * @throws RestClientException
+	 * @throws JsonMappingException
+	 * @throws JsonParseException
 	 */
 	@RequestMapping("/landing")
-	public String landing(HttpServletRequest request, @CurrentUser User user, Model model) {
+	public String landing(HttpServletRequest request, @CurrentUser User user, Model model)
+			throws JsonParseException, JsonMappingException, RestClientException, IOException {
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -602,13 +614,18 @@ public class HomeController {
 		System.out.println("session.getAttribute(sessionCategoryAttributeName) - "
 				+ session.getAttribute(sessionCategoryAttributeName));
 
-		model.addAttribute("firstName", samlUser.getFirstName());
-		model.addAttribute("lastName", samlUser.getLastName());
-		model.addAttribute("email", samlUser.getEmail());
-		model.addAttribute("cwid", samlUser.getCwid());
-		model.addAttribute(modelCategoryAttributeName, session.getAttribute(sessionCategoryAttributeName));
+		if (folioService.isUserExists(samlUser.getCwid())) {
 
-		return "pages/booking";
+			model.addAttribute("firstName", samlUser.getFirstName());
+			model.addAttribute("lastName", samlUser.getLastName());
+			model.addAttribute("email", samlUser.getEmail());
+			model.addAttribute("cwid", samlUser.getCwid());
+			model.addAttribute(modelCategoryAttributeName, session.getAttribute(sessionCategoryAttributeName));
+
+			return "pages/booking";
+		} else {
+			return "redirect:/errorp/306";
+		}
 	}
 
 	/**
@@ -786,6 +803,8 @@ public class HomeController {
 				errorMessage = Messages.ERROR_BOOKING_EXCEED_DAYIL_ROOM_LIMIT;
 			} else if (id.equals("305")) {
 				errorMessage = Messages.ERROR_BOOKING_RESERVATION_WITHIN_TWO_HOURS;
+			} else if (id.equals("306")) {
+				errorMessage = Messages.ERROR_USER_UNAUTHORIZE;
 			}
 
 			model.addAttribute("errorMessageId", id);
@@ -1027,6 +1046,37 @@ public class HomeController {
 		} else {
 			return null;
 		}
+	}
+
+	@RequestMapping(value = { "/session-count" })
+	public String getSessions(HttpServletRequest request, Model model) {
+		ArrayList<SAMLUser> sessions = SAMLUserList.getInstance().getUserArray();
+
+		model.addAttribute("sysSessions", sessions);
+
+		return "pages/sessions";
+	}
+
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/clean", method = RequestMethod.POST)
+	public String clean(HttpServletRequest request, Model model) {
+
+		SAMLUserList samlUserList = SAMLUserList.getInstance();
+
+		if (samlUserList != null) {
+			ArrayList<SAMLUser> sessions = samlUserList.getUserArray();
+
+			if (sessions != null && sessions.size() > 0) {
+				for (SAMLUser session : sessions) {
+					samlUserList.removeFromArray(session);
+				}
+			}
+
+		}
+
+		// SAMLUserList.getInstance().clean();
+
+		return "redirect:/session-count";
 	}
 
 }
