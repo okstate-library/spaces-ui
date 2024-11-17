@@ -55,13 +55,14 @@
 													<tr>
 														<th>ID</th>
 														<th>Name</th>
-
+														<th>Date Time</th>
 													</tr>
 												</thead>
 												<tbody>
 													<tr data-th-each="sysSession : ${sysSessions}">
 														<td data-th-text="${sysSession.cwid}">...</td>
 														<td data-th-text="${sysSession.firstName}">...</td>
+														<td data-th-text="${sysSession.currentTime}">...</td>
 													</tr>
 												</tbody>
 											</table>

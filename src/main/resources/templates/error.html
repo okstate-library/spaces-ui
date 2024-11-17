@@ -35,24 +35,12 @@
 								<dd>
 									<p>
 										The problem might be temporary. Wait a few minutes and please
-										<strong> <a
-											th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
-												try again</a>
-
-										</strong>.
+										<strong><a th:href="@{/}"> try again</a></strong>.
 									</p>
-									<p>If you continue to receive this error please contact OSU
-										Library Circulation Desk.</p>
+									<p>If you continue to receive this error please contact
+										Digital Scholarship Center Help Desk.</p>
 								</dd>
-								<!-- Removed by Whitneys request
-								<!--
-								<dt>Use our Alternate Booking Site</dt>
-								<dd>
-									Try our backup room <a
-										href="https://okstate.libcal.com/reserve/study-rooms">reservation
-										system</a>.
-								</dd>
-								-->
+
 							</dl>
 
 
@@ -61,11 +49,8 @@
 
 								<dt>Please Try Again</dt>
 								<dd>
-									<strong> <a
-										th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
-											Start over</a>
-
-									</strong> and select a different room or time.
+									<strong><a th:href="@{/}"> Start over</a></strong> and select a
+									different room or time.
 								</dd>
 							</dl>
 
@@ -74,12 +59,8 @@
 							<dl class="error-cta-list" th:case="303">
 								<dt>Select a Different Day</dt>
 								<dd>
-									<strong> <a
-										th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
-											Start over</a></strong> and select a different <em>date</em>.
-
-									<!-- 	<a href="https://spaces.library.okstate.edu">Start
-											over</a></strong> and select a different <em>date</em>. -->
+									<strong><a th:href="@{/}"> Start over</a></strong> and select a
+									different <em>date</em>.
 								</dd>
 							</dl>
 
@@ -88,11 +69,6 @@
 							<dl class="error-cta-list" th:case="304">
 								<dt>Students are limited to 2 active study room
 									reservations at one time.</dt>
-								<dd>
-									Please review the <strong><a
-										href="https://info.library.okstate.edu/studyrooms/policies">Study
-											Room Policies</a></strong>.
-								</dd>
 
 							</dl>
 
@@ -102,12 +78,6 @@
 									or after the time you are trying to book; if you are trying to
 									extend an existing reservation, please cancel the whole
 									reservation and rebook it for the full time needed.</dt>
-								<dd>
-									Please review the <strong><a
-										href="https://info.library.okstate.edu/studyrooms/policies">Study
-											Room Policies</a>.</strong>
-								</dd>
-
 							</dl>
 
 							<!-- User checking in Sign sign on first and then check with the FOLIO before entering to the application -->
@@ -115,14 +85,8 @@
 								<dt>Our system does not recognize you as a current student
 									or employee. Please contact lib-cir@okstate.edu with any
 									questions.</dt>
-								<dd>
-									Please review the <strong><a
-										href="https://info.library.okstate.edu/studyrooms/policies">Study
-											Room Policies</a>.</strong>
-								</dd>
-
+								
 							</dl>
-
 
 							<!-- Unidentified error -->
 							<dl class="error-cta-list" th:case="*">
@@ -130,13 +94,10 @@
 								<dd>
 									<p>
 										The problem might be temporary. Wait a few minutes and please
-										<strong> <a
-											th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
-												try again </a>
-										</strong>.
+										<strong><a th:href="@{/}"> try again</a></strong>.
 									</p>
-									<p>If you continue to receive this error please contact OSU
-										Library Circulation Desk.</p>
+									<p>If you continue to receive this error please contact
+										Digital Scholarship Center Help Desk.</p>
 								</dd>
 
 							</dl>
@@ -151,16 +112,23 @@
 
 						<!-- Contact information is always displayed -->
 						<dl class="error-cta-list">
+							<dt>Please review Digital Scholarship Center Study Room
+								Policies</dt>
+							<dd>
+								<strong><a
+									href="https://info.library.okstate.edu/veterinary-health-sciences/studyrooms/policies">Study
+										Room Policies</a></strong>.
+							</dd>
 							<dt>Contact Us</dt>
 							<dd>
 								<p>
-									Circulation and Information Desk<br> <strong>For
-										immediate assistance please call 405-744-9775</strong>
+									Digital Scholarship Center Help Desk<br> For immediate
+									assistance please call <strong> 405-744-9731</strong>
 								</p>
 								<p>
 									Send us an email at<br> <strong> <a
-										href="mailto:lib-cir@okstate.edu?subject=Study Room Question">lib-cir@okstate.edu</a></strong>
-									<br>Emails will answered during business hours.
+										href="mailto:lib-dsc@okstate.edu?subject=Digital Scholarship Center Study Room Question">lib-dsc@okstate.edu</a></strong>
+									<br>Emails will be answered during business hours.
 
 								</p>
 

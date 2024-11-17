@@ -3,7 +3,6 @@ package com.okstatelibrary.spacesui.controllers;
 
 import java.io.IOException;
 import java.text.ParseException;
-import java.time.Instant;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
@@ -28,7 +27,6 @@ import org.springframework.security.saml.metadata.MetadataManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -37,13 +35,14 @@ import org.springframework.web.client.RestClientException;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.okstatelibrary.spacesui.models.AccessToken;
+import com.okstatelibrary.spacesui.models.Availability;
 import com.okstatelibrary.spacesui.models.*;
 import com.okstatelibrary.spacesui.services.AccessTokenService;
 import com.okstatelibrary.spacesui.services.FolioService;
 import com.okstatelibrary.spacesui.services.SpacesService;
 import com.okstatelibrary.spacesui.stereotypes.CurrentUser;
 import com.okstatelibrary.spacesui.util.DateTimeUtil;
-import com.okstatelibrary.spacesui.util.Globals;
 import com.okstatelibrary.spacesui.util.Messages;
 import com.okstatelibrary.spacesui.util.RibbonMessage;
 import com.okstatelibrary.spacesui.util.URLs;
@@ -94,9 +93,9 @@ public class HomeController {
 	private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
 	/**
-	 * Defines the Edmon low seat count drop down list
+	 * Defines the seat count drop down list
 	 */
-	private static final Map<String, String> edmonLowSeatList = new HashMap<String, String>() {
+	private static final Map<String, String> seatList = new HashMap<String, String>() {
 		/**
 		 * Put defines data.
 		 */
@@ -104,43 +103,7 @@ public class HomeController {
 
 		{
 			put("1", "1+");
-			put("2", "2+");
-			put("4", "4+");
-			put("6", "6+");
-			put("8", "8+");
-			put("10", "10+");
-		}
-	};
-
-	/**
-	 * Defines the edmon low seat count drop down list
-	 */
-	private static final Map<String, String> creativeStuiodSeatList = new HashMap<String, String>() {
-		/**
-		 * Put defines data.
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			put("1", "1+");
-			put("3", "2+");
-
-		}
-	};
-
-	/**
-	 * Defines the edmon low seat count drop down list
-	 */
-	private static final Map<String, String> vetMedSeatList = new HashMap<String, String>() {
-		/**
-		 * Put defines data.
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			put("1", "1+");
-			put("8", "4+");
-
+			put("4", "3+");
 		}
 	};
 
@@ -157,56 +120,8 @@ public class HomeController {
 			put("0", "Any");
 			put("1", "First");
 			put("2", "Second");
-			put("3", "Third");
 		}
 	};
-
-	private static final String vetMedURLID = "vetmed";
-
-	private static final String creativeStudioURLId = "creativestudios";
-
-	private static final String sessionCategoryAttributeName = "categoryUrlId";
-
-	private static final String edmonLowLibraryCategoryNumber = "7030";
-
-	private static final String vetMedCategoryNumber = "7031";
-
-	private static final String creativeStudioCategoryNumber = "7032";
-
-	private static final String modelCategoryAttributeName = "categoryAttribute";
-
-	static Globals globalsInstance = null;
-
-	/**
-	 * Defines the categories drop down list (categories)
-	 */
-	private static final Map<String, String> edmonLowCategoryList = new HashMap<String, String>() {
-		/**
-		 * put predefine floor list
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			put(edmonLowLibraryCategoryNumber, "Edmon Low Library");
-			put(creativeStudioCategoryNumber, "Creative Studios");
-		}
-	};
-
-	/**
-	 * Defines the categories drop down list (categories)
-	 */
-	private static final Map<String, String> vetMedCategoryList = new HashMap<String, String>() {
-		/**
-		 * put predefine floor list
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			put(vetMedCategoryNumber, "Vet med");
-		}
-	};
-
-	private static final String roomsFoundLabelString = " Room(s) found...";
 
 	/**
 	 * All the time slots
@@ -269,44 +184,6 @@ public class HomeController {
 		}
 	};
 
-	private void globalSetup()
-			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
-
-		if (globalsInstance == null) {
-
-			globalsInstance = new Globals();
-
-			if (!globalsInstance.getIsProccessed()) {
-
-				Map<String, String> studyRooms = new HashMap<>();
-
-				List<Room> roomList = new ArrayList<>();
-
-				for (Map.Entry<String, String> entry : Globals.getCategorylist().entrySet()) {
-
-					Category[] categoryItems = spaceService.getRoomsByCategory(getAccessTokenFromRequest(),
-							URLs.getRoomsByCategoryURL(entry.getKey()));
-
-					studyRooms.put(entry.getKey(), categoryItems[0].getItems());
-
-					Room[] rooms = spaceService.getRoom(getAccessTokenFromRequest(),
-							URLs.GET_ROOM_DETAILS_URL + categoryItems[0].getItems());
-
-					for (Room room : rooms) {
-						roomList.add(room);
-					}
-
-				}
-
-				globalsInstance.setRoomDetails(roomList);
-
-				globalsInstance.setStudyRooms(studyRooms);
-
-				globalsInstance.setIsProccessed(true);
-			}
-		}
-	}
-
 	/**
 	 * Initial method of page loading.
 	 * 
@@ -331,11 +208,6 @@ public class HomeController {
 			model.addAttribute("messageclass", "ribbon-" + RibbonMessage.messageType);
 		}
 
-		// "Please be aware that building construction noise may be disruptive.
-		// Construction activity takes place Mon-Fri between 8 a.m. and 5 p.m.");
-
-		globalSetup();
-
 		String accessToken = getAccessTokenFromRequest();
 
 		if (accessToken == null || accessToken.isEmpty()) {
@@ -345,44 +217,10 @@ public class HomeController {
 			return "redirect:/errorp/101";
 
 		} else {
-
 			String selectedSeats = "0";
 			String selectedFloor = "0";
-			String selectedCategory = edmonLowLibraryCategoryNumber;
-			String categoryName = "";
 
-			Map<String, String> seatList = edmonLowSeatList;
-			Map<String, String> categoryList = edmonLowCategoryList;
-
-			model.addAttribute("hideCategorySelection", "false");
-			model.addAttribute("hidefloorselection", "false");
-
-			if (roomName != null && !roomName.isEmpty()) {
-
-				if (roomName.equals(creativeStudioURLId)) {
-					selectedCategory = creativeStudioCategoryNumber;
-					seatList = creativeStuiodSeatList;
-
-					categoryName = creativeStudioURLId;
-
-					model.addAttribute("hidefloorselection", "true");
-
-				} else if (roomName.equals(vetMedURLID)) {
-					selectedCategory = vetMedCategoryNumber;
-					seatList = vetMedSeatList;
-
-					categoryName = vetMedURLID;
-
-					categoryList = vetMedCategoryList;
-
-					model.addAttribute("hideCategorySelection", "true");
-					model.addAttribute("hidefloorselection", "true");
-				}
-
-			}
-
-			SpaceItem[] spaceItems = madeAvaliableTimeSlots(DateTimeUtil.getTodayDate(), selectedSeats, selectedFloor,
-					selectedCategory);
+			SpaceItem[] spaceItems = madeAvaliableTimeSlots(DateTimeUtil.getTodayDate(), selectedSeats, selectedFloor);
 
 			model.addAttribute("spaceList", spaceItems);
 
@@ -390,8 +228,6 @@ public class HomeController {
 
 			int roomCount = 0;
 			String roomId = null;
-
-			System.out.println("Room Name" + roomName);
 
 			if (spaceItems != null) {
 
@@ -413,22 +249,20 @@ public class HomeController {
 
 			}
 
-			model.addAttribute("totalRooms", roomCount + roomsFoundLabelString);
+			model.addAttribute("totalRooms", roomCount + " Rooms found...");
 			model.addAttribute("selectedRoomId", roomId);
 
 			model.addAttribute("seats", seatList);
 			model.addAttribute("selectedSeat", selectedSeats);
 
 			model.addAttribute("floors", floorList);
-			model.addAttribute("selectedFloor", selectedFloor);
+			// model.addAttribute("selectedFloor", selectedFloor);
 
-			model.addAttribute("categories", categoryList);
-			model.addAttribute("selectedCategory", selectedCategory);
+			// model.addAttribute("location_status", getLocationHours(accessToken,
+			// DateTimeUtil.getTodayDate()));
 
 			HttpSession session = request.getSession();
 			session.setMaxInactiveInterval(300);
-
-			session.setAttribute(sessionCategoryAttributeName, categoryName);
 
 			return "pages/index";
 		}
@@ -453,12 +287,11 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String index(HttpServletRequest request, @ModelAttribute("date") String date,
-			@ModelAttribute("seats") String seats, @ModelAttribute("floor") String floor,
-			@ModelAttribute("category") String category, Model model) throws JsonParseException, JsonMappingException,
-			RestClientException, IOException, JSONException, ParseException {
+			@ModelAttribute("seats") String seats, @ModelAttribute("floor") String floor, Model model)
+			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException,
+			ParseException {
 
 		try {
-
 			if (date.isEmpty() || date == null) {
 
 				date = DateTimeUtil.getTodayDate();
@@ -472,58 +305,25 @@ public class HomeController {
 				floor = "0";
 			}
 
-			if (category.isEmpty() || category == null) {
-				category = vetMedCategoryNumber;
-			}
+			SpaceItem[] spaceItems = madeAvaliableTimeSlots(date, seats, floor);
 
-			String categoryName = "";
-
-			model.addAttribute("hideCategorySelection", "false");
-			model.addAttribute("hidefloorselection", "false");
-
-			Map<String, String> seatList = edmonLowSeatList;
-			Map<String, String> categoryList = edmonLowCategoryList;
-
-			if (category.equals(edmonLowLibraryCategoryNumber)) {
-				model.addAttribute("hidefloorselection", "false");
-
-			} else if (category.equals(vetMedCategoryNumber)) {
-				seatList = vetMedSeatList;
-				categoryList = vetMedCategoryList;
-
-				model.addAttribute("hidefloorselection", "true");
-				model.addAttribute("hideCategorySelection", "true");
-				floor = "0";
-
-				categoryName = vetMedURLID;
-			} else if (category.equals(creativeStudioCategoryNumber)) {
-				seatList = creativeStuiodSeatList;
-
-				model.addAttribute("hidefloorselection", "true");
-				categoryName = creativeStudioURLId;
-			}
+			model.addAttribute("spaceList", spaceItems);
 
 			model.addAttribute("dateString", date);
+
+			model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0) + " Rooms found...");
 
 			model.addAttribute("seats", seatList);
 			model.addAttribute("selectedSeat", seats);
 
 			model.addAttribute("floors", floorList);
-			model.addAttribute("selectedFloor", floor);
+			// model.addAttribute("selectedFloor", floor);
 
-			model.addAttribute("categories", categoryList);
-			model.addAttribute("selectedCategory", category);
-
-			SpaceItem[] spaceItems = madeAvaliableTimeSlots(date, seats, floor, category);
-
-			model.addAttribute("spaceList", spaceItems);
-
-			model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0) + roomsFoundLabelString);
+			// model.addAttribute("location_status",
+			// getLocationHours(getAccessTokenFromRequest(), date));
 
 			HttpSession session = request.getSession();
 			session.setMaxInactiveInterval(300);
-
-			session.setAttribute(sessionCategoryAttributeName, categoryName);
 
 			return "pages/index";
 
@@ -611,16 +411,14 @@ public class HomeController {
 			return "redirect:/"; // Redirects to home page.
 		}
 
-		System.out.println("session.getAttribute(sessionCategoryAttributeName) - "
-				+ session.getAttribute(sessionCategoryAttributeName));
-
 		if (folioService.isUserExists(samlUser.getCwid())) {
 
 			model.addAttribute("firstName", samlUser.getFirstName());
 			model.addAttribute("lastName", samlUser.getLastName());
 			model.addAttribute("email", samlUser.getEmail());
 			model.addAttribute("cwid", samlUser.getCwid());
-			model.addAttribute(modelCategoryAttributeName, session.getAttribute(sessionCategoryAttributeName));
+			// model.addAttribute(modelCategoryAttributeName,
+			// session.getAttribute(sessionCategoryAttributeName));
 
 			return "pages/booking";
 		} else {
@@ -646,20 +444,12 @@ public class HomeController {
 	public String cancel(@ModelAttribute("bookingId") String bookingId, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
-		String category = "";
-
 		if (bookingId.isEmpty() || bookingId == null) {
 
 			model.addAttribute("summaryModel", null);
 			model.addAttribute("errorMessage", Messages.ERROR_BOOKING_SOMETING_WENT_WRONG);
 
 		} else {
-
-			// Get the booking information for redirection after cancel process.
-			BookedItem[] bookingItems = spaceService.getBookedItems(getAccessTokenFromRequest(),
-					URLs.GET_BOOKING_DETAILS_URL + bookingId);
-
-			category = Globals.getCategory(bookingItems[0].getCid());
 
 			CancelConfirmation[] cancelConfirmation = spaceService.cancel(getAccessTokenFromRequest(),
 					URLs.POST_ROOM_CANCEL_URL + bookingId);
@@ -673,10 +463,7 @@ public class HomeController {
 				model.addAttribute("summaryModel", null);
 				model.addAttribute("errorMessage", Messages.SUCESS_BOOKING_CANCEL);
 			}
-
 		}
-
-		model.addAttribute(modelCategoryAttributeName, category);
 
 		return "pages/summary";
 	}
@@ -726,12 +513,10 @@ public class HomeController {
 
 		SAMLUser samlUser = SAMLUserList.getInstance().getSAMLUser(session.getId());
 
-//		System.out.println("roomNumber - " + roomNumber);
-//		System.out.println("bookDate - " + bookDate);
-//		System.out.println("startTime - " + startTime);
-//		System.out.println("endTime ID - " + endTime);
-//
-//		System.out.println("categoryUrlId - " + session.getAttribute(sessionCategoryAttributeName));
+		System.out.println("roomNumber - " + roomNumber);
+		System.out.println("bookDate - " + bookDate);
+		System.out.println("startTime - " + startTime);
+		System.out.println("endTime ID - " + endTime);
 
 		if (!roomNumber.isEmpty() && !bookDate.isEmpty() && !startTime.isEmpty() && !endTime.isEmpty()) {
 
@@ -782,12 +567,11 @@ public class HomeController {
 	 * @throws JSONException
 	 */
 	@RequestMapping(value = { "/errorp", "/errorp/{id}" })
-	public String error(HttpServletRequest request, @PathVariable(required = false) String id, Model model)
+	public String error(@PathVariable(required = false) String id, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
 		String errorMessage = Messages.ERROR_BOOKING_SOMETING_WENT_WRONG;
-
-		System.out.println("Error ID - " + (id != null ? id : "no  id found"));
+		System.out.println("Error ID - " + id);
 
 		if (id != null && !id.isEmpty()) {
 
@@ -810,9 +594,6 @@ public class HomeController {
 			model.addAttribute("errorMessageId", id);
 		}
 
-		HttpSession session = request.getSession();
-
-		model.addAttribute(modelCategoryAttributeName, session.getAttribute(sessionCategoryAttributeName));
 		model.addAttribute("errorMessage", errorMessage);
 
 		return "error";
@@ -852,21 +633,14 @@ public class HomeController {
 	 * @throws JSONException
 	 */
 	@RequestMapping(value = { "/summary/{id}", "/summary/{id}/{isBooked}" })
-	public String summary(HttpServletRequest request, @PathVariable("id") String id,
-			@PathVariable(required = false) boolean isBooked, Model model)
+	public String summary(@PathVariable("id") String id, @PathVariable(required = false) boolean isBooked, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
-
-		globalSetup();
-
-		String category = "";
 
 		if (id.isEmpty() || id == null) {
 			model.addAttribute("summaryModel", null);
 			model.addAttribute("errorMessage", Messages.ERROR_BOOKING_SOMETING_WENT_WRONG);
 
 		} else {
-
-			System.out.println("categorycategorycategorycategorycategorycategory - " + category);
 
 			BookedItem[] bookingItems = spaceService.getBookedItems(getAccessTokenFromRequest(),
 					URLs.GET_BOOKING_DETAILS_URL + id);
@@ -880,18 +654,13 @@ public class HomeController {
 
 				BookedItem bookedItem = bookingItems[0];
 
-				bookedItem.setRoom(globalsInstance.getRoomName(bookedItem.getEid()));
+				bookedItem.setRoom(getRoomDetails(bookedItem.getEid()));
 
 				model.addAttribute("summaryModel", bookedItem);
 				model.addAttribute("isBooked", isBooked);
 
-				category = Globals.getCategory(bookedItem.getCid());
 			}
 		}
-
-		System.out.println("category in summary - " + category);
-
-		model.addAttribute(modelCategoryAttributeName, category);
 
 		return "pages/summary";
 	}
@@ -914,82 +683,82 @@ public class HomeController {
 	 * @throws JSONException
 	 * @throws ParseException
 	 */
-	private SpaceItem[] madeAvaliableTimeSlots(String date, String seats, String floor, String category)
-			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException,
-			ParseException {
-
-		System.out.println("category - " + category);
-		System.out.println("Date - " + date);
-		System.out.println("getFloor - " + floor);
-		System.out.println("getSeat - " + seats);
+	private SpaceItem[] madeAvaliableTimeSlots(String date, String seats, String floor) throws JsonParseException,
+			JsonMappingException, RestClientException, IOException, JSONException, ParseException {
 
 		int seatsCount = Integer.parseInt(seats);
 
+		Category[] categoryItems = spaceService.getRoomsByCategory(getAccessTokenFromRequest(),
+				URLs.getRoomsByCategoryURL(systemProperties.getCategoryId()));
+
 		List<SpaceItem> list = new ArrayList<>();
 
-		SpaceItem[] spaceItems = spaceService.getItems(getAccessTokenFromRequest(),
-				URLs.getSpacesURL(globalsInstance.getStudyRoomByCategoryId(category), date));
+		if (categoryItems.length > 0) {
 
-		for (SpaceItem spaceItem : spaceItems) {
+			SpaceItem[] spaceItems = spaceService.getItems(getAccessTokenFromRequest(),
+					URLs.getSpacesURL(categoryItems[0].getItems(), date));
 
-			// Print room id with name.
-			// System.out.println(spaceItem.getId() + " " + spaceItem.getName());
+			for (SpaceItem spaceItem : spaceItems) {
 
-			if (spaceItem.getAvailability().length > 0 && Integer.parseInt(spaceItem.getCapacity()) >= seatsCount
-					&& (floor.equals("0") ? true : floor.equals(spaceItem.getFloor()))) {
+				// Print room id with name.
+				// System.out.println(spaceItem.getId() + " " + spaceItem.getName());
 
-				List<Availability> availabilityList = new ArrayList<>();
+				if (spaceItem.getAvailability().length > 0 && Integer.parseInt(spaceItem.getCapacity()) >= seatsCount
+						&& (floor.equals("0") ? true : floor.equals(spaceItem.getFloor()))) {
 
-				for (Availability availability : spaceItem.getAvailability()) {
+					List<Availability> availabilityList = new ArrayList<>();
 
-					// From the API sometimes sends time slots related to previous date.
-					// Cleaning those type of dates.
+					for (Availability availability : spaceItem.getAvailability()) {
 
-					if (DateTimeUtil.convertToDate(availability.getFrom()).equals(date)) {
-						availabilityList.add(availability);
+						// From the API sometimes sends time slots related to previous date.
+						// Cleaning those type of dates.
+
+						if (DateTimeUtil.convertToDate(availability.getFrom()).equals(date)) {
+							availabilityList.add(availability);
+						}
+
 					}
 
-				}
+					int fromIndex = getFixedTimeSlotIndex(availabilityList.get(0).getFromTime());
 
-				int fromIndex = getFixedTimeSlotIndex(availabilityList.get(0).getFromTime());
+					// To get the very last time slot, need to add + 1
+					int toIndex = getFixedTimeSlotIndex(availabilityList.get(availabilityList.size() - 1).getFromTime())
+							+ 1;
 
-				// To get the very last time slot, need to add + 1
-				int toIndex = getFixedTimeSlotIndex(availabilityList.get(availabilityList.size() - 1).getFromTime())
-						+ 1;
+					List<Availability> newAvailabilityList = new ArrayList<>();
 
-				List<Availability> newAvailabilityList = new ArrayList<>();
+					for (Availability fixedTimeSlot : fixedTimeSlots.subList(fromIndex, toIndex)) {
 
-				for (Availability fixedTimeSlot : fixedTimeSlots.subList(fromIndex, toIndex)) {
+						Availability avalibility = availabilityList.stream()
+								.filter(timeSlot -> timeSlot.getFromTime().equals(fixedTimeSlot.getFrom12HourTime()))
+								.findFirst().orElse(null);
 
-					Availability avalibility = availabilityList.stream()
-							.filter(timeSlot -> timeSlot.getFromTime().equals(fixedTimeSlot.getFrom12HourTime()))
-							.findFirst().orElse(null);
+						if (avalibility == null) {
 
-					if (avalibility == null) {
+							Availability ava = new Availability(date + "T" + fixedTimeSlot.getFrom(),
+									date + "T" + fixedTimeSlot.getTo());
+							ava.setBooked(true);
 
-						Availability ava = new Availability(date + "T" + fixedTimeSlot.getFrom(),
-								date + "T" + fixedTimeSlot.getTo());
-						ava.setBooked(true);
+							newAvailabilityList.add(ava);
 
-						newAvailabilityList.add(ava);
+						} else {
+							newAvailabilityList.add(avalibility);
+						}
 
-					} else {
-						newAvailabilityList.add(avalibility);
 					}
 
+					spaceItem.emptyAvailability();
+
+					spaceItem.setAvailability(newAvailabilityList.toArray(new Availability[0]));
+
+					list.add(spaceItem);
+
 				}
-
-				spaceItem.emptyAvailability();
-
-				spaceItem.setAvailability(newAvailabilityList.toArray(new Availability[0]));
-
-				list.add(spaceItem);
 
 			}
-
 		}
 
-		spaceItems = null;
+		SpaceItem[] spaceItems = null;
 
 		if (list.size() > 0) {
 			spaceItems = list.toArray(new SpaceItem[0]);
@@ -1025,6 +794,77 @@ public class HomeController {
 	}
 
 	/**
+	 * Returns the room name.
+	 * 
+	 * @param roomId
+	 * @return
+	 * @throws JsonParseException
+	 * @throws JsonMappingException
+	 * @throws RestClientException
+	 * @throws IOException
+	 * @throws JSONException
+	 */
+	private String getRoomDetails(String roomId)
+			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
+		Room[] rooms = spaceService.getRoom(getAccessTokenFromRequest(), URLs.GET_ROOM_DETAILS_URL + roomId);
+
+		return rooms[0].getName();
+	}
+
+//	private String getLocationHours(String accessToken, String date)
+//			throws JSONException, JsonParseException, JsonMappingException, RestClientException, IOException {
+//
+//		String locationHours = "Closed";
+//
+//		try {
+//
+//			String url = URLs.GET_LOCATION_HOURS_URL + systemProperties.getLocationId() + "?&from=" + date + "&to="
+//					+ date;
+//
+//			Location[] hoursJson = spaceService.getHours(accessToken, url);
+//
+//			if (hoursJson.length > 0) {
+//				org.json.JSONObject object = new org.json.JSONObject(hoursJson[0].getDates().toString());
+//
+//				Iterator<?> keys = object.keys();
+//
+//				while (keys.hasNext()) {
+//					// loop to get the dynamic key
+//					String currentDynamicKey = (String) keys.next();
+//
+//					// get the value of the dynamic key
+//					org.json.JSONObject currentDynamicValue = object.getJSONObject(currentDynamicKey);
+//
+//					String status = currentDynamicValue.getString("status");
+//
+//					if (status.equalsIgnoreCase("open")) {
+//						org.json.JSONArray hours = currentDynamicValue.getJSONArray("hours");
+//
+//						String hour_string = hours.getJSONObject(0).getString("from") + " - "
+//								+ hours.getJSONObject(0).getString("to");
+//
+//						locationHours = hour_string;
+//					} else if (status.equalsIgnoreCase("24hours")) {
+//
+//						locationHours = "24 hours";
+//					} else if (status.equalsIgnoreCase("text")) {
+//						locationHours = currentDynamicValue.getString("text");
+//
+//					}
+//				}
+//			}
+//		} catch (Exception e) {
+//			// do something clever with the exception
+//			System.out.println(e.getMessage());
+//			System.out.println("No Hour details avaliable");
+//
+//			locationHours = null;
+//		}
+//
+//		return locationHours;
+//	}
+
+	/**
 	 * Returns the Access token.
 	 * 
 	 * @return
@@ -1041,7 +881,6 @@ public class HomeController {
 				systemProperties.getSpringShareClientId(), systemProperties.getSpringShareSecretkey());
 
 		if (accessToken != null) {
-			System.out.println("accessToken.getAccessToken() : " + accessToken.getAccessToken());
 			return accessToken.getAccessToken();
 		} else {
 			return null;
@@ -1050,7 +889,7 @@ public class HomeController {
 
 	@RequestMapping(value = { "/session-count" })
 	public String getSessions(HttpServletRequest request, Model model) {
-		ArrayList<SAMLUser> sessions = SAMLUserList.getInstance().getUserArray();
+		ArrayList<SAMLUser> sessions = SAMLUserList.getInstance().getArray();
 
 		model.addAttribute("sysSessions", sessions);
 
@@ -1061,20 +900,29 @@ public class HomeController {
 	@RequestMapping(value = "/clean", method = RequestMethod.POST)
 	public String clean(HttpServletRequest request, Model model) {
 
-		SAMLUserList samlUserList = SAMLUserList.getInstance();
-
-		if (samlUserList != null) {
-			ArrayList<SAMLUser> sessions = samlUserList.getUserArray();
-
-			if (sessions != null && sessions.size() > 0) {
-				for (SAMLUser session : sessions) {
-					samlUserList.removeFromArray(session);
-				}
-			}
-
-		}
-
-		// SAMLUserList.getInstance().clean();
+		
+		 SAMLUserList.getInstance().clean();
+		 
+//		SAMLUserList samlUserList = SAMLUserList.getInstance();
+//
+//		if (samlUserList != null) {
+//
+//			System.out.println("samlUserList is not null ");
+//
+//			samlUserList.clean();
+//			
+////			ArrayList<SAMLUser> sessions = samlUserList.getUserArray();
+////
+////			if (sessions != null) {
+////
+////				System.out.println("sessions.size() - " + sessions.size());
+////
+////				for (SAMLUser session : sessions) {
+////					samlUserList.removeFromArray(session);
+////				}
+////			}
+//
+//		}
 
 		return "redirect:/session-count";
 	}

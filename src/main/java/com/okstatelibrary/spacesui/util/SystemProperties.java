@@ -49,6 +49,16 @@ public class SystemProperties {
 	public void setMetadataEntityId(String metadataEntityId) {
 		this.metadataEntityId = metadataEntityId;
 	}
+
+	String categoryId;
+
+	public String getCategoryId() {
+		return categoryId;
+	}
+
+	public void setCategoryId(String categoryId) {
+		this.categoryId = categoryId;
+	}
 	
 	@Value("${folioTenant}")
 	private String folioTenant;
@@ -98,23 +108,4 @@ public class SystemProperties {
 		FolioPassword = folioPassword;
 	}
 
-//	String categoryId;
-//
-//	public String getCategoryId() {
-//		return categoryId;
-//	}
-//
-//	public void setCategoryId(String categoryId) {
-//		this.categoryId = categoryId;
-//	}
-//
-//	String locationId;
-//
-//	public String getLocationId() {
-//		return locationId;
-//	}
-//
-//	public void setLocationId(String locationId) {
-//		this.locationId = locationId;
-//	}
 }

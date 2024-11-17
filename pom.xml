@@ -4,8 +4,8 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.okstatelibrary.spacesui</groupId>
-	<artifactId>spaces-ui</artifactId>
-	<version>1.0.4.RELEASE</version>
+	<artifactId>spaces-ui-dsc</artifactId>
+	<version>0.0.2.RELEASE</version>
 	<packaging>jar</packaging>
 	<!-- Project description -->
 	<name>Spaces - UI  </name>

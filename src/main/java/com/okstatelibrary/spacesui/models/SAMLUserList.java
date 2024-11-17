@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class SAMLUserList {
 
 	private static SAMLUserList mInstance;
-	public ArrayList<SAMLUser> list = null;
+	private ArrayList<SAMLUser> list = null;
 
 	public static SAMLUserList getInstance() {
 		if (mInstance == null)
@@ -43,19 +43,14 @@ public class SAMLUserList {
 	// Remove element to array
 	public void removeFromArray(SAMLUser value) {
 
-//		SAMLUser samlUser = findBySessionId(value.getUserId());
-//
-//		if (samlUser != null) {
-
 		System.out.println("remove id ----------" + value.getFirstName());
 
 		list.remove(value);
+	}
 
-//			for (int i = 0; i < list.size(); i++) {
-//				list.get(i).print();
-//			}
-//		}
-
+	public void clean() {
+		mInstance = null;
+		list = null;
 	}
 
 	// Add element to array
@@ -65,23 +60,9 @@ public class SAMLUserList {
 
 		if (samlUser == null) {
 			list.add(value);
-
-//			for (int i = 0; i < list.size(); i++) {
-//				list.get(i).print();
-//			}
 		}
 
 	}
-
-	public ArrayList<SAMLUser> getUserArray() {
-
-		return list;
-	}
-
-//	public void clean() {
-//
-//		list = null;
-//	}
 
 	public SAMLUser findBySessionId(String sessionId) {
 		return list.stream().filter(samlUser -> sessionId.equals(samlUser.getUserId())).findFirst().orElse(null);
