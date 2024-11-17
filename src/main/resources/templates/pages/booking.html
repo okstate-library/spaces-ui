@@ -88,37 +88,33 @@
 							<input type="hidden" id="bookDate" name="bookDate" /> <input
 								type="hidden" id="bookStartTime" name="bookStartTime" /> <input
 								type="hidden" readonly id="bookEndTime" name="bookEndTime" />
-
-
+								
+							
 
 							<!-- Buttons  -->
 							<div class="grid-x top-margin-4">
-
+								
 								<div class="cell">
 									<div class="grid-x">
-
+	
 										<!-- Policy -->
-										<div
-											class="cell small-11 small-offset-1  medium-7 medium-offset-5">
-											<input id="checkbox1" type="checkbox"
-												onchange="document.getElementById('buttonBookingConfirm').disabled = !this.checked;">
-											<label for="checkbox1">I have read and agree to the <a
-												data-open="exampleModal1">study room policies</a></label>
+										<div class="cell small-11 small-offset-1  medium-7 medium-offset-5">
+											<input id="checkbox1" type="checkbox" onchange="document.getElementById('buttonBookingConfirm').disabled = !this.checked;">
+											  <label for="checkbox1">I have read and agree to the <a data-open="exampleModal1">study room policies</a></label>
 
-
-										</div>
-
-
-
+											  
+										</div>	
+										
+										
+	
 										<!-- Clear and Start over  -->
 										<div
 											class="cell small-5 small-offset-1  medium-3 medium-offset-5 text-left">
-
-											<a th:href="@{/}  + ${categoryAttribute}"
-												class="button  hollow secondary expanded"><i
+	
+											<a th:href="@{/}" class="button  hollow secondary expanded"><i
 												class="fas fa-times"></i> Clear selection</a>
 										</div>
-
+	
 										<!-- Submit Booking  -->
 										<div
 											class="cell small-5 small-offset-1   medium-3 medium-offset-1 text-right">
@@ -143,11 +139,4 @@
 	<!-- Content ends -->
 </body>
 
-<script>
-/* onload="bookingPageLoad()" */
-/* $jQuery(window).load(bookingPageLoad); */
-
-window.onload = bookingPageLoad;
-
-</script>
 </html>

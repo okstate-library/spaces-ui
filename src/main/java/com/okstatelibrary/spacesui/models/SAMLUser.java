@@ -2,6 +2,7 @@ package com.okstatelibrary.spacesui.models;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.okstatelibrary.spacesui.util.DateTimeUtil;
 
 public class SAMLUser {
 
@@ -10,6 +11,7 @@ public class SAMLUser {
 	private String lastName;
 	private String cwid;
 	private String email;
+	private String currentTime;
 
 	@JsonCreator
 	public SAMLUser(@JsonProperty("user_Id") String userId, @JsonProperty("firstName") String firstName,
@@ -20,6 +22,8 @@ public class SAMLUser {
 		this.setLastName(lastName);
 		this.setCwid(cwid);
 		this.setEmail(email);
+		this.setCurrentTime(DateTimeUtil.getTodayDateWithTime());
+		
 	}
 
 	public String getUserId() {
@@ -62,9 +66,24 @@ public class SAMLUser {
 		this.email = email;
 	}
 
-	public void print() {
-		System.out.println(this.userId + "--" + this.cwid + "--" + this.firstName + "--" + this.email);
 
+	public void print() {
+		 System.out.println( this.userId + "--" + this.cwid + "--" +  this.firstName + "--" + this.email);
+		
+	}
+
+	/**
+	 * @return the currentTime
+	 */
+	public String getCurrentTime() {
+		return currentTime;
+	}
+
+	/**
+	 * @param currentTime the currentTime to set
+	 */
+	public void setCurrentTime(String currentTime) {
+		this.currentTime = currentTime;
 	}
 
 }
