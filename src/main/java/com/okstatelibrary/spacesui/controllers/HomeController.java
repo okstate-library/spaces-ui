@@ -899,30 +899,8 @@ public class HomeController {
 	@CrossOrigin(origins = "*")
 	@RequestMapping(value = "/clean", method = RequestMethod.POST)
 	public String clean(HttpServletRequest request, Model model) {
-
 		
-		 SAMLUserList.getInstance().clean();
-		 
-//		SAMLUserList samlUserList = SAMLUserList.getInstance();
-//
-//		if (samlUserList != null) {
-//
-//			System.out.println("samlUserList is not null ");
-//
-//			samlUserList.clean();
-//			
-////			ArrayList<SAMLUser> sessions = samlUserList.getUserArray();
-////
-////			if (sessions != null) {
-////
-////				System.out.println("sessions.size() - " + sessions.size());
-////
-////				for (SAMLUser session : sessions) {
-////					samlUserList.removeFromArray(session);
-////				}
-////			}
-//
-//		}
+		SAMLUserList.getInstance().clean();
 
 		return "redirect:/session-count";
 	}
