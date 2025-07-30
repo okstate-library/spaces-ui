@@ -5,7 +5,7 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>com.okstatelibrary.spacesui</groupId>
 	<artifactId>spaces-ui</artifactId>
-	<version>1.0.4.RELEASE</version>
+	<version>1.0.5.RELEASE</version>
 	<packaging>jar</packaging>
 	<!-- Project description -->
 	<name>Spaces - UI  </name>

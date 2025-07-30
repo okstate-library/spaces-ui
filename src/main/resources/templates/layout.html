@@ -76,11 +76,9 @@
 							<li class="menu-text make-125px hide-for-small-only">&nbsp;</li>
 							<li><a href="https://library.okstate.edu">Home</a></li>
 							<li><a
-								href="https://forms.library.okstate.edu/machform/view.php?id=181450">Room
-									for Testing</a></li>
+								href="https://forms.library.okstate.edu/machform/view.php?id=181450">Testing Space</a></li>
 							<li><a
-								href="https://info.library.okstate.edu/lactationspace">Lactation
-									Space</a></li>
+								href="https://info.library.okstate.edu/family-study-room">Family Study Room</a></li>
 						</ul>
 
 					</div>
@@ -136,8 +134,8 @@
 	<div class="reveal" id="exampleModal1" data-reveal>
 		<h1>Study Room Policies</h1>
 
-		<ul>
-			<li>A study room reservation can only be booked for up to 4
+		<ul th:utext="${htmlSnippet}">
+			<!-- <li>A study room reservation can only be booked for up to 4
 				hours at a time.</li>
 			<li>Only 2 active study room reservations can be made at one
 				time.</li>
@@ -161,7 +159,7 @@
 				wish to sanitize before or after a reservation.</li>
 			<li>If you do not receive a confirmation email within 30 minutes
 				of making your reservation, please call the Circulation/Information
-				Desk at 405-744-9741.</li>
+				Desk at 405-744-9741.</li> -->
 
 		</ul>
 		<button class="close-button" data-close aria-label="Close modal"

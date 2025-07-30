@@ -477,6 +477,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
             "/error/**/*",
             "/console/**",
             "/error",
+            "/session/*",
             "/errorpage",
     };
     

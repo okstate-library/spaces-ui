@@ -20,6 +20,10 @@ public class DateTimeUtil {
 
 		return dtf.format(now);
 	}
+	
+	public static long getCurretTimeStamp() {
+		return System.currentTimeMillis() / 1000;
+	}
 
 	public static String convertTo12HourTime(String dateTime) {
 		DateFormat dateFormat = new SimpleDateFormat("HH:mm:ss");

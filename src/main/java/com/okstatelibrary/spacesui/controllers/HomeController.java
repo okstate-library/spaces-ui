@@ -2,6 +2,7 @@
 package com.okstatelibrary.spacesui.controllers;
 
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -19,6 +20,7 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -35,10 +37,10 @@ import org.springframework.web.client.RestClientException;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.okstatelibrary.spacesui.models.AccessToken;
-import com.okstatelibrary.spacesui.models.Availability;
+import com.okstatelibrary.spacesui.globals.GlobalConfigs;
 import com.okstatelibrary.spacesui.models.*;
 import com.okstatelibrary.spacesui.services.AccessTokenService;
+import com.okstatelibrary.spacesui.services.FolioService;
 import com.okstatelibrary.spacesui.services.SpacesService;
 import com.okstatelibrary.spacesui.stereotypes.CurrentUser;
 import com.okstatelibrary.spacesui.util.DateTimeUtil;
@@ -47,11 +49,14 @@ import com.okstatelibrary.spacesui.util.Messages;
 import com.okstatelibrary.spacesui.util.RibbonMessage;
 import com.okstatelibrary.spacesui.util.URLs;
 
+import java.io.InputStream;
+import java.util.Scanner;
+
 /**
  * 
  * Home Controller class
  * 
- * @author Damith
+ * @author Damith Perera
  *
  */
 @Controller
@@ -75,6 +80,14 @@ public class HomeController {
 	@Autowired
 	SpacesService spaceService;
 
+	private final GlobalConfigs globalConfigs;
+
+	/**
+	 * Folio services
+	 */
+	@Autowired
+	FolioService folioService;
+
 	/**
 	 * Metadata Manager class
 	 */
@@ -86,118 +99,15 @@ public class HomeController {
 	 */
 	private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
-	/**
-	 * Defines the Edmon low seat count drop down list
-	 */
-	private static final Map<String, String> edmonLowSeatList = new HashMap<String, String>() {
-		/**
-		 * Put defines data.
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			put("1", "1+");
-			put("2", "2+");
-			put("4", "4+");
-			put("6", "6+");
-			put("8", "8+");
-			put("10", "10+");
-		}
-	};
-
-	/**
-	 * Defines the edmon low seat count drop down list
-	 */
-	private static final Map<String, String> creativeStuiodSeatList = new HashMap<String, String>() {
-		/**
-		 * Put defines data.
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			put("1", "1+");
-			put("3", "2+");
-
-		}
-	};
-
-	/**
-	 * Defines the edmon low seat count drop down list
-	 */
-	private static final Map<String, String> vetMedSeatList = new HashMap<String, String>() {
-		/**
-		 * Put defines data.
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			put("1", "1+");
-			put("8", "4+");
-
-		}
-	};
-
-	/**
-	 * Defines the floor drop down list
-	 */
-	private static final Map<String, String> floorList = new HashMap<String, String>() {
-		/**
-		 * put predefine floor list
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			put("0", "Any");
-			put("1", "First");
-			put("2", "Second");
-			put("3", "Third");
-		}
-	};
-
-	private static final String vetMedURLID = "vetmed";
-
-	private static final String creativeStudioURLId = "creativestudios";
+	public HomeController(GlobalConfigs globalConfigs) {
+		this.globalConfigs = globalConfigs;
+	}
 
 	private static final String sessionCategoryAttributeName = "categoryUrlId";
-
-	private static final String edmonLowLibraryCategoryNumber = "7030";
-
-	private static final String vetMedCategoryNumber = "7031";
-
-	private static final String creativeStudioCategoryNumber = "7032";
 
 	private static final String modelCategoryAttributeName = "categoryAttribute";
 
 	static Globals globalsInstance = null;
-
-	/**
-	 * Defines the categories drop down list (categories)
-	 */
-	private static final Map<String, String> edmonLowCategoryList = new HashMap<String, String>() {
-		/**
-		 * put predefine floor list
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			put(edmonLowLibraryCategoryNumber, "Edmon Low Library");
-			put(creativeStudioCategoryNumber, "Creative Studios");
-		}
-	};
-
-	/**
-	 * Defines the categories drop down list (categories)
-	 */
-	private static final Map<String, String> vetMedCategoryList = new HashMap<String, String>() {
-		/**
-		 * put predefine floor list
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			put(vetMedCategoryNumber, "Vet med");
-		}
-	};
 
 	private static final String roomsFoundLabelString = " Room(s) found...";
 
@@ -275,10 +185,14 @@ public class HomeController {
 
 				List<Room> roomList = new ArrayList<>();
 
-				for (Map.Entry<String, String> entry : Globals.getCategorylist().entrySet()) {
+				for (Map.Entry<String, String> entry : this.globalConfigs.getCategoryList().entrySet()) {
+
+					System.out.println("entry.getKey() " + entry.getKey() + " ---  ");
 
 					Category[] categoryItems = spaceService.getRoomsByCategory(getAccessTokenFromRequest(),
 							URLs.getRoomsByCategoryURL(entry.getKey()));
+
+					System.out.println("entry.getKey() " + entry.getKey() + "--- " + categoryItems[0].getItems());
 
 					studyRooms.put(entry.getKey(), categoryItems[0].getItems());
 
@@ -296,6 +210,7 @@ public class HomeController {
 				globalsInstance.setStudyRooms(studyRooms);
 
 				globalsInstance.setIsProccessed(true);
+
 			}
 		}
 	}
@@ -317,7 +232,10 @@ public class HomeController {
 	public String index(@PathVariable(name = "id", required = false) String roomName, HttpServletRequest request,
 			Model model) throws JsonParseException, JsonMappingException, RestClientException, IOException,
 			JSONException, ParseException {
-		
+
+		System.out.println("***************************************");
+		System.out.println("Normal Loadning");
+
 		if (!StringUtils.isBlank(RibbonMessage.message)) {
 			model.addAttribute("ribbonmessagevisibility", "show");
 			model.addAttribute("ribbonmessage", RibbonMessage.message);
@@ -341,38 +259,49 @@ public class HomeController {
 
 			String selectedSeats = "0";
 			String selectedFloor = "0";
-			String selectedCategory = edmonLowLibraryCategoryNumber;
-			String categoryName = "";
 
-			Map<String, String> seatList = edmonLowSeatList;
-			Map<String, String> categoryList = edmonLowCategoryList;
+			String selectedCategory = this.globalConfigs.getCategoryNumber();
 
-			model.addAttribute("hideCategorySelection", "false");
-			model.addAttribute("hidefloorselection", "false");
-
-			if (roomName != null && !roomName.isEmpty()) {
-
-				if (roomName.equals(creativeStudioURLId)) {
-					selectedCategory = creativeStudioCategoryNumber;
-					seatList = creativeStuiodSeatList;
-
-					categoryName = creativeStudioURLId;
-
-					model.addAttribute("hidefloorselection", "true");
-
-				} else if (roomName.equals(vetMedURLID)) {
-					selectedCategory = vetMedCategoryNumber;
-					seatList = vetMedSeatList;
-
-					categoryName = vetMedURLID;
-
-					categoryList = vetMedCategoryList;
-
-					model.addAttribute("hideCategorySelection", "true");
-					model.addAttribute("hidefloorselection", "true");
-				}
-
+			if (roomName != null && !roomName.isEmpty() && this.globalConfigs.checkCategory(roomName)) {
+				selectedCategory = roomName;
 			}
+
+			System.out.println("categoryName - " + selectedCategory);
+
+			// String categoryName = this.globalConfigs.getCategoryName(selectedCategory);//
+			// "";
+
+			Map<String, String> seatList = this.globalConfigs.getSeatList(selectedCategory);// edmonLowSeatList;
+
+			Map<String, String> categoryList = this.globalConfigs.getCategoryList();// edmonLowCategoryList;
+
+			model.addAttribute("hideCategorySelection", this.globalConfigs.hideCategorySelection(selectedCategory));
+			model.addAttribute("hidefloorselection", this.globalConfigs.hideFloorSelection(selectedCategory));
+//
+//			if (roomName != null && !roomName.isEmpty()) {
+//
+//				if (roomName.equals(creativeStudioURLId)) {
+//					selectedCategory = creativeStudioCategoryNumber;
+//					seatList = creativeStuiodSeatList;
+//
+//					categoryName = creativeStudioURLId;
+//
+//					model.addAttribute("hidefloorselection", "true");
+//
+//				} else if (roomName.equals(vetMedURLID)) {
+//					selectedCategory = this.globalConfigs.getCategoryNumber();
+//					
+//					seatList = vetMedSeatList;
+//
+//					categoryName = vetMedURLID;
+//
+//					categoryList = this.globalConfigs.getCategoryList();
+//
+//					model.addAttribute("hideCategorySelection", "true");
+//					model.addAttribute("hidefloorselection", "true");
+//				}
+//
+//			}
 
 			SpaceItem[] spaceItems = madeAvaliableTimeSlots(DateTimeUtil.getTodayDate(), selectedSeats, selectedFloor,
 					selectedCategory);
@@ -412,7 +341,7 @@ public class HomeController {
 			model.addAttribute("seats", seatList);
 			model.addAttribute("selectedSeat", selectedSeats);
 
-			model.addAttribute("floors", floorList);
+			model.addAttribute("floors", this.globalConfigs.getFloorList());
 			model.addAttribute("selectedFloor", selectedFloor);
 
 			model.addAttribute("categories", categoryList);
@@ -421,7 +350,7 @@ public class HomeController {
 			HttpSession session = request.getSession();
 			session.setMaxInactiveInterval(300);
 
-			session.setAttribute(sessionCategoryAttributeName, categoryName);
+			session.setAttribute(sessionCategoryAttributeName, selectedCategory);
 
 			return "pages/index";
 		}
@@ -452,6 +381,9 @@ public class HomeController {
 
 		try {
 
+			System.out.println("***************************************");
+			System.out.println("Drop down filteration request Loadning");
+
 			if (date.isEmpty() || date == null) {
 
 				date = DateTimeUtil.getTodayDate();
@@ -465,43 +397,42 @@ public class HomeController {
 				floor = "0";
 			}
 
-			if (category.isEmpty() || category == null) {
-				category = vetMedCategoryNumber;
-			}
+//			model.addAttribute("hideCategorySelection", "false");
+//			model.addAttribute("hidefloorselection", "false");
 
-			String categoryName = "";
+			Map<String, String> seatList = this.globalConfigs.getSeatList(category);// edmonLowSeatList;
+			Map<String, String> categoryList = this.globalConfigs.getCategoryList(); // edmonLowCategoryList;
 
-			model.addAttribute("hideCategorySelection", "false");
-			model.addAttribute("hidefloorselection", "false");
+			model.addAttribute("hideCategorySelection", this.globalConfigs.hideCategorySelection(category));
+			model.addAttribute("hidefloorselection", this.globalConfigs.hideFloorSelection(category));
 
-			Map<String, String> seatList = edmonLowSeatList;
-			Map<String, String> categoryList = edmonLowCategoryList;
+			// seatList = this.globalConfigs.getSeatList(selectedCategory);
 
-			if (category.equals(edmonLowLibraryCategoryNumber)) {
-				model.addAttribute("hidefloorselection", "false");
-
-			} else if (category.equals(vetMedCategoryNumber)) {
-				seatList = vetMedSeatList;
-				categoryList = vetMedCategoryList;
-
-				model.addAttribute("hidefloorselection", "true");
-				model.addAttribute("hideCategorySelection", "true");
-				floor = "0";
-
-				categoryName = vetMedURLID;
-			} else if (category.equals(creativeStudioCategoryNumber)) {
-				seatList = creativeStuiodSeatList;
-
-				model.addAttribute("hidefloorselection", "true");
-				categoryName = creativeStudioURLId;
-			}
+//			if (category.equals(edmonLowLibraryCategoryNumber)) {
+//				// model.addAttribute("hidefloorselection", "false");
+//
+//			} else if (category.equals(vetMedCategoryNumber)) {
+//				seatList = vetMedSeatList;
+//				categoryList = vetMedCategoryList;
+//
+//				// model.addAttribute("hidefloorselection", "true");
+//				model.addAttribute("hideCategorySelection", "true");
+//				floor = "0";
+//
+//				categoryName = vetMedURLID;
+//			} else if (category.equals(creativeStudioCategoryNumber)) {
+//				seatList = creativeStuiodSeatList;
+//
+//				// model.addAttribute("hidefloorselection", "true");
+//				categoryName = creativeStudioURLId;
+//			}
 
 			model.addAttribute("dateString", date);
 
 			model.addAttribute("seats", seatList);
 			model.addAttribute("selectedSeat", seats);
 
-			model.addAttribute("floors", floorList);
+			model.addAttribute("floors", this.globalConfigs.getFloorList());
 			model.addAttribute("selectedFloor", floor);
 
 			model.addAttribute("categories", categoryList);
@@ -516,7 +447,7 @@ public class HomeController {
 			HttpSession session = request.getSession();
 			session.setMaxInactiveInterval(300);
 
-			session.setAttribute(sessionCategoryAttributeName, categoryName);
+			session.setAttribute(sessionCategoryAttributeName, category);
 
 			return "pages/index";
 
@@ -576,9 +507,16 @@ public class HomeController {
 	 * @param user
 	 * @param model
 	 * @return
+	 * @throws IOException
+	 * @throws RestClientException
+	 * @throws JsonMappingException
+	 * @throws JsonParseException
 	 */
 	@RequestMapping("/landing")
-	public String landing(HttpServletRequest request, @CurrentUser User user, Model model) {
+	public String landing(HttpServletRequest request, @CurrentUser User user, Model model)
+			throws JsonParseException, JsonMappingException, RestClientException, IOException {
+
+		setupPolicyView(model);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -602,13 +540,36 @@ public class HomeController {
 		System.out.println("session.getAttribute(sessionCategoryAttributeName) - "
 				+ session.getAttribute(sessionCategoryAttributeName));
 
-		model.addAttribute("firstName", samlUser.getFirstName());
-		model.addAttribute("lastName", samlUser.getLastName());
-		model.addAttribute("email", samlUser.getEmail());
-		model.addAttribute("cwid", samlUser.getCwid());
-		model.addAttribute(modelCategoryAttributeName, session.getAttribute(sessionCategoryAttributeName));
+		if (folioService.isUserExists(samlUser.getCwid())) {
 
-		return "pages/booking";
+			model.addAttribute("firstName", samlUser.getFirstName());
+			model.addAttribute("lastName", samlUser.getLastName());
+			model.addAttribute("email", samlUser.getEmail());
+			model.addAttribute("cwid", samlUser.getCwid());
+			model.addAttribute(modelCategoryAttributeName, session.getAttribute(sessionCategoryAttributeName));
+
+			return "pages/booking";
+		} else {
+			return "redirect:/errorp/306";
+		}
+	}
+
+	private void setupPolicyView(Model model) throws IOException {
+
+		try (InputStream inputStream = new ClassPathResource(
+				"static/html/fragments/" + this.globalConfigs.getInstanceName() + "/room-policy.html")
+						.getInputStream()) {
+			Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name());
+			String htmlContent = scanner.useDelimiter("\\A").next();
+			scanner.close();
+
+			model.addAttribute("htmlSnippet", htmlContent);
+
+		} catch (Exception e) {
+			e.printStackTrace();
+
+		}
+
 	}
 
 	/**
@@ -642,7 +603,9 @@ public class HomeController {
 			BookedItem[] bookingItems = spaceService.getBookedItems(getAccessTokenFromRequest(),
 					URLs.GET_BOOKING_DETAILS_URL + bookingId);
 
-			category = Globals.getCategory(bookingItems[0].getCid());
+			// Get the category id from the spaces service
+
+			category = bookingItems[0].getCid();
 
 			CancelConfirmation[] cancelConfirmation = spaceService.cancel(getAccessTokenFromRequest(),
 					URLs.POST_ROOM_CANCEL_URL + bookingId);
@@ -786,6 +749,8 @@ public class HomeController {
 				errorMessage = Messages.ERROR_BOOKING_EXCEED_DAYIL_ROOM_LIMIT;
 			} else if (id.equals("305")) {
 				errorMessage = Messages.ERROR_BOOKING_RESERVATION_WITHIN_TWO_HOURS;
+			} else if (id.equals("306")) {
+				errorMessage = Messages.ERROR_USER_UNAUTHORIZE;
 			}
 
 			model.addAttribute("errorMessageId", id);
@@ -866,7 +831,9 @@ public class HomeController {
 				model.addAttribute("summaryModel", bookedItem);
 				model.addAttribute("isBooked", isBooked);
 
-				category = Globals.getCategory(bookedItem.getCid());
+				System.out.println("bookedItem.getCid() -- " + bookedItem.getCid());
+
+				category = bookedItem.getCid();
 			}
 		}
 
@@ -1027,6 +994,35 @@ public class HomeController {
 		} else {
 			return null;
 		}
+	}
+
+	@RequestMapping(value = { "/session-count" })
+	public String getSessions(HttpServletRequest request, Model model) {
+		ArrayList<SAMLUser> sessions = SAMLUserList.getInstance().getUserArray();
+
+		model.addAttribute("sysSessions", sessions);
+
+		return "pages/sessions";
+	}
+
+	@CrossOrigin(origins = "*")
+	@RequestMapping(value = "/clean", method = RequestMethod.POST)
+	public String clean(HttpServletRequest request, Model model) {
+
+		SAMLUserList samlUserList = SAMLUserList.getInstance();
+
+		if (samlUserList != null) {
+			ArrayList<SAMLUser> sessions = samlUserList.getUserArray();
+
+			if (sessions != null && sessions.size() > 0) {
+				for (SAMLUser session : sessions) {
+					samlUserList.removeFromArray(session);
+				}
+			}
+
+		}
+
+		return "redirect:/session-count";
 	}
 
 }

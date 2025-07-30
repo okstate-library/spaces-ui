@@ -47,32 +47,32 @@ public class Globals {
 
 	private Boolean isProccessed = false;
 
-	/**
-	 * Defines the floor drop down list
-	 */
-	private static final Map<String, String> categoryList = new HashMap<String, String>() {
-		/**
-		 * put predefine floor list
-		 */
-		private static final long serialVersionUID = 1L;
-
-		{
-			put("7030", "");
-			put("7031", "vetmed");
-			put("7032", "creativestudios");
-		}
-	};
-
-	/**
-	 * @return the categorylist
-	 */
-	public static Map<String, String> getCategorylist() {
-		return categoryList;
-	}
-
-	public static String getCategory(String categotyId) {
-		return categoryList.get(categotyId);
-	}
+//	/**
+//	 * Defines the floor drop down list
+//	 */
+//	private static final Map<String, String> categoryList = new HashMap<String, String>() {
+//		/**
+//		 * put predefine floor list
+//		 */
+//		private static final long serialVersionUID = 1L;
+//
+//		{
+//			put("7030", "");
+//			put("7031", "vetmed");
+//			put("7032", "creativestudios");
+//		}
+//	};
+//
+//	/**
+//	 * @return the categorylist
+//	 */
+//	public static Map<String, String> getCategorylist() {
+//		return categoryList;
+//	}
+//
+//	public static String getCategory(String categotyId) {
+//		return categoryList.get(categotyId);
+//	}
 
 	private List<Room> roomList;
 

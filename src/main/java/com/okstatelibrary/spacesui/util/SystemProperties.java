@@ -1,5 +1,6 @@
 package com.okstatelibrary.spacesui.util;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.PropertySource;
 import org.springframework.stereotype.Component;
@@ -8,6 +9,16 @@ import org.springframework.stereotype.Component;
 @ConfigurationProperties
 @PropertySource("classpath:application.properties")
 public class SystemProperties {
+
+	String instanceName;
+
+	public String getInstanceName() {
+		return instanceName;
+	}
+
+	public void setInstanceName(String instanceName) {
+		this.instanceName = instanceName;
+	}
 
 	String springShareSecretkey;
 
@@ -47,6 +58,54 @@ public class SystemProperties {
 
 	public void setMetadataEntityId(String metadataEntityId) {
 		this.metadataEntityId = metadataEntityId;
+	}
+
+	@Value("${folioTenant}")
+	private String folioTenant;
+
+	public static String FolioTenant;
+
+	/**
+	 * @param folioTenant the folioTenant to set
+	 */
+	public void setFolioTenant(String folioTenant) {
+		FolioTenant = folioTenant;
+	}
+
+	@Value("${folioURL}")
+	private String folioURL;
+
+	public static String FolioURL;
+
+	/**
+	 * @param folioURL the folioURL to set
+	 */
+	public void setFolioURL(String folioURL) {
+		FolioURL = folioURL;
+	}
+
+	@Value("${folioUsername}")
+	private String folioUsername;
+
+	public static String FolioUsername;
+
+	/**
+	 * @param folioURL the folioURL to set
+	 */
+	public void setFolioUsername(String folioUsername) {
+		FolioUsername = folioUsername;
+	}
+
+	@Value("${folioPassword}")
+	private String folioPassword;
+
+	public static String FolioPassword;
+
+	/**
+	 * @param folioURL the folioURL to set
+	 */
+	public void setFolioPassword(String folioPassword) {
+		FolioPassword = folioPassword;
 	}
 
 //	String categoryId;

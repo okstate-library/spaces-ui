@@ -19,6 +19,8 @@ public class Messages {
 	public static String ERROR_BOOKING_SOMETING_WENT_WRONG = "Something went wrong with booking process. Please try again later. "
 			+ "If you continue to receive this error please contact OSU Library Circulation Desk.";
 
+	public static String ERROR_USER_UNAUTHORIZE = "Inactive User";
+	
 	public static String SUCESS_BOOKING_CANCEL = "This booking has been canceled.";
 
 	public static String ERROR_BOOKING_SUMMARY_MISSING_BOOKING_ID = "The booking ID could not be found because the booking time has elapsed or has already been cancelled.";
