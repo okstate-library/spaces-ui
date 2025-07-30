@@ -14,13 +14,25 @@ public class DateTimeUtil {
 	private static DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss");
 
 	public static String getTodayDate() {
-		
+
 		DateTimeFormatter dtf = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 		LocalDateTime now = LocalDateTime.now();
 
 		return dtf.format(now);
 	}
 	
+	public static long getCurretTimeStamp() {
+		return System.currentTimeMillis() / 1000;
+	}
+
+	public static String getTodayDateWithTime() {
+
+		// Format the date and time
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+
+		return LocalDateTime.now().format(formatter);
+	}
+
 	public static long getCurretTimeStamp() {
 		return System.currentTimeMillis() / 1000;
 	}

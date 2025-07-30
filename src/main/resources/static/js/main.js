@@ -18,11 +18,10 @@ $(document).ready(function() {
 	$('#seatsDropDown').on('change', function() {
 		$("#dp-form").submit();
 	});
-	
+
 	$("document").ready( function () {
 	    $('#bar').css("display","block");
 	});
-
 	$('#bar').click(function() {
 	      $('#bar').css("display","none");
 	});
@@ -79,9 +78,9 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 							return;
 						}
 
-						// Checking more than 8 time slots selection.
-						if (selectedSlots.length == 8) {
-							alert('You may select up to 8 time slots at a time.');
+						// Checking more than 4 time slots selection.
+						if (selectedSlots.length == 4) {
+							alert('You may select up to 4 time slots at a time.');
 							return;
 						}
 
@@ -214,7 +213,6 @@ function storeSelection() {
 
 }
 
-
 // Booking page
 function bookingPageLoad() {
 
@@ -223,7 +221,7 @@ function bookingPageLoad() {
 	if (roomId === undefined || roomId === null) {
 		document.getElementById("bookingCard").style.display = "none";
 	} else {
-		
+
 		document.getElementById("bookingCard").style.visibility = "visible";
 
 		var roomName = sessionStorage.getItem("roomName");

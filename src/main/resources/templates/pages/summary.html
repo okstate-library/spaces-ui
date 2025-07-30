@@ -84,9 +84,10 @@
 
 							<p class="xlead" style="margin: 1rem 0;">
 								<i class="far fa-envelope-open"></i> You will receive an email
-								confirmation, too. Please check your spam folder or <a
-									href="https://library.okstate.edu/chat">contact the library</a>
-								with any questions.
+								confirmation, too. Please check your spam folder or contact the
+								Digital Scholarship Center Help Desk at 405-744-9731 or <a
+									href="mailto:lib-dsc@okstate.edu?subject=Digital Scholarship Center Help Desk Study Room Question">
+									lib-dsc@okstate.edu</a> with any questions.
 							</p>
 							<hr>
 
@@ -111,8 +112,7 @@
 										<!-- Cancel Booking  -->
 										<div
 											class="cell small-5 small-offset-1   medium-3 medium-offset-1 text-right">
-											<a th:href="@{/} + ${categoryAttribute}"
-												class="button expanded"> Continue...</a>
+											<a th:href="@{/}" class="button expanded"> Continue...</a>
 										</div>
 									</div>
 								</div>
@@ -166,7 +166,7 @@
 											<!-- Cancel Booking  -->
 											<div
 												class="cell small-5 small-offset-7   medium-3 medium-offset-9 text-right">
-												<a  th:href="@{/} + ${categoryAttribute}" role="button" class="button expanded">
+												<a th:href="@{/}" role="button" class="button expanded">
 													Select a new reservation</a>
 											</div>
 										</div>
@@ -225,11 +225,8 @@
 							<!-- Cancel Booking  -->
 							<div
 								class="cell small-5 small-offset-7   medium-3 medium-offset-9 text-right">
-									<a  th:href="@{/} + ${categoryAttribute}" role="button" class="summary-page-btn button expanded">
-													Select a new reservation</a>
-													
-								<!-- <button class="summary-page-btn button expanded"
-									(click)="goBack()">Select a new reservation</button> -->
+								<button class="summary-page-btn button expanded"
+									(click)="goBack()">Select a new reservation</button>
 							</div>
 						</div>
 					</div>

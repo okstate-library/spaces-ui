@@ -43,19 +43,14 @@ public class SAMLUserList {
 	// Remove element to array
 	public void removeFromArray(SAMLUser value) {
 
-//		SAMLUser samlUser = findBySessionId(value.getUserId());
-//
-//		if (samlUser != null) {
-
 		System.out.println("remove id ----------" + value.getFirstName());
 
 		list.remove(value);
+	}
 
-//			for (int i = 0; i < list.size(); i++) {
-//				list.get(i).print();
-//			}
-//		}
-
+	public void clean() {
+		mInstance = null;
+		list = null;
 	}
 
 	// Add element to array
@@ -65,10 +60,6 @@ public class SAMLUserList {
 
 		if (samlUser == null) {
 			list.add(value);
-
-//			for (int i = 0; i < list.size(); i++) {
-//				list.get(i).print();
-//			}
 		}
 
 	}
