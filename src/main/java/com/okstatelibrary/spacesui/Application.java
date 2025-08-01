@@ -9,7 +9,7 @@ import org.springframework.boot.web.servlet.support.SpringBootServletInitializer
 import com.okstatelibrary.spacesui.util.RibbonMessage;
 
 /**
- * @author Damith
+ * @author Damith Perera
  *
  */
 @SpringBootApplication

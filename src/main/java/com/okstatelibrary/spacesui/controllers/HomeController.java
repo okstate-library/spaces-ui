@@ -2,7 +2,6 @@
 package com.okstatelibrary.spacesui.controllers;
 
 import java.io.IOException;
-import java.nio.charset.StandardCharsets;
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -20,7 +19,6 @@ import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -48,9 +46,6 @@ import com.okstatelibrary.spacesui.util.Globals;
 import com.okstatelibrary.spacesui.util.Messages;
 import com.okstatelibrary.spacesui.util.RibbonMessage;
 import com.okstatelibrary.spacesui.util.URLs;
-
-import java.io.InputStream;
-import java.util.Scanner;
 
 /**
  * 
@@ -172,6 +167,28 @@ public class HomeController {
 		}
 	};
 
+	@ModelAttribute
+	public void setCommonAttributes(Model model) {
+
+		model.addAttribute("pageTitle", this.globalConfigs.getTitle());
+
+		model.addAttribute("numberofTimeSlots", this.globalConfigs.getNumberofTimeSlots());
+
+		model.addAttribute("helpInfoPath", "common/" + this.globalConfigs.getInstanceName() + "/helpinfo");
+
+		model.addAttribute("showExtra", "false");
+
+		model.addAttribute("roomPolicyInfoPath", "common/" + this.globalConfigs.getInstanceName() + "/room-policy");
+
+		model.addAttribute("helpDeskName", this.globalConfigs.getHelpDeskName());
+
+		model.addAttribute("policyUrl", this.globalConfigs.getPolicyUrl());
+
+		model.addAttribute("summaryHelpInfoPath",
+				"common/" + this.globalConfigs.getInstanceName() + "/summary-helpinfo");
+
+	}
+
 	private void globalSetup()
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
@@ -268,40 +285,12 @@ public class HomeController {
 
 			System.out.println("categoryName - " + selectedCategory);
 
-			// String categoryName = this.globalConfigs.getCategoryName(selectedCategory);//
-			// "";
+			Map<String, String> seatList = this.globalConfigs.getSeatList(selectedCategory);
 
-			Map<String, String> seatList = this.globalConfigs.getSeatList(selectedCategory);// edmonLowSeatList;
-
-			Map<String, String> categoryList = this.globalConfigs.getCategoryList();// edmonLowCategoryList;
+			Map<String, String> categoryList = this.globalConfigs.getCategoryList();
 
 			model.addAttribute("hideCategorySelection", this.globalConfigs.hideCategorySelection(selectedCategory));
 			model.addAttribute("hidefloorselection", this.globalConfigs.hideFloorSelection(selectedCategory));
-//
-//			if (roomName != null && !roomName.isEmpty()) {
-//
-//				if (roomName.equals(creativeStudioURLId)) {
-//					selectedCategory = creativeStudioCategoryNumber;
-//					seatList = creativeStuiodSeatList;
-//
-//					categoryName = creativeStudioURLId;
-//
-//					model.addAttribute("hidefloorselection", "true");
-//
-//				} else if (roomName.equals(vetMedURLID)) {
-//					selectedCategory = this.globalConfigs.getCategoryNumber();
-//					
-//					seatList = vetMedSeatList;
-//
-//					categoryName = vetMedURLID;
-//
-//					categoryList = this.globalConfigs.getCategoryList();
-//
-//					model.addAttribute("hideCategorySelection", "true");
-//					model.addAttribute("hidefloorselection", "true");
-//				}
-//
-//			}
 
 			SpaceItem[] spaceItems = madeAvaliableTimeSlots(DateTimeUtil.getTodayDate(), selectedSeats, selectedFloor,
 					selectedCategory);
@@ -397,35 +386,15 @@ public class HomeController {
 				floor = "0";
 			}
 
-//			model.addAttribute("hideCategorySelection", "false");
-//			model.addAttribute("hidefloorselection", "false");
+			if (category == null || category.isEmpty()) {
+				category = this.globalConfigs.getCategoryNumber();
+			}
 
-			Map<String, String> seatList = this.globalConfigs.getSeatList(category);// edmonLowSeatList;
-			Map<String, String> categoryList = this.globalConfigs.getCategoryList(); // edmonLowCategoryList;
+			Map<String, String> seatList = this.globalConfigs.getSeatList(category);
+			Map<String, String> categoryList = this.globalConfigs.getCategoryList();
 
 			model.addAttribute("hideCategorySelection", this.globalConfigs.hideCategorySelection(category));
 			model.addAttribute("hidefloorselection", this.globalConfigs.hideFloorSelection(category));
-
-			// seatList = this.globalConfigs.getSeatList(selectedCategory);
-
-//			if (category.equals(edmonLowLibraryCategoryNumber)) {
-//				// model.addAttribute("hidefloorselection", "false");
-//
-//			} else if (category.equals(vetMedCategoryNumber)) {
-//				seatList = vetMedSeatList;
-//				categoryList = vetMedCategoryList;
-//
-//				// model.addAttribute("hidefloorselection", "true");
-//				model.addAttribute("hideCategorySelection", "true");
-//				floor = "0";
-//
-//				categoryName = vetMedURLID;
-//			} else if (category.equals(creativeStudioCategoryNumber)) {
-//				seatList = creativeStuiodSeatList;
-//
-//				// model.addAttribute("hidefloorselection", "true");
-//				categoryName = creativeStudioURLId;
-//			}
 
 			model.addAttribute("dateString", date);
 
@@ -516,7 +485,7 @@ public class HomeController {
 	public String landing(HttpServletRequest request, @CurrentUser User user, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException {
 
-		setupPolicyView(model);
+		// setupPolicyView(model);
 
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
@@ -554,24 +523,6 @@ public class HomeController {
 		}
 	}
 
-	private void setupPolicyView(Model model) throws IOException {
-
-		try (InputStream inputStream = new ClassPathResource(
-				"static/html/fragments/" + this.globalConfigs.getInstanceName() + "/room-policy.html")
-						.getInputStream()) {
-			Scanner scanner = new Scanner(inputStream, StandardCharsets.UTF_8.name());
-			String htmlContent = scanner.useDelimiter("\\A").next();
-			scanner.close();
-
-			model.addAttribute("htmlSnippet", htmlContent);
-
-		} catch (Exception e) {
-			e.printStackTrace();
-
-		}
-
-	}
-
 	/**
 	 * 
 	 * Cancellation of the booking.
@@ -595,7 +546,8 @@ public class HomeController {
 		if (bookingId.isEmpty() || bookingId == null) {
 
 			model.addAttribute("summaryModel", null);
-			model.addAttribute("errorMessage", Messages.ERROR_BOOKING_SOMETING_WENT_WRONG);
+			model.addAttribute("errorMessage",
+					Messages.ERROR_BOOKING_SOMETING_WENT_WRONG + this.globalConfigs.getHelpDeskName());
 
 		} else {
 
@@ -603,7 +555,7 @@ public class HomeController {
 			BookedItem[] bookingItems = spaceService.getBookedItems(getAccessTokenFromRequest(),
 					URLs.GET_BOOKING_DETAILS_URL + bookingId);
 
-			// Get the category id from the spaces service
+			// Get the category id
 
 			category = bookingItems[0].getCid();
 
@@ -613,7 +565,9 @@ public class HomeController {
 			if (cancelConfirmation == null || cancelConfirmation.length == 0) {
 
 				model.addAttribute("summaryModel", null);
-				model.addAttribute("errorMessage", Messages.ERROR_BOOKING_CANCEL_SOMETING_WENT_WRONG);
+				model.addAttribute("errorMessage",
+						Messages.ERROR_BOOKING_CANCEL_SOMETING_WENT_WRONG + this.globalConfigs.getHelpDeskName());
+
 			} else {
 
 				model.addAttribute("summaryModel", null);
@@ -672,13 +626,6 @@ public class HomeController {
 
 		SAMLUser samlUser = SAMLUserList.getInstance().getSAMLUser(session.getId());
 
-//		System.out.println("roomNumber - " + roomNumber);
-//		System.out.println("bookDate - " + bookDate);
-//		System.out.println("startTime - " + startTime);
-//		System.out.println("endTime ID - " + endTime);
-//
-//		System.out.println("categoryUrlId - " + session.getAttribute(sessionCategoryAttributeName));
-
 		if (!roomNumber.isEmpty() && !bookDate.isEmpty() && !startTime.isEmpty() && !endTime.isEmpty()) {
 
 			Bookings bookings = new Bookings(roomNumber, DateTimeUtil.convertToISODateTime(bookDate, endTime));
@@ -731,8 +678,10 @@ public class HomeController {
 	public String error(HttpServletRequest request, @PathVariable(required = false) String id, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
-		String errorMessage = Messages.ERROR_BOOKING_SOMETING_WENT_WRONG;
+		String errorMessage = Messages.ERROR_BOOKING_SOMETING_WENT_WRONG + this.globalConfigs.getHelpDeskName();
 
+		model.addAttribute("showExtra", "true");
+		
 		System.out.println("Error ID - " + (id != null ? id : "no  id found"));
 
 		if (id != null && !id.isEmpty()) {
@@ -808,7 +757,8 @@ public class HomeController {
 
 		if (id.isEmpty() || id == null) {
 			model.addAttribute("summaryModel", null);
-			model.addAttribute("errorMessage", Messages.ERROR_BOOKING_SOMETING_WENT_WRONG);
+			model.addAttribute("errorMessage",
+					Messages.ERROR_BOOKING_SOMETING_WENT_WRONG + this.globalConfigs.getHelpDeskName());
 
 		} else {
 

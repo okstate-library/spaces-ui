@@ -5,8 +5,15 @@ dateToday.setDate(dateToday.getDate() - 1);
 
 document.getElementById("year").innerHTML = new Date().getFullYear();
 
+
+var timeSlotLimits = 0;
+
 $(document).ready(function() {
 
+	timeSlotLimits = document.querySelector('meta[name="numberOfLimitTimeSlots"]')?.content;
+	
+	console.log("Instance name from meta tag:", timeSlotLimits);
+	
 	$('#date').fdatepicker({
 		startDate : dateToday,
 		format : 'yyyy-mm-dd'
@@ -79,8 +86,8 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 						}
 
 						// Checking more than 4 time slots selection.
-						if (selectedSlots.length == 4) {
-							alert('You may select up to 4 time slots at a time.');
+						if (selectedSlots.length == timeSlotLimits) {
+							alert('You may select up to ' + timeSlotLimits + ' time slots at a time.');
 							return;
 						}
 
@@ -144,7 +151,7 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 	}
 }
 
-//change the button selected style
+// change the button selected style
 function selectButtonStyle(button) {
 	$(button).css('background', '#14679E');
 	$(button).css('color', '#fff');
@@ -156,7 +163,7 @@ function unselectButtonStyle(button) {
 	$(button).css('background', '');
 }
 
-// Time value based on 
+// Time value based on
 function getTimeValue(time) {
 	var timeSlotLength = 60000;
 
@@ -189,7 +196,7 @@ function clearSelection() {
 	for (i = 0; i < buttons.length; i++) {
 
 		unselectButtonStyle($(buttons[i]));
-		//$(buttons[i]).css('background', '');
+		// $(buttons[i]).css('background', '');
 	}
 
 	buttons = [];

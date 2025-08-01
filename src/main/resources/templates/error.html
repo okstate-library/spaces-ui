@@ -41,18 +41,11 @@
 
 										</strong>.
 									</p>
-									<p>If you continue to receive this error please contact OSU
-										Library Circulation Desk.</p>
+									<p>If you continue to receive this error please contact</p>
+									<p th:text="${helpDeskName}"></p>
+									<!-- <p>OSU Library Circulation Desk.</p> -->
 								</dd>
-								<!-- Removed by Whitneys request
-								<!--
-								<dt>Use our Alternate Booking Site</dt>
-								<dd>
-									Try our backup room <a
-										href="https://okstate.libcal.com/reserve/study-rooms">reservation
-										system</a>.
-								</dd>
-								-->
+
 							</dl>
 
 
@@ -77,9 +70,6 @@
 									<strong> <a
 										th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
 											Start over</a></strong> and select a different <em>date</em>.
-
-									<!-- 	<a href="https://spaces.library.okstate.edu">Start
-											over</a></strong> and select a different <em>date</em>. -->
 								</dd>
 							</dl>
 
@@ -89,9 +79,8 @@
 								<dt>Students are limited to 2 active study room
 									reservations at one time.</dt>
 								<dd>
-									Please review the <strong><a
-										href="https://info.library.okstate.edu/studyrooms/policies">Study
-											Room Policies</a></strong>.
+									Please review the <strong><a th:href="${policyUrl}"
+										target="_blank">Study Room Policies</a></strong>.
 								</dd>
 
 							</dl>
@@ -103,22 +92,22 @@
 									extend an existing reservation, please cancel the whole
 									reservation and rebook it for the full time needed.</dt>
 								<dd>
-									Please review the <strong><a
-										href="https://info.library.okstate.edu/studyrooms/policies">Study
-											Room Policies</a>.</strong>
+									Please review the <strong><a th:href="${policyUrl}"
+										target="_blank">Study Room Policies</a>.</strong>
 								</dd>
 
 							</dl>
 
 							<!-- User checking in Sign sign on first and then check with the FOLIO before entering to the application -->
 							<dl class="error-cta-list" th:case="306">
-								<dt>Our system does not recognize you as a current student
-									or employee. Please contact lib-cir@okstate.edu with any
-									questions.</dt>
+								<dt>
+									Our system does not recognize you as a current student or
+									employee. <br /> Please contact lib-cir@okstate.edu with any
+									questions.
+								</dt>
 								<dd>
-									Please review the <strong><a
-										href="https://info.library.okstate.edu/studyrooms/policies">Study
-											Room Policies</a>.</strong>
+									Please review the <strong><a th:href="${policyUrl}"
+										target="_blank">Study Room Policies</a>.</strong>
 								</dd>
 
 							</dl>
@@ -135,36 +124,21 @@
 												try again </a>
 										</strong>.
 									</p>
-									<p>If you continue to receive this error please contact OSU
-										Library Circulation Desk.</p>
+									<p>If you continue to receive this error please contact
+										[[${helpDeskName}]]</p>
+
 								</dd>
 
 							</dl>
 
 						</div>
 
-
-
-
-
-
-
 						<!-- Contact information is always displayed -->
 						<dl class="error-cta-list">
-							<dt>Contact Us</dt>
-							<dd>
-								<p>
-									Circulation and Information Desk<br> <strong>For
-										immediate assistance please call 405-744-9775</strong>
-								</p>
-								<p>
-									Send us an email at<br> <strong> <a
-										href="mailto:lib-cir@okstate.edu?subject=Study Room Question">lib-cir@okstate.edu</a></strong>
-									<br>Emails will answered during business hours.
 
-								</p>
+							<dd class="cell medium-4"
+								th:replace="${helpInfoPath} :: helpinfo"></dd>
 
-							</dd>
 						</dl>
 
 

@@ -1,0 +1,44 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<head>
+
+
+</head>
+
+<body>
+	<div th:fragment="helpinfo">
+
+		<div class="grid-x">
+			<div class="cell small-12">
+				<h3 class="h4">
+					<i class="fas fa-info-circle"></i> Contact us.
+				</h3>
+			</div>
+			<div>
+				<p>
+					Architecture Library Circulation Desk<br> <strong
+						th:if="${showExtra}">For immediate assistance please </strong> <strong>call
+						405-744-6074</strong>
+				</p>
+			</div>
+
+		</div>
+
+		<div class="grid-x">
+			<div>
+				<p>
+					Send us an email at<br> <strong> <a
+						href="mailto:sara.mautino@okstate.edu">sara.mautino@okstate.edu</a></strong><br>Emails
+					will answered during business hours.
+				</p>
+
+			</div>
+		</div>
+	</div>
+
+</body>
+
+</html>
+

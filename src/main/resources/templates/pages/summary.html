@@ -82,12 +82,14 @@
 								</div>
 							</div>
 
-							<p class="xlead" style="margin: 1rem 0;">
-								<i class="far fa-envelope-open"></i> You will receive an email
+							<p class="xlead" style="margin: 1rem 0;"
+								th:replace="${summaryHelpInfoPath} :: summary-helpinfo">
+								<!-- <i class="far fa-envelope-open"></i> You will receive an email
 								confirmation, too. Please check your spam folder or contact the
+								
 								Digital Scholarship Center Help Desk at 405-744-9731 or <a
 									href="mailto:lib-dsc@okstate.edu?subject=Digital Scholarship Center Help Desk Study Room Question">
-									lib-dsc@okstate.edu</a> with any questions.
+									lib-dsc@okstate.edu</a> with any questions. -->
 							</p>
 							<hr>
 
@@ -179,7 +181,7 @@
 
 							<!-- Help Information -->
 							<div class="cell small-10 small-offset-1"
-								th:replace="common/helpinfo:: helpinfo"></div>
+								th:replace="${helpInfoPath} :: helpinfo"></div>
 
 						</div>
 
