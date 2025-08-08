@@ -170,6 +170,8 @@ public class HomeController {
 	@ModelAttribute
 	public void setCommonAttributes(Model model) {
 
+		model.addAttribute("showExternalLinks", this.globalConfigs.displayExternalLinks());
+
 		model.addAttribute("pageTitle", this.globalConfigs.getTitle());
 
 		model.addAttribute("numberofTimeSlots", this.globalConfigs.getNumberofTimeSlots());
@@ -681,7 +683,7 @@ public class HomeController {
 		String errorMessage = Messages.ERROR_BOOKING_SOMETING_WENT_WRONG + this.globalConfigs.getHelpDeskName();
 
 		model.addAttribute("showExtra", "true");
-		
+
 		System.out.println("Error ID - " + (id != null ? id : "no  id found"));
 
 		if (id != null && !id.isEmpty()) {

@@ -176,4 +176,21 @@ public class ArchitectureGlobalConfigs implements GlobalConfigs {
 	public String getPolicyUrl() {
 		return "https://info.library.okstate.edu/studyrooms/policies";
 	}
+
+	/**
+	 * Indicates whether external links should be displayed in the UI or not.
+	 *
+	 * <p>
+	 * This implementation always returns {@code false}, meaning that external links
+	 * are not displayed. Override this method to change the default behavior if
+	 * external links need to be shown.
+	 * </p>
+	 *
+	 * @return {@code false} indicating external links are not to be displayed
+	 */
+	@Override
+	public String displayExternalLinks() {
+
+		return "false";
+	}
 }

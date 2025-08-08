@@ -76,11 +76,11 @@
 					<div class="top-bar-left">
 						<ul class="vertical medium-horizontal menu">
 							<li class="menu-text make-125px hide-for-small-only">&nbsp;</li>
-							<li><a href="https://library.okstate.edu">Home</a></li>
-							<li><a
-								href="https://forms.library.okstate.edu/machform/view.php?id=181450">Testing
-									Space</a></li>
-							<li><a
+							<li><a href="https://library.okstate.edu">Home </a></li>
+							<li th:if="${showExternalLinks}"><a
+								href="https://forms.library.okstate.edu/machform/view.php?id=181450">
+									Testing Space</a></li>
+							<li th:if="${showExternalLinks}"><a
 								href="https://info.library.okstate.edu/family-study-room">Family
 									Study Room</a></li>
 						</ul>

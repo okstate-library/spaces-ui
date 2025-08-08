@@ -41,6 +41,14 @@ public interface GlobalConfigs {
 	String getNumberofTimeSlots();
 
 	/**
+	 * Checks whether external links can display or not to this instance.
+	 *
+	 * @return true if the extranl links can display in the home page; false
+	 *         otherwise.
+	 */
+	String displayExternalLinks();
+
+	/**
 	 * Returns the display title (e.g., used on web page headers) for the current
 	 * instance.
 	 *
