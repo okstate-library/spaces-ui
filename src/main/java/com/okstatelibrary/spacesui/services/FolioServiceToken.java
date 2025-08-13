@@ -36,52 +36,71 @@ public class FolioServiceToken {
 
 	public String getToken() {
 
-		User user = new User();
+		int loopCount = 1;
 
-		user.username = SystemProperties.FolioUsername;
+		boolean success = false;
 
-		user.password = SystemProperties.FolioPassword;
+		while (!success) {
 
-		HttpEntity<?> request = new HttpEntity<Object>(user, getHttpHeaders());
+			User user = new User();
 
-		try {
+			user.username = SystemProperties.FolioUsername;
 
-			if (authToken == null || DateTimeUtil.getCurretTimeStamp() > expireTimeStap) {
+			user.password = SystemProperties.FolioPassword;
 
-				String url = SystemProperties.FolioURL + "authn/login-with-expiry";
+			HttpEntity<?> request = new HttpEntity<Object>(user, getHttpHeaders());
 
-				ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, request,
-						String.class);
+			try {
 
-				String[] vavlues = responseEntity.getHeaders().get("Set-Cookie").toString().split(";");
+				loopCount++;
 
-				for (String value : vavlues) {
+				System.out.println("loopCount" + loopCount);
 
-					if (value.contains("[folioAccessToken=")) {
+				if (authToken == null || DateTimeUtil.getCurretTimeStamp() > expireTimeStap) {
 
-						String token = value.split("=")[1];
+					String url = SystemProperties.FolioURL + "authn/login-with-expiry";
 
-						authToken = token;
+					ResponseEntity<String> responseEntity = restTemplate.exchange(url, HttpMethod.POST, request,
+							String.class);
 
-						currentTimeStap = DateTimeUtil.getCurretTimeStamp();
+					String[] vavlues = responseEntity.getHeaders().get("Set-Cookie").toString().split(";");
 
-						expireTimeStap = currentTimeStap + 600;
+					for (String value : vavlues) {
 
-						return authToken;
+						if (value.contains("[folioAccessToken=")) {
+
+							String token = value.split("=")[1];
+
+							authToken = token;
+
+							currentTimeStap = DateTimeUtil.getCurretTimeStamp();
+
+							expireTimeStap = currentTimeStap + 600;
+
+							success = true; // If no exception, mark success
+
+							return authToken;
+						}
 					}
+
 				}
 
+				return authToken;
+
+			} catch (Exception e) {
+
+				System.err.println("Error occurred: " + e.getMessage());
+
+				e.getMessage();
+				e.printStackTrace();
+
+				return null;
 			}
 
-			return authToken;
-
-		} catch (Exception e) {
-
-			e.getMessage();
-			e.printStackTrace();
-
-			return null;
 		}
+
+		return null;
+
 	}
 
 }
