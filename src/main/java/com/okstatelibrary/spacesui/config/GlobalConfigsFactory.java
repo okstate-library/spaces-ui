@@ -2,6 +2,7 @@ package com.okstatelibrary.spacesui.config;
 
 import com.okstatelibrary.spacesui.globals.GlobalConfigs;
 import com.okstatelibrary.spacesui.globals.ArchitectureGlobalConfigs;
+import com.okstatelibrary.spacesui.globals.CreativeGlobalConfigs;
 import com.okstatelibrary.spacesui.globals.DscGlobalConfigs;
 import com.okstatelibrary.spacesui.globals.EdmonLowGlobalConfigs;
 import com.okstatelibrary.spacesui.globals.VetMetGlobalConfigs;
@@ -35,13 +36,13 @@ import org.springframework.context.annotation.Configuration;
 public class GlobalConfigsFactory {
 
 	com.okstatelibrary.spacesui.util.SystemProperties systemProperties;
-	
-    /**
-     * Injected instance name from configuration (e.g., application.properties).
-     * Defaults to "edmon-low" if the property is not specified.
-     */
-    @Value("${instanceName:edmon-low}")
-    private String instanceName;
+
+	/**
+	 * Injected instance name from configuration (e.g., application.properties).
+	 * Defaults to "edmon-low" if the property is not specified.
+	 */
+	@Value("${instanceName:edmon-low}")
+	private String instanceName;
 
 	/**
 	 * Returns a bean of type {@link GlobalConfigs} based on the configured instance
@@ -54,6 +55,8 @@ public class GlobalConfigsFactory {
 	@Bean
 	public GlobalConfigs getConfig() {
 
+		System.out.println("instanceName" + instanceName);
+
 		switch (instanceName) {
 		case "edmon-low":
 			return new EdmonLowGlobalConfigs();
@@ -63,6 +66,8 @@ public class GlobalConfigsFactory {
 			return new ArchitectureGlobalConfigs();
 		case "dsc":
 			return new DscGlobalConfigs();
+		case "creative":
+			return new CreativeGlobalConfigs();
 		default:
 			System.err.println("Unknown instance name: " + systemProperties.getInstanceName());
 			return null;

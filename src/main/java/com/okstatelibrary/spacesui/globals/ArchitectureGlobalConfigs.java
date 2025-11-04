@@ -42,24 +42,13 @@ public class ArchitectureGlobalConfigs implements GlobalConfigs {
 	private static final String categoryNumber = "40680";
 
 	/**
-	 * Category list for the Architecture Library. Maps the category number to its
-	 * human-readable name.
-	 */
-	private static final Map<String, String> categoryList = new HashMap<String, String>() {
-		private static final long serialVersionUID = 1L;
-		{
-			put(categoryNumber, "Architecture Library");
-		}
-	};
-
-	/**
 	 * Returns the seat list map.
 	 *
 	 * @param categoryNumber category ID (not used in this implementation).
 	 * @return a map of seat options.
 	 */
 	@Override
-	public Map<String, String> getSeatList(String categoryNumber) {
+	public Map<String, String> getSeatList() {
 		return seatList;
 	}
 
@@ -84,16 +73,6 @@ public class ArchitectureGlobalConfigs implements GlobalConfigs {
 	}
 
 	/**
-	 * Returns the category list map.
-	 *
-	 * @return a map of available categories.
-	 */
-	@Override
-	public Map<String, String> getCategoryList() {
-		return categoryList;
-	}
-
-	/**
 	 * Returns the category number.
 	 *
 	 * @return the category ID string for this instance.
@@ -106,35 +85,11 @@ public class ArchitectureGlobalConfigs implements GlobalConfigs {
 	/**
 	 * Indicates that floor selection should be hidden for this instance.
 	 *
-	 * @param categoryId the ID of the category (not used in this implementation).
 	 * @return "true" to hide the floor dropdown.
 	 */
 	@Override
-	public String hideFloorSelection(String categoryId) {
+	public String hideFloorSelection() {
 		return "true";
-	}
-
-	/**
-	 * Indicates that category selection should be hidden for this instance.
-	 *
-	 * @param categoryId the ID of the category (not used in this implementation).
-	 * @return "true" to hide the category dropdown.
-	 */
-	@Override
-	public String hideCategorySelection(String categoryId) {
-		return "true";
-	}
-
-	/**
-	 * Checks if the provided categoryId belongs to this configuration. Always
-	 * returns true in this implementation.
-	 *
-	 * @param categoryId the category ID to check.
-	 * @return true (defaulted).
-	 */
-	@Override
-	public boolean checkCategory(String categoryId) {
-		return true;
 	}
 
 	/**
@@ -144,7 +99,17 @@ public class ArchitectureGlobalConfigs implements GlobalConfigs {
 	 */
 	@Override
 	public String getTitle() {
-		return "Spaces:Room Booking System - Architecture Library Oklahoma State University";
+		return "Spaces:Room Booking System - Architecture Library - Oklahoma State University";
+	}
+
+	/**
+	 * Returns the page organization name for the UI.
+	 *
+	 * @return A string representing the organization name.
+	 */
+	@Override
+	public String getOrganizationName() {
+		return "Architecture Library - Oklahoma State University";
 	}
 
 	/**

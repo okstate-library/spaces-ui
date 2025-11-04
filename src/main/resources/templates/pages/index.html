@@ -9,27 +9,9 @@
 		<div class="banner" style="padding: .75rem 0;">
 
 			<div class="grid-container">
-				
+
 				<form id="dp-form" method="post" th:action="@{/}">
-					
-					
-					
-					<div class="grid-x" th:if=" ${hideCategorySelection} =='false'">
-						<div class="cell small-4 medium-4">
-							<label> <strong>Location: </strong> <select
-								name="category" id="locationDropDown"
-								onchange="this.form.submit()">
-									<option th:each="dropDownItem : ${categories}"
-										th:value="${dropDownItem.key}"
-										th:selected="${dropDownItem.key} == *{selectedCategory}"
-										th:text="${dropDownItem.value}" />
-							</select>
 
-							</label>
-
-						</div>
-					</div>
-					
 					<div class="grid-x">
 						<div class="cell small-8 medium-3">
 							<label> <strong>Date: </strong> <input type="text"
@@ -74,6 +56,12 @@
 							</label>
 						</div>
 
+						<div>
+							<h5
+								style="font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 18px; line-height: 1.5; color: #333; margin-top: 1rem;">
+								Click all the times in the blocks you would like to reserve.</h5>
+						</div>
+
 					</div>
 				</form>
 			</div>
@@ -94,8 +82,8 @@
 					<li>Call or email us for help</li>
 				</ul>
 			</div>
-			
-			
+
+
 			<div class="cell medium-4" th:replace="${helpInfoPath} :: helpinfo">
 			</div>
 		</div>
@@ -159,7 +147,7 @@
 										style="display: inline;">
 
 										<button class="button"
-											th:classappend="${ timeslot.booked ? 'disabled' : 'clear '}"
+											th:classappend="${ timeslot.booked ? 'disabled orange-round-button' : 'clear orange-round-button'}"
 											th:onclick="addItem(this, '[(${room.name})]','[(${room.id})]', '[(${timeslot.fromTime})]' 
 										, '[(${timeslot.toTime})]' , '[(${timeslot.fromDateTime})]' , '[(${timeslot.booked})]' );"
 											data-th-text="${timeslot.fromTime}">...</button>
@@ -202,7 +190,7 @@
 															<i class="fas fa-times"></i> Clear Selection
 														</button>
 														<button class="button" th:onclick="storeSelection()">
-															<i class="far fa-calendar-check"></i> Confirm
+															<i class="far fa-calendar-check"></i> Continue
 														</button>
 
 													</div>

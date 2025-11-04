@@ -41,50 +41,19 @@ public class EdmonLowGlobalConfigs implements GlobalConfigs {
 	};
 
 	/**
-	 * Seat count dropdown list specific to Creative Studios.
-	 */
-	private static final Map<String, String> creativeStuiodSeatList = new HashMap<String, String>() {
-		private static final long serialVersionUID = 1L;
-		{
-			put("1", "1+");
-			put("3", "2+");
-		}
-	};
-
-	/**
 	 * Category number representing Edmon Low Library.
 	 */
 	private static final String edmonLowLibraryCategoryNumber = "7030";
 
 	/**
-	 * Category number representing Creative Studios.
-	 */
-	private static final String creativeStudioCategoryNumber = "7032";
-
-	/**
-	 * Category dropdown list for Edmon Low Library and Creative Studios.
-	 */
-	private static final Map<String, String> edmonLowCategoryList = new HashMap<String, String>() {
-		private static final long serialVersionUID = 1L;
-		{
-			put(edmonLowLibraryCategoryNumber, "Edmon Low Library");
-			put(creativeStudioCategoryNumber, "Creative Studios");
-		}
-	};
-
-	/**
 	 * Returns the appropriate seat list depending on the category.
 	 *
-	 * @param categoryNumber The category ID.
 	 * @return A map of seat size options.
 	 */
 	@Override
-	public Map<String, String> getSeatList(String categoryNumber) {
-		if (categoryNumber.equals(edmonLowLibraryCategoryNumber)) {
-			return edmonLowSeatList;
-		} else {
-			return creativeStuiodSeatList;
-		}
+	public Map<String, String> getSeatList() {
+		return edmonLowSeatList;
+
 	}
 
 	/**
@@ -108,16 +77,6 @@ public class EdmonLowGlobalConfigs implements GlobalConfigs {
 	}
 
 	/**
-	 * Returns the list of categories supported in this configuration.
-	 *
-	 * @return A map of category IDs to names.
-	 */
-	@Override
-	public Map<String, String> getCategoryList() {
-		return edmonLowCategoryList;
-	}
-
-	/**
 	 * Returns the default category number.
 	 *
 	 * @return The category number for Edmon Low Library.
@@ -130,38 +89,11 @@ public class EdmonLowGlobalConfigs implements GlobalConfigs {
 	/**
 	 * Determines whether floor selection should be hidden for a category.
 	 *
-	 * @param categoryId The category ID.
 	 * @return "false" if Edmon Low Library, otherwise "true".
 	 */
 	@Override
-	public String hideFloorSelection(String categoryId) {
-		if (categoryId.equals(edmonLowLibraryCategoryNumber)) {
-			return "false";
-		} else {
-			return "true";
-		}
-	}
-
-	/**
-	 * Determines whether category selection should be hidden for a category.
-	 *
-	 * @param categoryId The category ID.
-	 * @return Always returns "false" indicating the category selection is shown.
-	 */
-	@Override
-	public String hideCategorySelection(String categoryId) {
+	public String hideFloorSelection() {
 		return "false";
-	}
-
-	/**
-	 * Checks if a given category ID is supported in this configuration.
-	 *
-	 * @param categoryId The category ID.
-	 * @return True if category exists in the configuration.
-	 */
-	@Override
-	public boolean checkCategory(String categoryId) {
-		return edmonLowCategoryList.containsKey(categoryId);
 	}
 
 	/**
@@ -172,6 +104,16 @@ public class EdmonLowGlobalConfigs implements GlobalConfigs {
 	@Override
 	public String getTitle() {
 		return "Spaces:Room Booking System - Edmon Low Library - Oklahoma State University";
+	}
+
+	/**
+	 * Returns the page organization name for the UI.
+	 *
+	 * @return A string representing the organization name.
+	 */
+	@Override
+	public String getOrganizationName() {
+		return "Edmon Low Library - Oklahoma State University";
 	}
 
 	/**
@@ -219,4 +161,5 @@ public class EdmonLowGlobalConfigs implements GlobalConfigs {
 	public String displayExternalLinks() {
 		return "true";
 	}
+
 }

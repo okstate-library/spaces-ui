@@ -4,20 +4,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * {@code DscGlobalConfigs} implements {@link GlobalConfigs} and provides
- * configuration values for the Digital Scholarship Center (DSC) room
- * reservation system at Oklahoma State University.
- *
- * <p>
- * This class defines UI options such as floor and seat dropdowns, category
- * metadata, instance identifiers, and control flags used to customize the
- * behavior of the booking interface.
- * </p>
+ * EdmonLowGlobalConfigs is a concrete implementation of the GlobalConfigs
+ * interface. It provides configuration values for the Edmon Low Library and
+ * Creative Studios instances, including dropdown lists for floors, seats, and
+ * categories, as well as UI control flags and metadata like policy URLs and
+ * titles.
  */
-public class DscGlobalConfigs implements GlobalConfigs {
+public class CreativeGlobalConfigs implements GlobalConfigs {
 
 	/**
-	 * Floor list used in the floor selection dropdown.
+	 * Defines the floor dropdown list for Edmon Low Library.
 	 */
 	private static final Map<String, String> floorList = new HashMap<String, String>() {
 		private static final long serialVersionUID = 1L;
@@ -27,35 +23,37 @@ public class DscGlobalConfigs implements GlobalConfigs {
 	};
 
 	/**
-	 * Seat list used in the seat count dropdown.
+	 * Seat count dropdown list specific to Creative Studios.
 	 */
-	private static final Map<String, String> seatList = new HashMap<String, String>() {
+	private static final Map<String, String> creativeStuiodSeatList = new HashMap<String, String>() {
 		private static final long serialVersionUID = 1L;
 		{
 			put("1", "1+");
-			put("4", "3+");
+			put("3", "2+");
 		}
 	};
 
 	/**
-	 * The category number associated with the Digital Scholarship Center.
+	 * Category number representing Creative Studios.
 	 */
-	private static final String categoryNumber = "37979";
+	private static final String creativeStudioCategoryNumber = "7032";
 
 	/**
-	 * Returns the predefined seat count options.
+	 * Returns the appropriate seat list depending on the category.
 	 *
-	 * @return a map representing seat options.
+	 * @return A map of seat size options.
 	 */
 	@Override
 	public Map<String, String> getSeatList() {
-		return seatList;
+
+		return creativeStuiodSeatList;
+
 	}
 
 	/**
-	 * Returns the predefined floor list.
+	 * Returns the floor list for Edmon Low Library.
 	 *
-	 * @return a map representing floor options.
+	 * @return A map of floor options.
 	 */
 	@Override
 	public Map<String, String> getFloorList() {
@@ -63,29 +61,29 @@ public class DscGlobalConfigs implements GlobalConfigs {
 	}
 
 	/**
-	 * Returns the unique instance name used in routing or configuration.
+	 * Returns the instance name used for conditional configuration.
 	 *
-	 * @return the string "dsc".
+	 * @return The string "edmon-low".
 	 */
 	@Override
 	public String getInstanceName() {
-		return "dsc";
+		return "creative";
 	}
 
 	/**
-	 * Returns the unique category number for DSC.
+	 * Returns the default category number.
 	 *
-	 * @return the category ID string.
+	 * @return The category number for Edmon Low Library.
 	 */
 	@Override
 	public String getCategoryNumber() {
-		return categoryNumber;
+		return creativeStudioCategoryNumber;
 	}
 
 	/**
-	 * Determines whether the floor selection dropdown should be hidden.
+	 * Determines whether floor selection should be hidden for a category.
 	 *
-	 * @return "true" to hide the floor dropdown.
+	 * @return "false" if Edmon Low Library, otherwise "true".
 	 */
 	@Override
 	public String hideFloorSelection() {
@@ -93,13 +91,13 @@ public class DscGlobalConfigs implements GlobalConfigs {
 	}
 
 	/**
-	 * Returns the display title for the DSC booking page.
+	 * Returns the page title for the UI.
 	 *
-	 * @return the formatted title string.
+	 * @return A string representing the browser title bar.
 	 */
 	@Override
 	public String getTitle() {
-		return "Spaces:Room Booking System - Digital Scholarship Center - Oklahoma State University";
+		return "Edmon Low Creative Studios - Oklahoma State University";
 	}
 
 	/**
@@ -109,13 +107,13 @@ public class DscGlobalConfigs implements GlobalConfigs {
 	 */
 	@Override
 	public String getOrganizationName() {
-		return "Digital Scholarship Center - Oklahoma State University";
+		return "Edmon Low Creative Studios - Oklahoma State University";
 	}
-	
+
 	/**
 	 * Returns the number of allowed booking time slots.
 	 *
-	 * @return "8" as a string.
+	 * @return The string "8".
 	 */
 	@Override
 	public String getNumberofTimeSlots() {
@@ -123,19 +121,19 @@ public class DscGlobalConfigs implements GlobalConfigs {
 	}
 
 	/**
-	 * Returns the help desk name shown on the interface.
+	 * Returns the name of the help desk for display purposes.
 	 *
-	 * @return the string "Digital Scholarship Center Help Desk."
+	 * @return The help desk name string.
 	 */
 	@Override
 	public String getHelpDeskName() {
-		return "Digital Scholarship Center Help Desk.";
+		return "Creative Studios Help Desk.";
 	}
 
 	/**
 	 * Returns the URL to the room booking policy page.
 	 *
-	 * @return the policy URL.
+	 * @return A URL string to the library study room policies.
 	 */
 	@Override
 	public String getPolicyUrl() {
@@ -157,4 +155,5 @@ public class DscGlobalConfigs implements GlobalConfigs {
 	public String displayExternalLinks() {
 		return "false";
 	}
+
 }

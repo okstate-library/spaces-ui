@@ -29,25 +29,12 @@ public class VetMetGlobalConfigs implements GlobalConfigs {
 	};
 
 	/**
-	 * Defines the category list available for Vet Med instance. Key is the category
-	 * number, value is the category label.
-	 */
-	private static final Map<String, String> vetMedCategoryList = new HashMap<String, String>() {
-		private static final long serialVersionUID = 1L;
-
-		{
-			put(vetMedCategoryNumber, "Vet med");
-		}
-	};
-
-	/**
 	 * Returns the seat options for the given category.
 	 *
-	 * @param categoryId the category identifier
 	 * @return a map of seat count options
 	 */
 	@Override
-	public Map<String, String> getSeatList(String categoryId) {
+	public Map<String, String> getSeatList() {
 		return vetMedSeatList;
 	}
 
@@ -72,16 +59,6 @@ public class VetMetGlobalConfigs implements GlobalConfigs {
 	}
 
 	/**
-	 * Returns the list of categories available for Vet Med.
-	 *
-	 * @return map of category ID to name
-	 */
-	@Override
-	public Map<String, String> getCategoryList() {
-		return vetMedCategoryList;
-	}
-
-	/**
 	 * Returns the default category number for Vet Med.
 	 *
 	 * @return category number as string
@@ -94,34 +71,11 @@ public class VetMetGlobalConfigs implements GlobalConfigs {
 	/**
 	 * Indicates whether the floor selection UI should be hidden.
 	 *
-	 * @param categoryId the category identifier
 	 * @return "true" indicating the floor selection should be hidden
 	 */
 	@Override
-	public String hideFloorSelection(String categoryId) {
+	public String hideFloorSelection() {
 		return "true";
-	}
-
-	/**
-	 * Indicates whether the category selection UI should be hidden.
-	 *
-	 * @param categoryId the category identifier
-	 * @return "true" indicating the category selection should be hidden
-	 */
-	@Override
-	public String hideCategorySelection(String categoryId) {
-		return "true";
-	}
-
-	/**
-	 * Verifies if the given category ID exists in the configuration.
-	 *
-	 * @param categoryId the category identifier
-	 * @return true if category exists, otherwise false
-	 */
-	@Override
-	public boolean checkCategory(String categoryId) {
-		return vetMedCategoryList.containsKey(categoryId);
 	}
 
 	/**
@@ -131,7 +85,17 @@ public class VetMetGlobalConfigs implements GlobalConfigs {
 	 */
 	@Override
 	public String getTitle() {
-		return "Spaces:Room Booking System - William E. Brock Memorial Library Edmon Low Library (Vet med) - Oklahoma State University";
+		return "Spaces:Room Booking System - William E. Brock Memorial Library (Vet med) - Oklahoma State University";
+	}
+
+	/**
+	 * Returns the page organization name for the UI.
+	 *
+	 * @return A string representing the organization name.
+	 */
+	@Override
+	public String getOrganizationName() {
+		return "William E. Brock Memorial Library - Oklahoma State University";
 	}
 
 	/**

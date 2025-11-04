@@ -55,6 +55,14 @@ public interface GlobalConfigs {
 	 * @return title string.
 	 */
 	String getTitle();
+	
+	/**
+	 * Returns the display organization Name for the current
+	 * instance.
+	 *
+	 * @return organization name string.
+	 */
+	String getOrganizationName();
 
 	/**
 	 * Returns the unique category number identifying this instance.
@@ -76,7 +84,7 @@ public interface GlobalConfigs {
 	 * @param categoryId the ID of the category.
 	 * @return a map of seat IDs to seat labels.
 	 */
-	Map<String, String> getSeatList(String categoryId);
+	Map<String, String> getSeatList();
 
 	/**
 	 * Returns a map of floor IDs to floor names for the instance.
@@ -86,36 +94,11 @@ public interface GlobalConfigs {
 	Map<String, String> getFloorList();
 
 	/**
-	 * Returns a map of category IDs to category names.
-	 *
-	 * @return category map.
-	 */
-	Map<String, String> getCategoryList();
-
-	/**
 	 * Indicates whether the floor selection UI should be hidden for the given
 	 * category.
 	 *
 	 * @param categoryId the ID of the category.
 	 * @return a flag (e.g., "true"/"false") as String to indicate visibility.
 	 */
-	String hideFloorSelection(String categoryId);
-
-	/**
-	 * Indicates whether the category selection UI should be hidden for the given
-	 * category.
-	 *
-	 * @param categoryId the ID of the category.
-	 * @return a flag (e.g., "true"/"false") as String to indicate visibility.
-	 */
-	String hideCategorySelection(String categoryId);
-
-	/**
-	 * Checks whether the given category ID belongs to this instance.
-	 *
-	 * @param categoryId the category ID to check.
-	 * @return true if the category is associated with the current instance; false
-	 *         otherwise.
-	 */
-	boolean checkCategory(String categoryId);
+	String hideFloorSelection();
 }

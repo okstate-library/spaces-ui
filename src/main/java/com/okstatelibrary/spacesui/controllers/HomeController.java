@@ -27,6 +27,7 @@ import org.springframework.security.saml.metadata.MetadataManager;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -35,6 +36,7 @@ import org.springframework.web.client.RestClientException;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
+import com.okstatelibrary.spacesui.config.SessionListener;
 import com.okstatelibrary.spacesui.globals.GlobalConfigs;
 import com.okstatelibrary.spacesui.models.*;
 import com.okstatelibrary.spacesui.services.AccessTokenService;
@@ -167,30 +169,6 @@ public class HomeController {
 		}
 	};
 
-	@ModelAttribute
-	public void setCommonAttributes(Model model) {
-
-		model.addAttribute("showExternalLinks", this.globalConfigs.displayExternalLinks());
-
-		model.addAttribute("pageTitle", this.globalConfigs.getTitle());
-
-		model.addAttribute("numberofTimeSlots", this.globalConfigs.getNumberofTimeSlots());
-
-		model.addAttribute("helpInfoPath", "common/" + this.globalConfigs.getInstanceName() + "/helpinfo");
-
-		model.addAttribute("showExtra", "false");
-
-		model.addAttribute("roomPolicyInfoPath", "common/" + this.globalConfigs.getInstanceName() + "/room-policy");
-
-		model.addAttribute("helpDeskName", this.globalConfigs.getHelpDeskName());
-
-		model.addAttribute("policyUrl", this.globalConfigs.getPolicyUrl());
-
-		model.addAttribute("summaryHelpInfoPath",
-				"common/" + this.globalConfigs.getInstanceName() + "/summary-helpinfo");
-
-	}
-
 	private void globalSetup()
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
@@ -204,25 +182,47 @@ public class HomeController {
 
 				List<Room> roomList = new ArrayList<>();
 
-				for (Map.Entry<String, String> entry : this.globalConfigs.getCategoryList().entrySet()) {
+//				for (Map.Entry<String, String> entry : this.globalConfigs.getCategoryNumber() .getCategoryList().entrySet()) {
+//
+//					System.out.println("entry.getKey() " + entry.getKey() + " ---  ");
+//
+//					Category[] categoryItems = spaceService.getRoomsByCategory(getAccessTokenFromRequest(),
+//							URLs.getRoomsByCategoryURL(entry.getKey()));
+//
+//					System.out.println("entry.getKey() " + entry.getKey() + "--- " + categoryItems[0].getItems());
+//
+//					studyRooms.put(entry.getKey(), categoryItems[0].getItems());
+//
+//					Room[] rooms = spaceService.getRoom(getAccessTokenFromRequest(),
+//							URLs.GET_ROOM_DETAILS_URL + categoryItems[0].getItems());
+//
+//					for (Room room : rooms) {
+//						roomList.add(room);
+//					}
+//
+//				}
 
-					System.out.println("entry.getKey() " + entry.getKey() + " ---  ");
+				// for (Map.Entry<String, String> entry : this.globalConfigs.getCategoryNumber()
+				// .getCategoryList().entrySet()) {
 
-					Category[] categoryItems = spaceService.getRoomsByCategory(getAccessTokenFromRequest(),
-							URLs.getRoomsByCategoryURL(entry.getKey()));
+				// System.out.println("entry.getKey() " + entry.getKey() + " --- ");
 
-					System.out.println("entry.getKey() " + entry.getKey() + "--- " + categoryItems[0].getItems());
+				Category[] categoryItems = spaceService.getRoomsByCategory(getAccessTokenFromRequest(),
+						URLs.getRoomsByCategoryURL(this.globalConfigs.getCategoryNumber()));
 
-					studyRooms.put(entry.getKey(), categoryItems[0].getItems());
+				// System.out.println("entry.getKey() " + entry.getKey() + "--- " +
+				// categoryItems[0].getItems());
 
-					Room[] rooms = spaceService.getRoom(getAccessTokenFromRequest(),
-							URLs.GET_ROOM_DETAILS_URL + categoryItems[0].getItems());
+				studyRooms.put(this.globalConfigs.getCategoryNumber(), categoryItems[0].getItems());
 
-					for (Room room : rooms) {
-						roomList.add(room);
-					}
+				Room[] rooms = spaceService.getRoom(getAccessTokenFromRequest(),
+						URLs.GET_ROOM_DETAILS_URL + categoryItems[0].getItems());
 
+				for (Room room : rooms) {
+					roomList.add(room);
 				}
+
+				// }
 
 				globalsInstance.setRoomDetails(roomList);
 
@@ -279,23 +279,12 @@ public class HomeController {
 			String selectedSeats = "0";
 			String selectedFloor = "0";
 
-			String selectedCategory = this.globalConfigs.getCategoryNumber();
+			Map<String, String> seatList = this.globalConfigs.getSeatList();
 
-			if (roomName != null && !roomName.isEmpty() && this.globalConfigs.checkCategory(roomName)) {
-				selectedCategory = roomName;
-			}
-
-			System.out.println("categoryName - " + selectedCategory);
-
-			Map<String, String> seatList = this.globalConfigs.getSeatList(selectedCategory);
-
-			Map<String, String> categoryList = this.globalConfigs.getCategoryList();
-
-			model.addAttribute("hideCategorySelection", this.globalConfigs.hideCategorySelection(selectedCategory));
-			model.addAttribute("hidefloorselection", this.globalConfigs.hideFloorSelection(selectedCategory));
+			model.addAttribute("hidefloorselection", this.globalConfigs.hideFloorSelection());
 
 			SpaceItem[] spaceItems = madeAvaliableTimeSlots(DateTimeUtil.getTodayDate(), selectedSeats, selectedFloor,
-					selectedCategory);
+					this.globalConfigs.getCategoryNumber());
 
 			model.addAttribute("spaceList", spaceItems);
 
@@ -335,13 +324,10 @@ public class HomeController {
 			model.addAttribute("floors", this.globalConfigs.getFloorList());
 			model.addAttribute("selectedFloor", selectedFloor);
 
-			model.addAttribute("categories", categoryList);
-			model.addAttribute("selectedCategory", selectedCategory);
+			HttpSession session = request.getSession(true);
+			session.setMaxInactiveInterval(900);
 
-			HttpSession session = request.getSession();
-			session.setMaxInactiveInterval(300);
-
-			session.setAttribute(sessionCategoryAttributeName, selectedCategory);
+			session.setAttribute(sessionCategoryAttributeName, this.globalConfigs.getCategoryNumber());
 
 			return "pages/index";
 		}
@@ -366,8 +352,7 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String index(HttpServletRequest request, @ModelAttribute("date") String date,
-			@ModelAttribute("seats") String seats, @ModelAttribute("floor") String floor,
-			@ModelAttribute("category") String category, Model model) throws JsonParseException, JsonMappingException,
+			@ModelAttribute("seats") String seats, @ModelAttribute("floor") String floor, Model model) throws JsonParseException, JsonMappingException,
 			RestClientException, IOException, JSONException, ParseException {
 
 		try {
@@ -387,16 +372,12 @@ public class HomeController {
 			if (floor.isEmpty() || floor == null) {
 				floor = "0";
 			}
+			
+			String	category = this.globalConfigs.getCategoryNumber();
+			
+			Map<String, String> seatList = this.globalConfigs.getSeatList();
 
-			if (category == null || category.isEmpty()) {
-				category = this.globalConfigs.getCategoryNumber();
-			}
-
-			Map<String, String> seatList = this.globalConfigs.getSeatList(category);
-			Map<String, String> categoryList = this.globalConfigs.getCategoryList();
-
-			model.addAttribute("hideCategorySelection", this.globalConfigs.hideCategorySelection(category));
-			model.addAttribute("hidefloorselection", this.globalConfigs.hideFloorSelection(category));
+			model.addAttribute("hidefloorselection", this.globalConfigs.hideFloorSelection());
 
 			model.addAttribute("dateString", date);
 
@@ -405,9 +386,6 @@ public class HomeController {
 
 			model.addAttribute("floors", this.globalConfigs.getFloorList());
 			model.addAttribute("selectedFloor", floor);
-
-			model.addAttribute("categories", categoryList);
-			model.addAttribute("selectedCategory", category);
 
 			SpaceItem[] spaceItems = madeAvaliableTimeSlots(date, seats, floor, category);
 
@@ -598,7 +576,15 @@ public class HomeController {
 	public String booking()
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
-		return "redirect:/saml/login?disco=true";
+		try {
+			System.out.println("Booking call");
+
+			return "redirect:/saml/login?disco=true";
+		} catch (Exception e) {
+			System.out.print(e.getStackTrace());
+
+		}
+		return "redirect:/errorp";
 	}
 
 	/**
@@ -623,6 +609,8 @@ public class HomeController {
 			@ModelAttribute("bookDate") String bookDate, @ModelAttribute("bookStartTime") String startTime,
 			@ModelAttribute("bookEndTime") String endTime, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
+
+		System.out.println("reserve call");
 
 		HttpSession session = request.getSession();
 
@@ -975,6 +963,22 @@ public class HomeController {
 		}
 
 		return "redirect:/session-count";
+	}
+
+	@GetMapping("/session-remaining")
+	public String sessionRemaining(HttpSession session, Model model) {
+
+		System.out.println("session accessing");
+
+		long now = System.currentTimeMillis();
+		long lastAccessed = session.getLastAccessedTime();
+		int timeout = session.getMaxInactiveInterval(); // in seconds
+
+		long elapsedSeconds = (now - lastAccessed) / 1000;
+		long remainingSeconds = timeout - elapsedSeconds;
+
+		model.addAttribute("remainingSeconds", remainingSeconds > 0 ? remainingSeconds : 0);
+		return "session-remaining";
 	}
 
 }

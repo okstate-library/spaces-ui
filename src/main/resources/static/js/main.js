@@ -1,9 +1,10 @@
 $(document).foundation();
 
 var dateToday = new Date();
+
 dateToday.setDate(dateToday.getDate() - 1);
 
-document.getElementById("year").innerHTML = new Date().getFullYear();
+// document.getElementById("year").innerHTML = new Date().getFullYear();
 
 
 var timeSlotLimits = 0;
@@ -18,6 +19,7 @@ $(document).ready(function() {
 		startDate : dateToday,
 		format : 'yyyy-mm-dd'
 	}).on('changeDate', function(event) {
+		
 		var pickedDate = $("#date").val();
 		$("#dp-form").submit();
 	});
@@ -32,6 +34,15 @@ $(document).ready(function() {
 	$('#bar').click(function() {
 	      $('#bar').css("display","none");
 	});
+	
+	  let counter = parseInt(document.getElementById("countdown").innerText);
+	  setInterval(() => {
+	    if (counter > 0) {
+	      counter--;
+	      document.getElementById("countdown").innerText = counter;
+	    }
+	  }, 1000);
+	  
 
 });
 
@@ -153,13 +164,13 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 
 // change the button selected style
 function selectButtonStyle(button) {
-	$(button).css('background', '#14679E');
+	$(button).css('background', '#333');
 	$(button).css('color', '#fff');
 }
 
 // change the button unselected style
 function unselectButtonStyle(button) {
-	$(button).css('color', '#14679E');
+	$(button).css('color', '');
 	$(button).css('background', '');
 }
 

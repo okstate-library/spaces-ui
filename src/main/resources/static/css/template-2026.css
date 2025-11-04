@@ -1,0 +1,813 @@
+/*----------------------------------------*/
+/* General CSS styling */
+/*----------------------------------------*/
+.orange {
+	color: #fe5c00;
+}
+
+.img-responsive,
+.img-fluid {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
+
+#panel {
+	margin-top: 10px;
+}
+
+
+/*----------------------------------------*/
+/* Page Header */
+/*----------------------------------------*/
+
+.main-header {
+	background-color: #fff;
+	border-bottom: .375rem solid #FE5C00;
+	background-image: url('/img/bg-pistol-pete.png');
+	background-size: 50%;
+	background-position: center 50%;
+	background-repeat: no-repeat;
+}
+
+/*----------------------------------------*/
+/* Page title and Logo */
+/*----------------------------------------*/
+
+.library-title-div {
+	font-family: 'Fjalla One', sans-serif;
+	font-weight: 400;
+	font-size: 44px;
+	line-height: 1.2;
+	color: #333;
+	text-transform: uppercase;
+}
+
+.library-subtitle-div {
+	font-family: 'Rubik', sans-serif;
+	font-weight: 400;
+	font-size: 24px;
+	line-height: 1.25;
+	color: #333;
+	text-transform: uppercase;
+}
+
+@media screen and (max-width: 39.9375em) {
+	.library-title-div {
+		font-size: 36px;
+		line-height: 44px;
+
+	}
+
+	.library-subtitle-div {
+		font-size: 18px;
+		line-height: 28px;
+
+	}
+}
+
+@media screen and (min-width: 40em) and (max-width: 63.9375em) {
+	.library-title-div {
+		font-size: 36px;
+		line-height: 44px;
+
+	}
+
+	.library-subtitle-div {
+		font-size: 18px;
+		line-height: 28px;
+
+	}
+}
+
+
+/*----------------------------------------*/
+/* Main Navigation */
+/*----------------------------------------*/
+
+.main-nav-menu a, .main-nav-menu .button {
+  font-family: 'Fjalla One', sans-serif;
+  font-weight: 400;
+  font-size: 20px;
+  line-height: 1.25;
+  color: #333;
+  text-transform: uppercase;
+  display: block;
+  padding: 0.7rem 1rem;
+}
+
+.main-nav-menu a:hover,
+.main-nav-menu .button:hover {
+  color: #FE5C00;
+}
+
+.main-header-nav {
+	margin-top: 1rem;
+}
+
+@media screen and (min-width: 40em) {
+	.main-header-nav {
+		margin-left: 180px;
+		margin-top: 1rem;
+	}
+
+	#panel {
+		margin-top: 15px;
+	}
+}
+
+.title-bar {
+	color: #fff;
+}
+
+.hamburger {
+	font-size: 24px;
+	margin-bottom: .5rem;
+	margin-right: 1rem;
+}
+
+.top-bar,
+.top-bar ul {
+	background: transparent;
+}
+
+
+/* Large and up */
+@media screen and (min-width: 64em) {
+	.top-bar-left {
+		margin-left: 180px;
+	}
+}
+
+/*----------------------------------------*/
+/* Breadcrumbs */
+/*----------------------------------------*/
+
+.breadcrumbs {
+	background: #333;
+	color: #fff;
+	font-size: 16px;
+	padding-top: .3rem;
+	padding-bottom: .3rem;
+	margin: 0;
+	text-transform: none !important;
+}
+
+.breadcrumbs li {
+	font-size: 16px;
+}
+
+.breadcrumbs a {
+	color: #fff;
+	text-transform: none;
+	text-decoration: underline;
+}
+
+
+/*----------------------------------------*/
+/* Page title  */
+/*----------------------------------------*/
+
+.pagetitle-bg {
+	background: #FE5C00;
+	background: url('/img/pagetitle-bg.jpg') no-repeat center;
+	background-size: cover;
+	margin-bottom: 1rem;
+}
+
+h1.pagetitle {
+  font-family: 'Fjalla One', sans-serif;
+  font-weight: 400;
+  font-size: 44px;
+  line-height: 1.2;
+  color: #FFF;
+  text-transform: uppercase;
+  margin: .5rem 0 1rem 0;
+}
+
+
+/*----------------------------------------*/
+/* Room Time Buttons */
+/*----------------------------------------*/
+.room-item button.orange-round-button {
+	background-color: #fe5c00;
+	color: #fff;
+	border-radius: 20rem;
+	margin-left: 4px;
+	font-weight: bold;
+	font-size: 18px;
+}
+
+.room-item button.orange-round-button.disabled {
+	background-color: #757575;
+	color: #fff;
+	border-radius: 20rem;
+	margin-left: 4px;
+	opacity: 100;
+}
+
+/* Keep gray button color on hover & use default pointer cursor */
+.room-item button.orange-round-button.disabled:hover,
+.room-item button.orange-round-button:disabled:hover {
+  background-color: #757575;
+  color: #fff;
+  cursor: pointer;
+}
+
+/* Strike-through text inside disabled buttons */
+.room-item button.orange-round-button.disabled .time-label,
+.room-item button.orange-round-button:disabled .time-label {
+  text-decoration: line-through;
+}
+
+/* Strike-through entire disabled button text */
+.room-item button.orange-round-button.disabled,
+.room-item button.orange-round-button:disabled {
+  text-decoration: line-through;
+}
+
+
+.room-item button.orange-round-button:hover, .room-item button.orange-round-button:focus, .room-item button.orange-round-button.time-selected {
+	background-color: #333;
+	color: #fff;
+	border-radius: 20rem;
+	margin-left: 4px;
+	opacity: 100;
+}
+
+
+.room-item button.orange-round-button.disabled:hover {
+  background-color: #757575; 
+  cursor: not-allowed;     
+}
+
+.room-item-times {
+  display: flex;
+  gap: 10px;  /* Space between buttons */
+  flex-wrap: wrap; /* Wrapping on very small screens */
+  margin-top: 8px; /* Optional: vertical spacing */
+}
+
+
+/*----------------------------------------*/
+/* Footer styling */
+/*----------------------------------------*/
+
+.footer-wrapper {
+	border-bottom: 2px dotted #979797;
+	padding-bottom: 2rem;
+	margin-bottom: 1rem;
+}
+
+footer {
+	padding-top: 2rem;
+}
+
+footer a {
+	color: #bebebe;
+	font-weight: 700;
+}
+
+footer a:hover,
+footer a:focus {
+	color: #fff;
+}
+
+footer .menu a {
+	padding: 0 1rem .5rem 0;
+}
+
+footer li {
+	margin-bottom: .3125rem;
+}
+
+.footer-headline {
+	color: #FE5C00;
+	font-size: 1.875rem;
+	font-weight: 500;
+	line-height: 1.875rem;
+}
+
+.footer-header-block {
+	display: flex;
+	height: 84px;
+	align-items: flex-end;
+	margin-bottom: 2rem;
+
+}
+
+footer .address p {
+	margin-bottom: .3125rem;
+}
+
+.footer-social-link {
+	border-right: 1px solid #bebebe;
+	padding-right: .5rem;
+	padding-left: .5rem;
+}
+
+.footer-social-link:last-child {
+	border: 0px;
+}
+
+.social-media-nav {
+	margin-bottom: 16px;
+}
+
+.footer-ribbon {
+	margin-top: 3rem;
+	color: #bebebe;
+}
+
+
+.is-hidden {
+	display: none;
+}
+
+
+
+
+/*----------------------------------------*/
+/* CSS Overrides for main.css */
+/*----------------------------------------*/
+
+.top-bar a,
+.top-bar ul li a {
+	color: #333;
+}
+
+.top-bar a:hover,
+.top-bar ul li a:hover {
+	color: #000;
+	background: transparent;
+}
+
+footer {
+	text-align: left;
+	color: #fff;
+	font-size: 1rem;
+}
+
+footer a:link,
+footer a:visited,
+footer a:hover,
+footer a:active {
+	color: #fff;
+}
+
+footer-ribbon a {
+	font-weight: 400;
+}
+
+
+/* *************************************************** */
+/* Original CSS from the spaces site */
+/* *************************************************** */
+
+
+.make-125px {
+	width: 125px;
+	background-color: #000;
+}
+
+
+.hidden {
+	display: none;
+}
+
+.show {
+	display: block;
+}
+
+#modal-container {
+	position: fixed;
+	top: 20%;
+	left: 15%;
+	width: 70%;
+	background: white;
+	text-align: center;
+	box-shadow: 0px 0px 2px 1px black;
+	z-index: 100;
+}
+
+#overlay {
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	z-index: 99;
+	background: rgba(0, 0, 0, 0.8);
+	width: 100%;
+	height: 100%;
+}
+
+div.loading {
+	height: 100px;
+	background-color: red;
+	display: none;
+}
+
+router-outlet+div.loading {
+	display: block;
+}
+
+
+#sso-btn a:hover {
+	color: #FFF;
+}
+
+
+.right {
+	position: absolute;
+	right: 0px;
+}
+
+.banner {
+	background: #fff;
+	margin-bottom: 1rem;
+}
+
+.off-canvas-content {
+	border-top: 3px solid #ff9900;
+	padding-top: 2rem;
+}
+
+.room-item {
+	margin-bottom: 2rem;
+}
+
+.room-name-title {
+	font-size: 1.25rem;
+}
+
+p.room-name-title {
+	margin-bottom: .23rem;
+}
+
+.number-room-item-seats {
+	padding-left: 2rem;
+	font-weight: 400;
+}
+
+.room-item-img {
+	padding-right: 1rem;
+	padding-left: 2rem;
+	padding-top: .85rem
+}
+
+
+
+/****** Confirmation page styling ******/
+.steps {
+	color: #aaa;
+	padding: 2rem 0;
+}
+
+.progress-active {
+	color: #000;
+	font-weight: 900;
+}
+
+.large-divider {
+	margin: 1rem 0 4rem 0;
+}
+
+.details-header {
+	margin-bottom: 1rem;
+	margin-top: 1rem;
+	font-size: 1.86rem;
+}
+
+.account-header {
+	margin-bottom: 1rem;
+	margin-top: 1.5rem;
+	font-size: 1.23rem;
+}
+
+.room-name {
+	font-weight: 900;
+	font-size: 1.66rem;
+}
+
+.left-indent-2 {
+	margin-left: 2
+}
+
+.top-margin-4 {
+	margin-top: 4rem;
+}
+
+/* Popup box BEGIN */
+.hover_bkgr_fricc {
+	background: rgba(0, 0, 0, .4);
+	cursor: pointer;
+	display: none;
+	height: 100%;
+	position: fixed;
+	text-align: center;
+	top: 0;
+	width: 100%;
+	z-index: 10000;
+}
+
+.hover_bkgr_fricc .helper {
+	display: inline-block;
+	height: 100%;
+	vertical-align: middle;
+}
+
+.hover_bkgr_fricc>div {
+	background-color: #fff;
+	box-shadow: 10px 10px 60px #555;
+	display: inline-block;
+	height: auto;
+	max-width: 551px;
+	min-height: 100px;
+	vertical-align: middle;
+	width: 60%;
+	position: relative;
+	border-radius: 8px;
+	padding: 15px 5%;
+}
+
+.popupCloseButton {
+	background-color: #fff;
+	border: 3px solid #999;
+	border-radius: 50px;
+	cursor: pointer;
+	display: inline-block;
+	font-family: arial;
+	font-weight: bold;
+	position: absolute;
+	top: -20px;
+	right: -20px;
+	font-size: 25px;
+	line-height: 30px;
+	width: 30px;
+	height: 30px;
+	text-align: center;
+}
+
+.popupCloseButton:hover {
+	background-color: #ccc;
+}
+
+.trigger_popup_fricc {
+	cursor: pointer;
+	font-size: 20px;
+	margin: 20px;
+	display: inline-block;
+	font-weight: bold;
+}
+
+#popup_title {
+	font-weight: 900;
+	font-size: larger;
+	text-align: left;
+	margin-bottom: 1rem;
+}
+
+#popup_description {
+	text-align: left;
+	margin-left: 2rem;
+}
+
+/* Popup box BEGIN */
+
+/*==================================================
+= Dropdowns with for Room Desc =
+==================================================*/
+
+/*========== Mobile First Method ==========*/
+
+/* Custom, iPhone Retina */
+@media only screen and (min-width : 320px) {
+	.dropdown-pane {
+		width: 300px;
+	}
+}
+
+/* Extra Small Devices, Phones */
+@media only screen and (min-width : 480px) {
+	.dropdown-pane {
+		width: 400px;
+	}
+}
+
+/* Small Devices, Tablets */
+@media only screen and (min-width : 768px) {
+	.dropdown-pane {
+		width: 500px;
+	}
+}
+
+/* Medium Devices, Desktops */
+@media only screen and (min-width : 992px) {
+	.dropdown-pane {
+		width: 500px;
+	}
+}
+
+/* Large Devices, Wide Screens */
+@media only screen and (min-width : 1200px) {
+	.dropdown-pane {
+		width: 500px;
+	}
+}
+
+/*==================================================
+= Error Page Styling =
+==================================================*/
+.error-page-title {
+	color: #ff6000;
+	margin: 3rem 0 1rem 0;
+	border-bottom: 1px solid #666;
+}
+
+.error-cta-text {
+	margin: 2rem 0;
+}
+
+dl.error-cta-list {
+	font-size: 125%;
+	margin-left: 2.3rem;
+}
+
+.error-cta-list dt {
+	margin-top: 2rem;
+}
+
+.error-cta-list dd {
+	margin-left: 2.3rem;
+}
+
+/*==================================================
+= Index Search Box =
+==================================================*/
+.search-button {
+	background-color: #ff6000;
+}
+
+.search-title {
+	border-bottom: 1px solid #ccc;
+	margin-bottom: 2rem;
+}
+
+/*==================================================
+= HOURS =
+==================================================*/
+.todays-hours,
+.todays-hours>a {
+	text-align: left;
+	color: #fff;
+}
+
+.hours_heading {
+	margin-top: 20px;
+	font-size: 12px;
+	font-weight: 800;
+	line-height: 1.4;
+}
+
+hours {
+	font-size: 21px;
+}
+
+@media screen and (max-width: 39.9375em) {}
+
+
+/*----------------------------------------*/
+/* Only needed if the search bar is added */
+/*----------------------------------------*/
+
+/* Style for Search button */
+.header-quicklinks {
+	font-family: "Rubik", sans-serif;
+	color: #fff;
+	background-color: #252525;
+	height: 2.6875rem;
+	font-size: 18px;
+	padding: 12px 20px;
+	text-decoration: none;
+}
+
+.header-quicklinks:hover {
+	border-bottom: 5px solid #f90;
+	color: #fff;
+}
+
+/* Style for Search bar (dropdown)*/
+.search-bar__form {
+	-webkit-transition: width 3s;
+	transition: width 3s
+}
+
+.search-bar__form [type="submit"] {
+	background-color: #FE5C00;
+	height: 100%
+}
+
+.search-bar__form .input-group {
+	height: 4.6875rem
+}
+
+.search-bar__form .input-group ::-webkit-input-placeholder {
+	color: inherit;
+	font-family: "Rubik", sans-serif;
+	font-size: 1.1875rem;
+	font-weight: 400;
+	line-height: 3.75rem
+}
+
+.search-bar__form .input-group ::-moz-placeholder {
+	color: inherit;
+	font-family: "Rubik", sans-serif;
+	font-size: 1.1875rem;
+	font-weight: 400;
+	line-height: 3.75rem
+}
+
+.search-bar__form .input-group :-ms-input-placeholder {
+	color: inherit;
+	font-family: "Rubik", sans-serif;
+	font-size: 1.1875rem;
+	font-weight: 400;
+	line-height: 3.75rem
+}
+
+.search-bar__form .input-group ::-ms-input-placeholder {
+	color: inherit;
+	font-family: "Rubik", sans-serif;
+	font-size: 1.1875rem;
+	font-weight: 400;
+	line-height: 3.75rem
+}
+
+.search-bar__form .input-group ::placeholder {
+	color: inherit;
+	font-family: "Rubik", sans-serif;
+	font-size: 1.1875rem;
+	font-weight: 400;
+	line-height: 3.75rem
+}
+
+.search-bar__form .input-group input:focus::-webkit-input-placeholder {
+	opacity: 0
+}
+
+.search-bar__form .input-group input:focus::-moz-placeholder {
+	opacity: 0
+}
+
+.search-bar__form .input-group input:focus:-ms-input-placeholder {
+	opacity: 0
+}
+
+.search-bar__form .input-group input:focus::-ms-input-placeholder {
+	opacity: 0
+}
+
+.search-bar__form .input-group input:focus::placeholder {
+	opacity: 0
+}
+
+.search-bar__form .input-group .input-group-field {
+	padding-left: 15px;
+	height: 100%;
+}
+
+.search-bar__form .input-group .input-group-button input {
+	height: 100%;
+	font-size: 1.25rem;
+	font-weight: 500;
+	text-transform: uppercase;
+	width: 5rem;
+	color: transparent;
+	background-repeat: no-repeat;
+	background-size: 35%;
+	background-position: center;
+	background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIyM3B4IiBoZWlnaHQ9IjIzcHgiIHZpZXdCb3g9IjAgMCAyMyAyMyIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT5vc3UvaWNvbi91aS9zZWFyY2gtbHJnLWRhcms8L3RpdGxlPiAgICA8ZGVzYz5DcmVhdGVkIHdpdGggU2tldGNoLjwvZGVzYz4gICAgPGRlZnM+PC9kZWZzPiAgICA8ZyBpZD0iU3ltYm9scyIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+ICAgICAgICA8ZyBpZD0ib3N1L2ljb24vdWkvc2VhcmNoLWxyZy1kYXJrIiBmaWxsPSIjRkZGRkZGIj4gICAgICAgICAgICA8ZyBpZD0iaWNvbi91aS9zZWFyY2gtZGFyayI+ICAgICAgICAgICAgICAgIDxwYXRoIGQ9Ik0yMi41NjY2MTE4LDE5LjQ5ODU4OTQgQzIyLjgzMTQxNTgsMTkuNzY2NDU4MiAyMi44MzE0MTU4LDIwLjAzNDMyMyAyMi41NjY2MTE4LDIwLjMwMjE5MTggTDIwLjEyNjY0NDcsMjIuODI3Nzk5NSBDMjAuMDEzMTU3MywyMi45NDI2MDA0IDE5Ljg2MTg0MzEsMjMgMTkuNjcyNjk3NCwyMyBDMTkuNTIxMzgwOCwyMyAxOS4zODg5ODA4LDIyLjk0MjYwMDQgMTkuMjc1NDkzNCwyMi44Mjc3OTk1IEwxNC41MDkwNDYxLDE3Ljg5MTM4NDUgQzEzLjA3MTUzODksMTguNzcxNTI0OSAxMS41NTgzOTYxLDE5LjIxMTU4ODUgOS45Njk1NzIzNywxOS4yMTE1ODg1IEM3LjUxMDY3ODUsMTkuMjExNTg4NSA1LjM5MjI3ODYzLDE4LjMyMTg5NDcgMy42MTQzMDkyMSwxNi41NDI0ODA1IEMxLjgzNjMzOTc5LDE0Ljc2MzA2NjIgMC45NDczNjg0MjEsMTIuNjEwNTgxMiAwLjk0NzM2ODQyMSwxMC4wODQ5NjA5IEMwLjk0NzM2ODQyMSw3LjU1OTM0MDY3IDEuODM2MzM5NzksNS40MDY4NTU2OSAzLjYxNDMwOTIxLDMuNjI3NDQxNDEgQzUuMzkyMjc4NjMsMS44NDgwMjcxMyA3LjUxMDY3ODUsMC45NTgzMzMzMzMgOS45Njk1NzIzNywwLjk1ODMzMzMzMyBDMTIuNDI4NDY2MiwwLjk1ODMzMzMzMyAxNC41Mzc0MDksMS44NDgwMjcxMyAxNi4yOTY0NjM4LDMuNjI3NDQxNDEgQzE4LjA1NTUxODcsNS40MDY4NTU2OSAxOC45MzUwMzI5LDcuNTU5MzQwNjcgMTguOTM1MDMyOSwxMC4wODQ5NjA5IEMxOC45MzUwMzI5LDExLjY5MjE3MzggMTguNTM3ODMyOSwxMy4xODQ1NjM0IDE3Ljc0MzQyMTEsMTQuNTYyMTc0NSBMMjIuNTY2NjExOCwxOS40OTg1ODk0IFogTTEzLjgyODEyNSw2LjE4MTc0OTEzIEMxMi43Njg5MDkyLDUuMDcyMDA2ODkgMTEuNDgyNzM3OCw0LjUxNzE0NDEgOS45Njk1NzIzNyw0LjUxNzE0NDEgQzguNDU2NDA2OTEsNC41MTcxNDQxIDcuMTYwNzc4NDIsNS4wNjI0NDAyOSA2LjA4MjY0ODAzLDYuMTUzMDQ5MDUgQzUuMDA0NTE3NjQsNy4yNDM2NTc4IDQuNDY1NDYwNTMsOC41NTQyODE5OSA0LjQ2NTQ2MDUzLDEwLjA4NDk2MDkgQzQuNDY1NDYwNTMsMTEuNjE1NjM5OSA1LjAwNDUxNzY0LDEyLjkyNjI2NDEgNi4wODI2NDgwMywxNC4wMTY4NzI4IEM3LjE2MDc3ODQyLDE1LjEwNzQ4MTYgOC40NTY0MDY5MSwxNS42NTI3Nzc4IDkuOTY5NTcyMzcsMTUuNjUyNzc3OCBDMTEuNDgyNzM3OCwxNS42NTI3Nzc4IDEyLjc2ODkwOTIsMTUuMTA3NDgxNiAxMy44MjgxMjUsMTQuMDE2ODcyOCBDMTQuODg3MzQwOCwxMi45MjYyNjQxIDE1LjQxNjk0MDgsMTEuNjE1NjM5OSAxNS40MTY5NDA4LDEwLjA4NDk2MDkgQzE1LjQxNjk0MDgsOC41NTQyODE5OSAxNC44ODczNDA4LDcuMjUzMjI0NCAxMy44MjgxMjUsNi4xODE3NDkxMyBaIj48L3BhdGg+ICAgICAgICAgICAgPC9nPiAgICAgICAgPC9nPiAgICA8L2c+PC9zdmc+);
+	height: 100%
+}
+
+@media print,
+screen and (min-width: 40em) {
+	.search-bar__form .input-group .input-group-field {
+		background-color: #f1f1f1;
+		border: 0;
+		background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c3ZnIHdpZHRoPSIyM3B4IiBoZWlnaHQ9IjIzcHgiIHZpZXdCb3g9IjAgMCAyMyAyMyIgdmVyc2lvbj0iMS4xIiB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHhtbG5zOnhsaW5rPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5L3hsaW5rIj4gICAgICAgIDx0aXRsZT5pY29uL3VpL3NlYXJjaC1scmctZGFyazwvdGl0bGU+ICAgIDxkZXNjPkNyZWF0ZWQgd2l0aCBTa2V0Y2guPC9kZXNjPiAgICA8ZGVmcz48L2RlZnM+ICAgIDxnIGlkPSJDbGFtcCIgc3Ryb2tlPSJub25lIiBzdHJva2Utd2lkdGg9IjEiIGZpbGw9Im5vbmUiIGZpbGwtcnVsZT0iZXZlbm9kZCI+ICAgICAgICA8ZyBpZD0iQ2xhbXBfRGFyaytRdWlja2xpbmtzIiB0cmFuc2Zvcm09InRyYW5zbGF0ZSgtMjg1LjAwMDAwMCwgLTE5OS4wMDAwMDApIiBmaWxsPSIjNjM2MzYzIj4gICAgICAgICAgICA8ZyBpZD0iR3JvdXAtMiIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjU3LjAwMDAwMCwgMTA3LjAwMDAwMCkiPiAgICAgICAgICAgICAgICA8ZyBpZD0iR3JvdXAtNSIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMjguMDAwMDAwLCA5MS4wMDAwMDApIj4gICAgICAgICAgICAgICAgICAgIDxnIGlkPSJpY29uL3VpL3NlYXJjaC1scmctZGFyayIgdHJhbnNmb3JtPSJ0cmFuc2xhdGUoMC4wMDAwMDAsIDEuMDAwMDAwKSI+ICAgICAgICAgICAgICAgICAgICAgICAgPGcgaWQ9Imljb24vdWkvc2VhcmNoLWRhcmsiPiAgICAgICAgICAgICAgICAgICAgICAgICAgICA8cGF0aCBkPSJNMjIuNTY2NjExOCwxOS40OTg1ODk0IEMyMi44MzE0MTU4LDE5Ljc2NjQ1ODIgMjIuODMxNDE1OCwyMC4wMzQzMjMgMjIuNTY2NjExOCwyMC4zMDIxOTE4IEwyMC4xMjY2NDQ3LDIyLjgyNzc5OTUgQzIwLjAxMzE1NzMsMjIuOTQyNjAwNCAxOS44NjE4NDMxLDIzIDE5LjY3MjY5NzQsMjMgQzE5LjUyMTM4MDgsMjMgMTkuMzg4OTgwOCwyMi45NDI2MDA0IDE5LjI3NTQ5MzQsMjIuODI3Nzk5NSBMMTQuNTA5MDQ2MSwxNy44OTEzODQ1IEMxMy4wNzE1Mzg5LDE4Ljc3MTUyNDkgMTEuNTU4Mzk2MSwxOS4yMTE1ODg1IDkuOTY5NTcyMzcsMTkuMjExNTg4NSBDNy41MTA2Nzg1LDE5LjIxMTU4ODUgNS4zOTIyNzg2MywxOC4zMjE4OTQ3IDMuNjE0MzA5MjEsMTYuNTQyNDgwNSBDMS44MzYzMzk3OSwxNC43NjMwNjYyIDAuOTQ3MzY4NDIxLDEyLjYxMDU4MTIgMC45NDczNjg0MjEsMTAuMDg0OTYwOSBDMC45NDczNjg0MjEsNy41NTkzNDA2NyAxLjgzNjMzOTc5LDUuNDA2ODU1NjkgMy42MTQzMDkyMSwzLjYyNzQ0MTQxIEM1LjM5MjI3ODYzLDEuODQ4MDI3MTMgNy41MTA2Nzg1LDAuOTU4MzMzMzMzIDkuOTY5NTcyMzcsMC45NTgzMzMzMzMgQzEyLjQyODQ2NjIsMC45NTgzMzMzMzMgMTQuNTM3NDA5LDEuODQ4MDI3MTMgMTYuMjk2NDYzOCwzLjYyNzQ0MTQxIEMxOC4wNTU1MTg3LDUuNDA2ODU1NjkgMTguOTM1MDMyOSw3LjU1OTM0MDY3IDE4LjkzNTAzMjksMTAuMDg0OTYwOSBDMTguOTM1MDMyOSwxMS42OTIxNzM4IDE4LjUzNzgzMjksMTMuMTg0NTYzNCAxNy43NDM0MjExLDE0LjU2MjE3NDUgTDIyLjU2NjYxMTgsMTkuNDk4NTg5NCBaIE0xMy44MjgxMjUsNi4xODE3NDkxMyBDMTIuNzY4OTA5Miw1LjA3MjAwNjg5IDExLjQ4MjczNzgsNC41MTcxNDQxIDkuOTY5NTcyMzcsNC41MTcxNDQxIEM4LjQ1NjQwNjkxLDQuNTE3MTQ0MSA3LjE2MDc3ODQyLDUuMDYyNDQwMjkgNi4wODI2NDgwMyw2LjE1MzA0OTA1IEM1LjAwNDUxNzY0LDcuMjQzNjU3OCA0LjQ2NTQ2MDUzLDguNTU0MjgxOTkgNC40NjU0NjA1MywxMC4wODQ5NjA5IEM0LjQ2NTQ2MDUzLDExLjYxNTYzOTkgNS4wMDQ1MTc2NCwxMi45MjYyNjQxIDYuMDgyNjQ4MDMsMTQuMDE2ODcyOCBDNy4xNjA3Nzg0MiwxNS4xMDc0ODE2IDguNDU2NDA2OTEsMTUuNjUyNzc3OCA5Ljk2OTU3MjM3LDE1LjY1Mjc3NzggQzExLjQ4MjczNzgsMTUuNjUyNzc3OCAxMi43Njg5MDkyLDE1LjEwNzQ4MTYgMTMuODI4MTI1LDE0LjAxNjg3MjggQzE0Ljg4NzM0MDgsMTIuOTI2MjY0MSAxNS40MTY5NDA4LDExLjYxNTYzOTkgMTUuNDE2OTQwOCwxMC4wODQ5NjA5IEMxNS40MTY5NDA4LDguNTU0MjgxOTkgMTQuODg3MzQwOCw3LjI1MzIyNDQgMTMuODI4MTI1LDYuMTgxNzQ5MTMgWiI+PC9wYXRoPiAgICAgICAgICAgICAgICAgICAgICAgIDwvZz4gICAgICAgICAgICAgICAgICAgIDwvZz4gICAgICAgICAgICAgICAgPC9nPiAgICAgICAgICAgIDwvZz4gICAgICAgIDwvZz4gICAgPC9nPjwvc3ZnPg==);
+		background-repeat: no-repeat;
+		background-position: 25px 25px;
+		padding-left: 58px
+	}
+
+	.search-bar__form .input-group .input-group-button [type="submit"] {
+		width: 10.3125rem;
+		background-image: none;
+		color: inherit;
+		font-weight: 700
+	}
+
+	.search-bar__form .input-group .input-group-button [type="submit"]:hover {
+		padding-top: 0
+	}
+}
