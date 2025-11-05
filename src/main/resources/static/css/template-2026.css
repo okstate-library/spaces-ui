@@ -107,7 +107,7 @@
 
 @media screen and (min-width: 40em) {
 	.main-header-nav {
-		margin-left: 180px;
+		margin-left: 170px;
 		margin-top: 1rem;
 	}
 
@@ -135,7 +135,7 @@
 /* Large and up */
 @media screen and (min-width: 64em) {
 	.top-bar-left {
-		margin-left: 180px;
+		margin-left: 170px;
 	}
 }
 
