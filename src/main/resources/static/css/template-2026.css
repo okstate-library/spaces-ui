@@ -118,7 +118,7 @@ color: #fff;
 
 @media screen and (min-width: 40em) {
 	.main-header-nav {
-		margin-left: 170px;
+		margin-left: 172px;
 		margin-top: 1rem;
 	}
 
@@ -146,7 +146,7 @@ color: #fff;
 /* Large and up */
 @media screen and (min-width: 64em) {
 	.top-bar-left {
-		margin-left: 170px;
+		margin-left: 172px;
 	}
 }
 
