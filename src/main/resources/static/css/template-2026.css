@@ -220,37 +220,66 @@ h1.pagetitle {
 /* Keep gray button color on hover & use default pointer cursor */
 .room-item button.orange-round-button.disabled:hover,
 .room-item button.orange-round-button:disabled:hover {
-  background-color: #757575;
-  color: #fff;
-  cursor: pointer;
+    background-color: #757575;
+    color: #fff;
+    cursor: pointer;
+    font-size: 22px !important;
+    border-radius: 20rem;
+    margin-left: 4px;
+}
+
+/* Prevent size change on active/click for disabled buttons */
+.room-item button.orange-round-button.disabled:active,
+.room-item button.orange-round-button:disabled:active {
+    background-color: #757575;
+    color: #fff;
+    cursor: pointer;
+    font-size: 22px !important;
+    border-radius: 20rem;
+    margin-left: 4px;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Prevent size change on focus for disabled buttons */
+.room-item button.orange-round-button.disabled:focus,
+.room-item button.orange-round-button:disabled:focus {
+    background-color: #757575;
+    color: #fff;
+    cursor: pointer;
+    font-size: 22px !important;
+    border-radius: 20rem;
+    margin-left: 4px;
+    outline: none;
 }
 
 /* Strike-through text inside disabled buttons */
 .room-item button.orange-round-button.disabled .time-label,
 .room-item button.orange-round-button:disabled .time-label {
-  text-decoration: line-through;
+    text-decoration: line-through;
 }
 
 /* Strike-through entire disabled button text */
 .room-item button.orange-round-button.disabled,
 .room-item button.orange-round-button:disabled {
-  text-decoration: line-through;
+    text-decoration: line-through;
 }
 
-
-.room-item button.orange-round-button:hover, .room-item button.orange-round-button:focus, .room-item button.orange-round-button.time-selected {
-	background-color: #333;
-	color: #fff;
-	border-radius: 20rem;
-	margin-left: 4px;
-	opacity: 100;
+.room-item button.orange-round-button:hover,
+.room-item button.orange-round-button:focus,
+.room-item button.orange-round-button.time-selected {
+    background-color: #333;
+    color: #fff;
+    border-radius: 20rem;
+    margin-left: 4px;
+    opacity: 100;
 }
-
 
 .room-item button.orange-round-button.disabled:hover {
-  background-color: #757575; 
-  cursor: not-allowed;     
+    background-color: #757575;
+    cursor: not-allowed;
 }
+
 
 .room-item-times {
   display: flex;
