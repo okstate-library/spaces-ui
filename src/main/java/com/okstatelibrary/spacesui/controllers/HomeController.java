@@ -182,36 +182,8 @@ public class HomeController {
 
 				List<Room> roomList = new ArrayList<>();
 
-//				for (Map.Entry<String, String> entry : this.globalConfigs.getCategoryNumber() .getCategoryList().entrySet()) {
-//
-//					System.out.println("entry.getKey() " + entry.getKey() + " ---  ");
-//
-//					Category[] categoryItems = spaceService.getRoomsByCategory(getAccessTokenFromRequest(),
-//							URLs.getRoomsByCategoryURL(entry.getKey()));
-//
-//					System.out.println("entry.getKey() " + entry.getKey() + "--- " + categoryItems[0].getItems());
-//
-//					studyRooms.put(entry.getKey(), categoryItems[0].getItems());
-//
-//					Room[] rooms = spaceService.getRoom(getAccessTokenFromRequest(),
-//							URLs.GET_ROOM_DETAILS_URL + categoryItems[0].getItems());
-//
-//					for (Room room : rooms) {
-//						roomList.add(room);
-//					}
-//
-//				}
-
-				// for (Map.Entry<String, String> entry : this.globalConfigs.getCategoryNumber()
-				// .getCategoryList().entrySet()) {
-
-				// System.out.println("entry.getKey() " + entry.getKey() + " --- ");
-
 				Category[] categoryItems = spaceService.getRoomsByCategory(getAccessTokenFromRequest(),
 						URLs.getRoomsByCategoryURL(this.globalConfigs.getCategoryNumber()));
-
-				// System.out.println("entry.getKey() " + entry.getKey() + "--- " +
-				// categoryItems[0].getItems());
 
 				studyRooms.put(this.globalConfigs.getCategoryNumber(), categoryItems[0].getItems());
 
@@ -221,8 +193,6 @@ public class HomeController {
 				for (Room room : rooms) {
 					roomList.add(room);
 				}
-
-				// }
 
 				globalsInstance.setRoomDetails(roomList);
 
@@ -247,8 +217,8 @@ public class HomeController {
 	 * @throws JSONException
 	 * @throws ParseException
 	 */
-	@RequestMapping(value = { "/", "/{id}" }, method = RequestMethod.GET)
-	public String index(@PathVariable(name = "id", required = false) String roomName, HttpServletRequest request,
+	@RequestMapping(value = { "/"}, method = RequestMethod.GET)
+	public String index(HttpServletRequest request,
 			Model model) throws JsonParseException, JsonMappingException, RestClientException, IOException,
 			JSONException, ParseException {
 
@@ -271,7 +241,6 @@ public class HomeController {
 		if (accessToken == null || accessToken.isEmpty()) {
 			System.out.println("API not working");
 
-			// return "errorp/101";
 			return "redirect:/errorp/101";
 
 		} else {
@@ -293,28 +262,6 @@ public class HomeController {
 			int roomCount = 0;
 			String roomId = null;
 
-			System.out.println("Room Name" + roomName);
-
-			if (spaceItems != null) {
-
-				if (roomName != null && !roomName.isEmpty()) {
-
-					SpaceItem spaceItem = Arrays.stream(spaceItems)
-							.filter(customer -> roomName.equals(customer.getName())).findAny().orElse(null);
-
-					if (spaceItem != null) {
-						roomCount = 1;
-						roomId = spaceItem.getId();
-					} else {
-						roomCount = spaceItems.length;
-					}
-
-				} else {
-					roomCount = spaceItems.length;
-				}
-
-			}
-
 			model.addAttribute("totalRooms", roomCount + roomsFoundLabelString);
 			model.addAttribute("selectedRoomId", roomId);
 
@@ -326,6 +273,8 @@ public class HomeController {
 
 			HttpSession session = request.getSession(true);
 			session.setMaxInactiveInterval(900);
+			System.out.println("session.getMaxInactiveInterval()" + session.getMaxInactiveInterval());
+//			session.setMaxInactiveInterval(20);
 
 			session.setAttribute(sessionCategoryAttributeName, this.globalConfigs.getCategoryNumber());
 
@@ -352,8 +301,9 @@ public class HomeController {
 	 */
 	@RequestMapping(value = "/", method = RequestMethod.POST)
 	public String index(HttpServletRequest request, @ModelAttribute("date") String date,
-			@ModelAttribute("seats") String seats, @ModelAttribute("floor") String floor, Model model) throws JsonParseException, JsonMappingException,
-			RestClientException, IOException, JSONException, ParseException {
+			@ModelAttribute("seats") String seats, @ModelAttribute("floor") String floor, Model model)
+			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException,
+			ParseException {
 
 		try {
 
@@ -372,9 +322,9 @@ public class HomeController {
 			if (floor.isEmpty() || floor == null) {
 				floor = "0";
 			}
-			
-			String	category = this.globalConfigs.getCategoryNumber();
-			
+
+			String category = this.globalConfigs.getCategoryNumber();
+
 			Map<String, String> seatList = this.globalConfigs.getSeatList();
 
 			model.addAttribute("hidefloorselection", this.globalConfigs.hideFloorSelection());
@@ -393,10 +343,7 @@ public class HomeController {
 
 			model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0) + roomsFoundLabelString);
 
-			HttpSession session = request.getSession();
-			session.setMaxInactiveInterval(300);
-
-			session.setAttribute(sessionCategoryAttributeName, category);
+			request.getSession().setAttribute(sessionCategoryAttributeName, category);
 
 			return "pages/index";
 
@@ -582,7 +529,6 @@ public class HomeController {
 			return "redirect:/saml/login?disco=true";
 		} catch (Exception e) {
 			System.out.print(e.getStackTrace());
-
 		}
 		return "redirect:/errorp";
 	}
@@ -929,7 +875,8 @@ public class HomeController {
 				systemProperties.getSpringShareClientId(), systemProperties.getSpringShareSecretkey());
 
 		if (accessToken != null) {
-			System.out.println("accessToken.getAccessToken() : " + accessToken.getAccessToken());
+			// System.out.println("accessToken.getAccessToken() : " +
+			// accessToken.getAccessToken());
 			return accessToken.getAccessToken();
 		} else {
 			return null;

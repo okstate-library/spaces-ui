@@ -17,6 +17,8 @@ public class GlobalModelAttributes {
 	@ModelAttribute
 	public void addGlobalAttributes(Model model) {
 
+		System.out.println("Call addGlobalAttributes");
+		
 		model.addAttribute("showExternalLinks", globalConfigs.displayExternalLinks());
 		model.addAttribute("pageTitle", globalConfigs.getTitle());
 		model.addAttribute("organizationName", globalConfigs.getOrganizationName());

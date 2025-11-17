@@ -157,5 +157,5 @@ public class ArchitectureGlobalConfigs implements GlobalConfigs {
 	public String displayExternalLinks() {
 
 		return "false";
-	}
+	}	
 }

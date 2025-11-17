@@ -30,6 +30,9 @@ public class Application extends SpringBootServletInitializer {
 	 */
 	public static void main(String[] args) throws Exception {
 
+//		RibbonMessage.messageType = "info";
+//		RibbonMessage.message = "Sample message";
+		
 		for (String arg : args) {
 
 			if (arg.contains("mtype")) {

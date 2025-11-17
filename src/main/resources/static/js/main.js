@@ -31,20 +31,14 @@ $(document).ready(function() {
 	$("document").ready( function () {
 	    $('#bar').css("display","block");
 	});
+	
 	$('#bar').click(function() {
 	      $('#bar').css("display","none");
 	});
 	
-	  let counter = parseInt(document.getElementById("countdown").innerText);
-	  setInterval(() => {
-	    if (counter > 0) {
-	      counter--;
-	      document.getElementById("countdown").innerText = counter;
-	    }
-	  }, 1000);
 	  
-
 });
+
 
 var selectedSlots = [];
 var selectedRoomName = null;

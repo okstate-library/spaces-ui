@@ -22,7 +22,23 @@
         this.appendTo = options.appendTo || 'body';
         this.closeButton = options.closeButton;
         this.language = options.language || this.element.data('date-language') || "en";
-        this.language = this.language in dates ? this.language : this.language.split('-')[0]; //Check if "de-DE" style date is available, if not language should fallback to 2 letter code eg "de"
+        this.language = this.language in dates ? this.language : this.language.split('-')[0]; // Check
+																								// if
+																								// "de-DE"
+																								// style
+																								// date
+																								// is
+																								// available,
+																								// if
+																								// not
+																								// language
+																								// should
+																								// fallback
+																								// to 2
+																								// letter
+																								// code
+																								// eg
+																								// "de"
         this.language = this.language in dates ? this.language : "en";
         this.isRTL = dates[this.language].rtl || false;
         this.format = DPGlobal.parseFormat(options.format || this.element.data('date-format') || dates[this.language].format || 'mm/dd/yyyy');
@@ -182,7 +198,8 @@
                         keydown: $.proxy(this.keydown, this)
                     }]
                 ];
-            } else if (this.component && this.hasInput) { // component: input + button
+            } else if (this.component && this.hasInput) { // component: input
+															// + button
                 this._events = [
                     // For components that are not readonly, allow keyboard nav
                     [this.element.find('input'), {
@@ -355,13 +372,16 @@
             var width = textbox.outerWidth() + parseInt(textbox.css('margin-left'));
             var fullOffsetTop = offset.top + height;
             var offsetLeft = offset.left;
-            // if the datepicker is going to be below the window, show it on top of the input
+            // if the datepicker is going to be below the window, show it on top
+			// of the input
             if ((fullOffsetTop + this.picker.outerHeight()) >= $(window).scrollTop() + $(window).height()) {
                 fullOffsetTop = offset.top - this.picker.outerHeight();
             }
 
-            // if the datepicker is going to go past the right side of the window, we want
-            // to set the right position so the datepicker lines up with the textbox
+            // if the datepicker is going to go past the right side of the
+			// window, we want
+            // to set the right position so the datepicker lines up with the
+			// textbox
             if (offset.left + this.picker.width() >= $(window).width()) {
                 offsetLeft = (offset.left + width) - this.picker.width();
             }
@@ -438,7 +458,8 @@
                 today = new Date(),
                 titleFormat = dates[this.language].titleFormat || dates['en'].titleFormat;
             // this.picker.find('.datepicker-days thead th.date-switch')
-            // 			.text(DPGlobal.formatDate(new UTCDate(year, month), titleFormat, this.language));
+            // .text(DPGlobal.formatDate(new UTCDate(year, month), titleFormat,
+			// this.language));
 
             this.picker.find('.datepicker-days thead th:eq(1)')
                 .text(dates[this.language].months[month] + ' ' + year);
@@ -466,7 +487,8 @@
                 if (prevMonth.getUTCDay() == this.weekStart) {
                     html.push('<tr>');
                     if (this.calendarWeeks) {
-                        // adapted from https://github.com/timrwood/moment/blob/master/moment.js#L128
+                        // adapted from
+						// https://github.com/timrwood/moment/blob/master/moment.js#L128
                         var a = new Date(prevMonth.getUTCFullYear(), prevMonth.getUTCMonth(), prevMonth.getUTCDate() - prevMonth.getDay() + 10 - (this.weekStart && this.weekStart % 7 < 5 && 7)),
                             b = new Date(a.getFullYear(), 0, 4),
                             calWeek = ~~((a - b) / 864e5 / 7 + 1.5);
@@ -864,25 +886,29 @@
             dir = dir > 0 ? 1 : -1;
             if (mag == 1) {
                 test = dir == -1
-                    // If going back one month, make sure month is not current month
+                    // If going back one month, make sure month is not current
+					// month
                     // (eg, Mar 31 -> Feb 31 == Feb 28, not Mar 02)
                     ? function() {
                         return new_date.getUTCMonth() == month;
                     }
-                    // If going forward one month, make sure month is as expected
+                    // If going forward one month, make sure month is as
+					// expected
                     // (eg, Jan 31 -> Feb 31 == Feb 28, not Mar 02)
                     : function() {
                         return new_date.getUTCMonth() != new_month;
                     };
                 new_month = month + dir;
                 new_date.setUTCMonth(new_month);
-                // Dec -> Jan (12) or Jan -> Dec (-1) -- limit expected date to 0-11
+                // Dec -> Jan (12) or Jan -> Dec (-1) -- limit expected date to
+				// 0-11
                 if (new_month < 0 || new_month > 11)
                     new_month = (new_month + 12) % 12;
             } else {
                 // For magnitudes >1, move one month at a time...
                 for (var i = 0; i < mag; i++)
-                // ...which might decrease the day (eg, Jan 31 to Feb 28, etc)...
+                // ...which might decrease the day (eg, Jan 31 to Feb 28,
+				// etc)...
                     new_date = this.moveMonth(new_date, dir);
                 // ...then reset the day, keeping it in the new month
                 new_month = new_date.getUTCMonth();
@@ -891,7 +917,8 @@
                     return new_month != new_date.getUTCMonth();
                 };
             }
-            // Common date-resetting loop -- if date is beyond end of month, make it
+            // Common date-resetting loop -- if date is beyond end of month,
+			// make it
             // end of month
             while (test()) {
                 new_date.setUTCDate(--day);
@@ -910,7 +937,8 @@
 
         keydown: function(e) {
             if (this.picker.is(':not(:visible)')) {
-                if (e.keyCode == 27) // allow escape to hide and re-show picker
+                if (e.keyCode == 27) // allow escape to hide and re-show
+										// picker
                     this.show();
                 return;
             }
@@ -1006,15 +1034,15 @@
                 }
             }
             /*
-            	vitalets: fixing bug of very special conditions:
-            	jquery 1.7.1 + webkit + show inline datepicker in bootstrap popover.
-            	Method show() does not set display css correctly and datepicker is not shown.
-            	Changed to .css('display', 'block') solve the problem.
-            	See https://github.com/vitalets/x-editable/issues/37
-
-            	In jquery 1.7.2+ everything works fine.
-            */
-            //this.picker.find('>div').hide().filter('.datepicker-'+DPGlobal.modes[this.viewMode].clsName).show();
+			 * vitalets: fixing bug of very special conditions: jquery 1.7.1 +
+			 * webkit + show inline datepicker in bootstrap popover. Method
+			 * show() does not set display css correctly and datepicker is not
+			 * shown. Changed to .css('display', 'block') solve the problem. See
+			 * https://github.com/vitalets/x-editable/issues/37
+			 * 
+			 * In jquery 1.7.2+ everything works fine.
+			 */
+            // this.picker.find('>div').hide().filter('.datepicker-'+DPGlobal.modes[this.viewMode].clsName).show();
             this.picker.find('>div').hide().filter('.datepicker-' + DPGlobal.modes[this.viewMode].clsName).css('display', 'block');
             this.updateNavArrows();
         },
@@ -1181,7 +1209,9 @@
                 val, filtered, part;
             setters_map['M'] = setters_map['MM'] = setters_map['mm'] = setters_map['m'];
             setters_map['dd'] = setters_map['d'];
-            date = UTCDate(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0); //date.getHours(), date.getMinutes(), date.getSeconds());
+            date = UTCDate(date.getFullYear(), date.getMonth(), date.getDate(), 0, 0, 0); // date.getHours(),
+																							// date.getMinutes(),
+																							// date.getSeconds());
             if (parts.length == format.parts.length) {
                 for (var i = 0, cnt = format.parts.length; i < cnt; i++) {
                     val = parseInt(parts[i], 10);
@@ -1273,9 +1303,9 @@
         },
         headTemplate: '<thead>' +
             '<tr>' +
-            '<th class="prev"><i class="fa fa-chevron-left fi-arrow-left"/></th>' +
+            '<th  aria-label="Previous" class="prev"><i class="fa fa-chevron-left fi-arrow-left"/></th>' +
             '<th colspan="5" class="date-switch"></th>' +
-            '<th class="next"><i class="fa fa-chevron-right fi-arrow-right"/></th>' +
+            '<th aria-label="Next" class="next"><i  class="fa fa-chevron-right fi-arrow-right"/></th>' +
             '</tr>' +
             '</thead>',
         contTemplate: '<tbody><tr><td colspan="7"></td></tr></tbody>',

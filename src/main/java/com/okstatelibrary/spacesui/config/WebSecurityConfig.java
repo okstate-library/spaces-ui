@@ -506,6 +506,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter implements I
            		.antMatchers("/img/**").permitAll()
            		.antMatchers("/js/**").permitAll()
            		.anyRequest().permitAll();//.authenticated();
+         
+        http
+        	.sessionManagement()
+            	.invalidSessionUrl("/");  // Redirect to main page when session expires
         
         http
         		.logout()

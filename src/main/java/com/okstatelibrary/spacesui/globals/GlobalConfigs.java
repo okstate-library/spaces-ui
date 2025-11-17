@@ -55,10 +55,9 @@ public interface GlobalConfigs {
 	 * @return title string.
 	 */
 	String getTitle();
-	
+
 	/**
-	 * Returns the display organization Name for the current
-	 * instance.
+	 * Returns the display organization Name for the current instance.
 	 *
 	 * @return organization name string.
 	 */
@@ -81,7 +80,6 @@ public interface GlobalConfigs {
 	/**
 	 * Returns a map of available seats for the specified category.
 	 *
-	 * @param categoryId the ID of the category.
 	 * @return a map of seat IDs to seat labels.
 	 */
 	Map<String, String> getSeatList();
@@ -97,8 +95,8 @@ public interface GlobalConfigs {
 	 * Indicates whether the floor selection UI should be hidden for the given
 	 * category.
 	 *
-	 * @param categoryId the ID of the category.
 	 * @return a flag (e.g., "true"/"false") as String to indicate visibility.
 	 */
 	String hideFloorSelection();
+
 }
