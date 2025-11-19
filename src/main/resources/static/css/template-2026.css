@@ -16,17 +16,26 @@
 	margin-top: 10px;
 }
 
-.button, .button.disabled, .button[disabled], .button.disabled:hover, .button[disabled]:hover, .button.disabled:focus, .button[disabled]:focus {
-background-color: #FE5C00;
-color: #fff;
-font-weight: 700;
-font-size: 18px !important;
-
+.button, 
+.button.disabled, 
+.button[disabled], 
+.button.disabled:hover, 
+.button[disabled]:hover, 
+.button.disabled:focus, 
+.button[disabled]:focus {
+  background-color: #FE5C00;
+  color: #fff;
+  font-weight: 700;
+  font-size: 18px !important;
+  border-radius: 20rem; /* Makes button pill-shaped */
+  margin-left: 4px; /* Optional, you can remove if not needed */
 }
- .button:hover, .button:focus {
-background-color: #222;
-color: #fff;
- }
+
+.button:hover, 
+.button:focus {
+  background-color: #222;
+  color: #fff;
+}
 
 
 /*----------------------------------------*/
