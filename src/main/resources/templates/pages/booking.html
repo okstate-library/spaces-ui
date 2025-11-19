@@ -41,9 +41,7 @@
 					<!-- Account Details -->
 					<p class="details-header">
 						Reservation for <strong> <span th:text="${firstName}">null</span>
-							<span th:text="${lastName}">null</span></strong> <small>(<span
-							th:text="${email}">null</span>)
-						</small>
+							<span th:text="${lastName}">null</span></strong> 
 					</p>
 
 					<hr>
@@ -52,7 +50,7 @@
 					<div class="left-indent-2">
 
 						<!-- Room Name -->
-						<div class="grid-x  grid-padding-y align-bottom">
+						<div class="grid-x align-bottom">
 							<div class="cell small-3 medium-2">Room:</div>
 							<div class="cell small-9 mediun-10">
 								<strong><span id="spanRoomName" class="details-header">null</span></strong>
@@ -60,7 +58,7 @@
 						</div>
 
 						<!-- Date -->
-						<div class="grid-x grid-padding-y align-bottom">
+						<div class="grid-x align-bottom">
 							<div class="cell small-3 medium-2">Date:</div>
 							<div class="cell small-9 mediun-10">
 								<strong><span id="spanbookDate">null</span></strong>
@@ -68,7 +66,7 @@
 						</div>
 
 						<!-- Time  -->
-						<div class="grid-x grid-padding-y align-bottom">
+						<div class="grid-x align-bottom">
 							<div class="cell small-3 medium-2">Time:</div>
 							<div class="cell small-9 mediun-10">
 								<strong><span id="spanStartTime">null</span> - <span
@@ -98,12 +96,11 @@
 									<div class="grid-x">
 	
 										<!-- Policy -->
-										<div class="cell small-11 small-offset-1  medium-7 medium-offset-5">
-											<input id="checkbox1" type="checkbox" onchange="document.getElementById('buttonBookingConfirm').disabled = !this.checked;">
-											  <label for="checkbox1">I have read and agree to the <a data-open="exampleModal1">study room policies</a></label>
+										<div class="cell small-11 small-offset-1 medium-7 medium-offset-5 text-right">
+										  <input id="checkbox1" type="checkbox" onchange="document.getElementById('buttonBookingConfirm').disabled = !this.checked"/>
+										  <label for="checkbox1">I have read and agree to the <a data-open="exampleModal1">study room policies</a></label>
+										</div>
 
-											  
-										</div>	
 										
 										
 	

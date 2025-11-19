@@ -141,17 +141,18 @@ function getValue() {
 				<div class="grid-x  grid-margin-x " style="padding-top: 2.5rem;">
 					<!-- OKState Logo -->
 					<div class="cell shrink  ">
-						<img alt="OSU Logo"
-							src="https://digitalassets.okstate.edu/m/5edd2b756cf31c9c/original/Logo-Web-Ready.svg">
+						<a href ="https://go.okstate.edu/">
+							<img alt="OSU Logo" src="https://digitalassets.okstate.edu/m/5edd2b756cf31c9c/original/Logo-Web-Ready.svg">
+						</a>
 					</div>
 
 					<!-- Page title -->
 					<div class="cell auto ">
 						<div class="library-div align-middle">
-							<!-- <a href="#"> -->
-							<div class="library-title-div ">Study Rooms</div>
-							<div class="library-subtitle-div">[[${organizationName}]]</div>
-							<!-- </a> -->
+							<a href="https://library.okstate.edu/">
+							<div class="library-title-div ">Edmon Low Library</div>
+							<div class="library-subtitle-div">& Branch Libraries</div>
+							</a> 
 						</div>
 					</div>
 				</div>
@@ -171,7 +172,7 @@ function getValue() {
 				<div class="top-bar" id="main-nav-menu">
 					<div class="top-bar-left">
 						<ul class="vertical medium-horizontal menu main-nav-menu">
-							<li><a href="#" class="main-nav-link">Home</a></li>
+							<li><a href="https://spaces.library.okstate.edu/" class="main-nav-link">Study Rooms</a></li>
 							<li th:if="${showExternalLinks}"><a
 								href="https://forms.library.okstate.edu/machform/view.php?id=181450"
 								class="main-nav-link">Testing Space</a></li>
@@ -181,7 +182,7 @@ function getValue() {
 
 							<li th:if="${showExternalLinks}"><a
 								href="https://library.okstate.edu/staff/forms/venue-reservations-at-the-edmon-low-library/"
-								class="main-nav-link">Browsing and Event Room</a></li>
+								class="main-nav-link">Browsing & Event Room</a></li>
 
 
 						</ul>
@@ -196,8 +197,8 @@ function getValue() {
 					<div class="cell">
 						<nav aria-label="You are here:" role="navigation">
 							<ul class="breadcrumbs">
-								<li><a href="#">Home</a></li>
-								<li><a href="#">Study & Create</a></li>
+								<li><a href="https://library.okstate.edu/">Home</a></li>
+								<!--<li><a href="#">Study & Create</a></li> -->
 								<li class="disabled" style="text-transform: none !important;">Study
 									Rooms</li>
 

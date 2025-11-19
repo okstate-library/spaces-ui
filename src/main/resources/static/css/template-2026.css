@@ -21,6 +21,7 @@ background-color: #FE5C00;
 color: #fff;
 font-weight: 700;
 font-size: 18px !important;
+
 }
  .button:hover, .button:focus {
 background-color: #222;
@@ -184,6 +185,8 @@ color: #fff;
 	background: url('/img/pagetitle-bg.jpg') no-repeat center;
 	background-size: cover;
 	margin-bottom: 1rem;
+	padding-top: 32px;
+	padding-bottom: 32px;
 }
 
 h1.pagetitle {
@@ -493,7 +496,6 @@ p.room-name-title {
 	padding-left: 2rem;
 	padding-top: .85rem
 }
-
 
 
 /****** Confirmation page styling ******/
@@ -850,4 +852,80 @@ screen and (min-width: 40em) {
 	.search-bar__form .input-group .input-group-button [type="submit"]:hover {
 		padding-top: 0
 	}
+}
+
+/* ===========================================================
+   BOOKING PAGE — REAL CSS HOOKS BASED ON booking.html
+   =========================================================== */
+
+/* 1. "Finalize your reservation" header */
+#bookingCard .card-divider h2.h3 {
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: #333;
+}
+#bookingCard .card-divider i {
+    color: #fe5c00;
+    margin-right: .35rem;
+}
+
+/* 2–4. Reservation labels + values */
+.details-header {
+    font-size: 1.25rem;
+    font-weight: 600;
+    color: #333;
+}
+.left-indent-2 strong span {
+    font-size: 1.15rem;
+    font-weight: 600;
+}
+
+/* 5. Study room policies text + link */
+#checkbox1 + label {
+    font-size: 1rem;
+    color: #333;
+}
+#checkbox1 + label a {
+    text-decoration: underline;
+    font-weight: 600;
+}
+
+/* 6. “Clear selection” button */
+a.button.hollow.secondary.expanded {
+    background: transparent !important;
+    color: #333 !important;
+    border: none !important;
+    text-decoration: underline;
+    font-size: 1rem !important;
+}
+a.button.hollow.secondary.expanded i {
+    margin-right: .35rem;
+}
+
+/* 7. Disabled Book button */
+#buttonBookingConfirm[disabled] {
+    background-color: #757575 !important;
+    color: #fff !important;
+    opacity: .5;
+    cursor: not-allowed;
+}
+
+/* 8. Checkbox styling */
+#checkbox1 {
+    width: 18px;
+    height: 18px;
+    accent-color: #fe5c00;
+}
+
+/* 9. Enabled Book button */
+#buttonBookingConfirm:not([disabled]) {
+    background-color: #fe5c00 !important;
+    color: #fff !important;
+    font-weight: 700;
+}
+
+/* 10. Success state icon & spacing (future confirmation page) */
+.card-divider i.far.fa-check-circle {
+    color: #fe5c00;
+    font-size: 1.8rem;
 }
