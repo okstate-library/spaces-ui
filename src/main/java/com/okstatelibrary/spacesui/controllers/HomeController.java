@@ -36,7 +36,6 @@ import org.springframework.web.client.RestClientException;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.okstatelibrary.spacesui.config.SessionListener;
 import com.okstatelibrary.spacesui.globals.GlobalConfigs;
 import com.okstatelibrary.spacesui.models.*;
 import com.okstatelibrary.spacesui.services.AccessTokenService;
@@ -217,10 +216,9 @@ public class HomeController {
 	 * @throws JSONException
 	 * @throws ParseException
 	 */
-	@RequestMapping(value = { "/"}, method = RequestMethod.GET)
-	public String index(HttpServletRequest request,
-			Model model) throws JsonParseException, JsonMappingException, RestClientException, IOException,
-			JSONException, ParseException {
+	@RequestMapping(value = { "/" }, method = RequestMethod.GET)
+	public String index(HttpServletRequest request, Model model) throws JsonParseException, JsonMappingException,
+			RestClientException, IOException, JSONException, ParseException {
 
 		System.out.println("***************************************");
 		System.out.println("Normal Loadning");
@@ -259,10 +257,9 @@ public class HomeController {
 
 			model.addAttribute("dateString", DateTimeUtil.getTodayDate());
 
-			int roomCount = 0;
 			String roomId = null;
 
-			model.addAttribute("totalRooms", roomCount + roomsFoundLabelString);
+			model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0) + roomsFoundLabelString);
 			model.addAttribute("selectedRoomId", roomId);
 
 			model.addAttribute("seats", seatList);
@@ -272,8 +269,10 @@ public class HomeController {
 			model.addAttribute("selectedFloor", selectedFloor);
 
 			HttpSession session = request.getSession(true);
+
 			session.setMaxInactiveInterval(900);
 			System.out.println("session.getMaxInactiveInterval()" + session.getMaxInactiveInterval());
+
 //			session.setMaxInactiveInterval(20);
 
 			session.setAttribute(sessionCategoryAttributeName, this.globalConfigs.getCategoryNumber());
@@ -752,10 +751,10 @@ public class HomeController {
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException,
 			ParseException {
 
-		System.out.println("category - " + category);
-		System.out.println("Date - " + date);
-		System.out.println("getFloor - " + floor);
-		System.out.println("getSeat - " + seats);
+//		System.out.println("category - " + category);
+//		System.out.println("Date - " + date);
+//		System.out.println("getFloor - " + floor);
+//		System.out.println("getSeat - " + seats);
 
 		int seatsCount = Integer.parseInt(seats);
 
@@ -767,7 +766,7 @@ public class HomeController {
 		for (SpaceItem spaceItem : spaceItems) {
 
 			// Print room id with name.
-			// System.out.println(spaceItem.getId() + " " + spaceItem.getName());
+			//System.out.println(spaceItem.getId() + " " + spaceItem.getName());
 
 			if (spaceItem.getAvailability().length > 0 && Integer.parseInt(spaceItem.getCapacity()) >= seatsCount
 					&& (floor.equals("0") ? true : floor.equals(spaceItem.getFloor()))) {
@@ -818,6 +817,8 @@ public class HomeController {
 				spaceItem.setAvailability(newAvailabilityList.toArray(new Availability[0]));
 
 				list.add(spaceItem);
+				
+				//System.out.println(spaceItem.getId() + " -- " + spaceItem.getName() + " -- " + newAvailabilityList.size());
 
 			}
 

@@ -59,8 +59,10 @@
 						<div>
 							<h5
 								style="font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 18px; line-height: 1.5; color: #333; margin-top: 1rem;">
-								Want more than 30 minutes? Select multiple time blocks (up to 4 hours). 
-								<br>Please complete your booking within 15 minutes (after that your selections will be cleared).</h5>
+								Want more than 30 minutes? Select multiple time blocks (up to 4
+								hours). <br>Please complete your booking within 15 minutes
+								(after that your selections will be cleared).
+							</h5>
 						</div>
 
 					</div>
@@ -136,10 +138,10 @@
 
 							<div class="grid-x">
 								<div class="cell medium-3   hide-for-small-only">
-									<p>
+									<div>
 										<img th:src="${room.image}" data-th-alt="${room.name}"
 											class="room-item-img">
-									</p>
+									</div>
 								</div>
 								<div
 									class="cell small-11 small-offset-1  medium-offset-0 large-offset-0  medium-9">
@@ -153,6 +155,17 @@
 										, '[(${timeslot.toTime})]' , '[(${timeslot.fromDateTime})]' , '[(${timeslot.booked})]' );"
 											data-th-text="${timeslot.fromTime}">...</button>
 									</div>
+
+									<div class="callout" style="display: block;height:1px;visibility:hidden;">
+										<div class="grid-x">
+											<div>
+												<p>ssssssssssssssssssssssssssssssssssssssssssss;</p>
+											</div>
+
+										</div>
+									</div>
+
+
 
 									<div th:id="'confirmWindow-' + ${room.id}" class="callout"
 										style="margin-top: 1.5rem; display: none;">
