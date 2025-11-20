@@ -219,6 +219,7 @@ h1.pagetitle {
 	margin-left: 4px;
 	font-weight: bold;
 	font-size: 22px!important;
+	padding: 8px 16px;
 }
 
 .room-item button.orange-round-button.disabled {
@@ -867,74 +868,110 @@ screen and (min-width: 40em) {
    BOOKING PAGE — REAL CSS HOOKS BASED ON booking.html
    =========================================================== */
 
-/* 1. "Finalize your reservation" header */
-#bookingCard .card-divider h2.h3 {
-    font-size: 1.75rem;
-    font-weight: 700;
-    color: #333;
-}
-#bookingCard .card-divider i {
-    color: #fe5c00;
-    margin-right: .35rem;
-}
+   /* 1. "Finalize your reservation" header — updated styles */
+   .card-divider {
+       background-color: #333;        /* Dark background */
+       color: #fff;                   /* White text */
+       height: 62px;                  /* Header height as shown */
+       display: flex;
+       align-items: center;
+       padding-left: 16px;            /* Left spacing */
+       padding-right: 16px;           /* Right spacing */
+       margin-bottom: 0;
+       border-radius: 0;
+   }
 
-/* 2–4. Reservation labels + values */
-.details-header {
-    font-size: 1.25rem;
-    font-weight: 600;
-    color: #333;
-}
-.left-indent-2 strong span {
-    font-size: 1.15rem;
-    font-weight: 600;
-}
+   .card-divider .h3 {
+       font-family: 'Fjalla One', sans-serif;
+       font-size: 24px;
+       font-weight: 400;              /* Regular, not bold */
+       line-height: 1.25;
+       color: #fff;
+       margin: 0;
+       display: flex;
+       align-items: center;
+   }
 
-/* 5. Study room policies text + link */
-#checkbox1 + label {
-    font-size: 1rem;
-    color: #333;
-}
-#checkbox1 + label a {
-    text-decoration: underline;
-    font-weight: 600;
-}
+   .card-divider i.far.fa-check-circle,
+   .card-divider i.far.fa-calendar {
+       color: #fe5c00;                /* Matches reference orange */
+       font-size: 28px;
+       margin-right: 16px;
+   }
+   
+   /* Reservation Info Labels & Values (Room, Date, Time headings) */
+   .details-header {
+       font-family: 'Rubik', sans-serif;
+       font-size: 24px;
+       font-weight: 400;
+       line-height: 1.25;
+       color: #333;
+   }
+   .left-indent-2 strong span {
+       font-family: 'Rubik', sans-serif;
+       font-size: 18px;
+       font-weight: 600;
+       color: #333;
+       line-height: 1.5;
+   }
 
-/* 6. “Clear selection” button */
-a.button.hollow.secondary.expanded {
-    background: transparent !important;
-    color: #333 !important;
-    border: none !important;
-    text-decoration: underline;
-    font-size: 1rem !important;
-}
-a.button.hollow.secondary.expanded i {
-    margin-right: .35rem;
-}
+   /* Study Room Policies - Checkbox and Link */
+   #checkbox1 + label {
+       font-size: 1rem;
+       color: #333;
+   }
+   #checkbox1 + label a {
+       text-decoration: underline;
+       font-weight: 600;
+   }
 
-/* 7. Disabled Book button */
-#buttonBookingConfirm[disabled] {
-    background-color: #757575 !important;
-    color: #fff !important;
-    opacity: .5;
-    cursor: not-allowed;
-}
+   /* Checkbox styling */
+   #checkbox1 {
+       width: 18px;
+       height: 18px;
+       accent-color: #333;
+   }
+   #checkbox1:checked {
+       accent-color: #fe5c00;
+   }
 
-/* 8. Checkbox styling */
-#checkbox1 {
-    width: 18px;
-    height: 18px;
-    accent-color: #fe5c00;
-}
+   /* Clear Selection Button */
+   a.button.hollow.secondary.expanded,
+   a.button.hollow.secondary.expandedi {
+       background: transparent !important;
+       color: #333 !important;
+       border: none !important;
+       text-decoration: underline;
+       font-size: 1rem !important;
+       font-weight: normal;
+       padding: 0 8px;
+   }
+   a.button.hollow.secondary.expanded i,
+   a.button.hollow.secondary.expandedi i {
+       margin-right: 8px;
+       color: #fe5c00;
+       font-size: 14px;
+   }
 
-/* 9. Enabled Book button */
-#buttonBookingConfirm:not([disabled]) {
-    background-color: #fe5c00 !important;
-    color: #fff !important;
-    font-weight: 700;
-}
+   /* Book the Room button */
+   #buttonBookingConfirm {
+       background-color: #757575;
+       color: #fff;
+       border-radius: 20px;
+       font-size: 1rem;
+       font-weight: 700;
+       opacity: 0.5;
+       cursor: not-allowed;
+       padding: 8px 28px;
+       border: none;
+       margin-left: 8px;
+   }
+   #buttonBookingConfirm:not([disabled]) {
+       background-color: #fe5c00;
+       color: #fff;
+       opacity: 1;
+       cursor: pointer;
+   }
 
-/* 10. Success state icon & spacing (future confirmation page) */
-.card-divider i.far.fa-check-circle {
-    color: #fe5c00;
-    font-size: 1.8rem;
-}
+   
+

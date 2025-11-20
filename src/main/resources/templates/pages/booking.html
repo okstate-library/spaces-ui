@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	layout:decorate="~{layout}">
-
+<head>	<link href="https://fonts.googleapis.com/css?family=Fjalla+One&display=swap" rel="stylesheet"> </head>
 <body onload="bookingPageLoad()">
 	<!-- Content starts -->
 	<section layout:fragment="content">
@@ -91,38 +91,37 @@
 
 							<!-- Buttons  -->
 							<div class="grid-x top-margin-4">
-								
-								<div class="cell">
-									<div class="grid-x">
-	
-										<!-- Policy -->
-										<div class="cell small-11 small-offset-1 medium-7 medium-offset-5 text-right">
-										  <input id="checkbox1" type="checkbox" onchange="document.getElementById('buttonBookingConfirm').disabled = !this.checked"/>
-										  <label for="checkbox1">I have read and agree to the <a data-open="exampleModal1">study room policies</a></label>
-										</div>
 
-										
-										
-	
-										<!-- Clear and Start over  -->
-										<div
-											class="cell small-5 small-offset-1  medium-3 medium-offset-5 text-left">
-	
-											<a th:href="@{/}" class="button  hollow secondary expanded"><i
-												class="fas fa-times"></i> Clear selection</a>
-										</div>
-	
-										<!-- Submit Booking  -->
-										<div
-											class="cell small-5 small-offset-1   medium-3 medium-offset-1 text-right">
-											<button type="submit" class="button expanded"
-												disabled="disabled" id="buttonBookingConfirm"
-												name="buttonBookingConfirm" th:onclick="cleanSession()">
-												<i class="far fa-check-square"></i> Book the Room...
-											</button>
-										</div>
-									</div>
-								</div>
+							  <div class="cell">
+							    <div class="grid-x">
+
+							      <!-- Policy -->
+							      <div class="cell small-11 small-offset-1 medium-7 medium-offset-5 text-right">
+							        <input id="checkbox1" type="checkbox" onchange="document.getElementById('buttonBookingConfirm').disabled = !this.checked"/>
+							        <label for="checkbox1">I have read and agree to the <a data-open="exampleModal1">study room policies</a></label>
+							      </div>
+
+							      <!-- Button Row: Side by Side, Matching Continue Button Style -->
+							      <div class="cell small-12 medium-7 medium-offset-5">
+							        <div style="display: flex; gap: 1rem; justify-content: flex-end; align-items: center;">
+							          <button type="button" class="hollow secondary button" th:onclick="clearSelection">
+							            <i class="fas fa-times"></i> Clear Selection
+							          </button>
+							          <button
+							            type="submit"
+							            class="button"
+							            id="buttonBookingConfirm"
+							            name="buttonBookingConfirm"
+							            th:onclick="cleanSession"
+							            disabled>
+							            <i class="far fa-calendar-check"></i> Book the Room...
+							          </button>
+							        </div>
+							      </div>
+
+							    </div>
+							  </div>
+							</div>
 							</div>
 						</div>
 
