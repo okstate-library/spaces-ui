@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	layout:decorate="~{layout}">
-
+	<head>	<link href="https://fonts.googleapis.com/css?family=Fjalla+One&display=swap" rel="stylesheet"> </head>
 <body>
 	<!-- Content starts -->
 	<section class="my-3 p-3 bg-white rounded box-shadow"
@@ -40,44 +40,49 @@
 			<!-- Confirmation Details -->
 			<div class="grid-x" th:if="${summaryModel != null}">
 				<div class="cell auto">
-					<div class="card">
+					<div class="bookingcard">
 						<div class="card-divider">
-							<h2 class="h3 orange">
-								<i class="far fa-thumbs-up"></i> Your room has been successfully
+							<h2 class="h3 orange primary">
+								<img src="/img/stars.svg">&nbsp;&nbsp;Your room has been successfully
 								booked!
 							</h2>
 						</div>
 
 						<div class="card-section lead">
-							<p class="lead">
-								Reservation for <strong> [[${summaryModel.firstName}]]
-									[[${summaryModel.lastName}]]</strong>
+							<p class="details-header">
+								Reservation for <strong>
+									<span th:text="${summaryModel.firstName}">null</span>
+									<span th:text="${summaryModel.lastName}">null</span>
+								</strong>
 							</p>
-							<div style="margin-left: 2rem;" class="xlead">
+							
+							<hr>
+							
+							<div class="left-indent-2">
 
 
 								<!-- Room Name -->
-								<div class="grid-x  grid-padding-y align-bottom">
+								<div class="grid-x   align-bottom">
 									<div class="cell small-3 medium-2">Room:</div>
-									<div class="cell small-9 mediun-10">
-										<strong class="details-header">[[${summaryModel.room}]]</strong>
+									<div class="cell small-9 medium-10">
+										<strong> <span id="spanRoomName" class="details-header" th:text="${summaryModel.room}">null</span></strong>
 									</div>
 								</div>
 
 								<!-- Date -->
-								<div class="grid-x grid-padding-y align-bottom">
+								<div class="grid-x  align-bottom">
 									<div class="cell small-3 medium-2">Date:</div>
 									<div class="cell small-9 mediun-10">
-										<strong>[[${summaryModel.date}]]</strong>
+										<strong><span id="spanbookDate" th:text="${summaryModel.date}">null</span></strong>
 									</div>
 								</div>
 
 								<!-- Time  -->
-								<div class="grid-x grid-padding-y align-bottom">
+								<div class="grid-x  align-bottom">
 									<div class="cell small-3 medium-2">Time:</div>
 									<div class="cell small-9 mediun-10">
-										<strong>[[${summaryModel.fromDate}]] -
-											[[${summaryModel.toDate}]]</strong>
+										<strong><span id="spanStartTime" th:text="${summaryModel.fromDate}">null</span> -
+											<span id="spanEndTime" th:text="${summaryModel.toDate}">null</span></strong>
 									</div>
 								</div>
 							</div>
@@ -85,7 +90,7 @@
 							<p class="xlead" style="margin: 1rem 0;"
 								th:replace="${summaryHelpInfoPath} :: summary-helpinfo">
 								<!-- <i class="far fa-envelope-open"></i> You will receive an email
-								confirmation, too. Please check your spam folder or contact the
+								confirmation. Please check your spam folder or contact the
 								
 								Digital Scholarship Center Help Desk at 405-744-9731 or <a
 									href="mailto:lib-dsc@okstate.edu?subject=Digital Scholarship Center Help Desk Study Room Question">
