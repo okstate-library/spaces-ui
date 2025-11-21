@@ -197,15 +197,24 @@
 
 												<div
 													class="cell small-9 small-offset-3   medium-6 medium-offset-0">
-													<div class="button-group expanded ">
+													<div style="display: flex; align-items: center; justify-content: flex-end; gap: 1.2rem;">
 
-														<button type="button" class="hollow secondary button"
-															th:onclick="clearSelection()">
-															<i class="fas fa-times"></i> Clear Selection
-														</button>
-														<button class="button" th:onclick="storeSelection()">
-															<i class="far fa-calendar-check"></i> Continue
-														</button>
+														<button
+												            type="button"
+												            id="buttonClearSelection"
+												            onclick="clearSelection()"
+												            class="button hollow">
+												            <span class="clear-selection-label">Clear Selection</span>
+												        </button>
+												        <button
+												            
+												            class="button"
+												            id="buttonBookingConfirm"
+												            name="buttonBookingConfirm"
+												            onclick="storeSelection()">
+												           <i class="far fa-calendar-check"></i> Continue
+												          </button>
+														
 
 													</div>
 												</div>
