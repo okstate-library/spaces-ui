@@ -346,6 +346,7 @@ footer li {
 	height: 84px;
 	align-items: flex-end;
 	margin-bottom: 2rem;
+    font-family: 'Fjalla One', sans-serif;
 
 }
 
@@ -509,15 +510,7 @@ p.room-name-title {
 
 
 /****** Confirmation page styling ******/
-.steps {
-	color: #aaa;
-	padding: 2rem 0;
-}
 
-.progress-active {
-	color: #000;
-	font-weight: 900;
-}
 
 .large-divider {
 	margin: 1rem 0 4rem 0;
@@ -863,6 +856,45 @@ screen and (min-width: 40em) {
 		padding-top: 0
 	}
 }
+/* ===========================================================
+   Progress Bar on Summary and Booking page
+   =========================================================== */
+/* Breadcrumb Container */
+.steps {
+  background: transparent;
+  color: #929292;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 500; /* Medium */
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0;
+  margin: 0;
+  list-style: none;
+}
+
+/* Breadcrumb List Items */
+.steps li {
+  display: inline;
+  font-size: 14px;
+  line-height: 1.5;
+  font-family: 'Rubik', sans-serif;
+  font-weight: 500; /* Medium */
+  color: #929292; /* Previous & future pages */
+}
+
+/* Breadcrumb Active (Current) */
+.steps .progress-active {
+  color: #333; /* Current page */
+  font-weight: 500; /* Medium */
+}
+
+/* Breadcrumb Separators */
+.steps li:not(:last-child)::after {
+  content: " / ";
+  color: #929292;
+  margin: 0 8px; /* 8px spacing */
+}
+
 
 /* ===========================================================
    BOOKING PAGE — REAL CSS HOOKS BASED ON booking.html
@@ -955,23 +987,72 @@ screen and (min-width: 40em) {
 
    /* Book the Room button */
    #buttonBookingConfirm {
-       background-color: #757575;
-       color: #fff;
-       border-radius: 20px;
-       font-size: 1rem;
-       font-weight: 700;
-       opacity: 0.5;
-       cursor: not-allowed;
-       padding: 8px 28px;
-       border: none;
-       margin-left: 8px;
-   }
-   #buttonBookingConfirm:not([disabled]) {
-       background-color: #fe5c00;
-       color: #fff;
-       opacity: 1;
-       cursor: pointer;
-   }
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+    font-size: 24px;
+    line-height: 1.25;
+    padding: 8px 16px;
+    border-radius: 37px;
+    color: #fff;
+    background-color: #757575;
+    border: none;
+    opacity: 0.5;
+    cursor: not-allowed;
+    transition: background-color .2s, opacity .2s;
+}
+#buttonBookingConfirm:not([disabled]) {
+    background-color: #FE5C00;
+    opacity: 1;
+    cursor: pointer;
+}
+
+#buttonClearSelection {
+    background: transparent;
+    border: none;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+    font-size: 18px;
+    line-height: 1.2;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    box-shadow: none;
+    padding: 6px 0 2px 0;  /* top, right/left, bottom: vertical alignment */
+    display: flex;
+    align-items: center;
+}
+
+#buttonClearSelection .clear-selection-label {
+    display: flex;
+    align-items: center;
+    position: relative;
+    color: #333;
+    font-size: 18px;
+    font-family: 'Rubik', sans-serif;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+#buttonClearSelection .clear-selection-label i {
+    font-size: 20px;
+    vertical-align: middle;
+    margin-right: 6px;
+    /* optional, adjust margin for better alignment */
+}
+
+#buttonClearSelection .clear-selection-label::after {
+    content: "";
+    display: block;
+    height: 3px;
+    background: #FF9900;
+    border-radius: 1.5px;
+    position: absolute;
+    left: 0;
+    bottom: -5px;
+    width: 100%;
+}
+
+
 
    
 
