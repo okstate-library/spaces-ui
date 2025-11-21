@@ -118,8 +118,8 @@ public class DscGlobalConfigs implements GlobalConfigs {
 	 * @return "8" as a string.
 	 */
 	@Override
-	public String getNumberofTimeSlots() {
-		return "8";
+	public int getNumberofTimeSlots() {
+		return 8;
 	}
 
 	/**

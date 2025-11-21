@@ -116,8 +116,8 @@ public class CreativeGlobalConfigs implements GlobalConfigs {
 	 * @return The string "8".
 	 */
 	@Override
-	public String getNumberofTimeSlots() {
-		return "8";
+	public int getNumberofTimeSlots() {
+		return 8;
 	}
 
 	/**

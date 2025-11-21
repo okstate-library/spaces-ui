@@ -104,8 +104,8 @@ public class VetMetGlobalConfigs implements GlobalConfigs {
 	 * @return "4"
 	 */
 	@Override
-	public String getNumberofTimeSlots() {
-		return "4";
+	public int getNumberofTimeSlots() {
+		return 4;
 	}
 
 	/**

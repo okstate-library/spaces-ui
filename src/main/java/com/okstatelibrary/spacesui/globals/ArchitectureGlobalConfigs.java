@@ -118,8 +118,8 @@ public class ArchitectureGlobalConfigs implements GlobalConfigs {
 	 * @return "6" as a string.
 	 */
 	@Override
-	public String getNumberofTimeSlots() {
-		return "6";
+	public int getNumberofTimeSlots() {
+		return 6;
 	}
 
 	/**

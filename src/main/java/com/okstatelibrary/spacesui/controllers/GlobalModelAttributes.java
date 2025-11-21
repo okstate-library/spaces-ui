@@ -18,11 +18,12 @@ public class GlobalModelAttributes {
 	public void addGlobalAttributes(Model model) {
 
 		System.out.println("Call addGlobalAttributes");
-		
+
 		model.addAttribute("showExternalLinks", globalConfigs.displayExternalLinks());
 		model.addAttribute("pageTitle", globalConfigs.getTitle());
 		model.addAttribute("organizationName", globalConfigs.getOrganizationName());
 		model.addAttribute("numberofTimeSlots", globalConfigs.getNumberofTimeSlots());
+		model.addAttribute("numberofTHoursCanBook", globalConfigs.getNumberofTimeSlots() / 2);
 		model.addAttribute("helpInfoPath", "common/" + globalConfigs.getInstanceName() + "/helpinfo");
 		model.addAttribute("showExtra", "false");
 		model.addAttribute("roomPolicyInfoPath", "common/" + globalConfigs.getInstanceName() + "/room-policy");
@@ -32,7 +33,7 @@ public class GlobalModelAttributes {
 		model.addAttribute("mainNavigationPath", "common/" + globalConfigs.getInstanceName() + "/main-nav");
 		model.addAttribute("breadcrumbPath", "common/" + globalConfigs.getInstanceName() + "/breadcrumb");
 		model.addAttribute("pageTitlePath", "common/" + globalConfigs.getInstanceName() + "/page-title");
-		
+
 	}
 
 	@ExceptionHandler(Exception.class)

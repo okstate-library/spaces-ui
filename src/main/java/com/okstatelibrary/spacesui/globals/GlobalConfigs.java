@@ -31,14 +31,14 @@ public interface GlobalConfigs {
 	 * @return help desk name.
 	 */
 	String getHelpDeskName();
-
+	
 	/**
 	 * Returns the number of allowable time slots as a String. Could represent a
 	 * label or numeric value to be parsed elsewhere.
 	 *
 	 * @return number of time slots.
 	 */
-	String getNumberofTimeSlots();
+	int getNumberofTimeSlots();
 
 	/**
 	 * Checks whether external links can display or not to this instance.

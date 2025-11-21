@@ -59,9 +59,10 @@
 						<div>
 							<h5
 								style="font-family: 'Rubik', sans-serif; font-weight: 600; font-size: 18px; line-height: 1.5; color: #333; margin-top: 1rem;">
-								Want more than 30 minutes? Select multiple time blocks (up to 4
-								hours). <br>Please complete your booking within 15 minutes
-								(after that your selections will be cleared).
+								Want more than 30 minutes? Select multiple time blocks (up to
+								[[${numberofTHoursCanBook}]] hours). <br>Please complete
+								your booking within 15 minutes (after that your selections will
+								be cleared).
 							</h5>
 						</div>
 
@@ -156,7 +157,8 @@
 											data-th-text="${timeslot.fromTime}">...</button>
 									</div>
 
-									<div class="callout" style="display: block;height:0.5rem;visibility:hidden;">
+									<div class="callout"
+										style="display: block; height: 0.5rem; visibility: hidden;">
 										<div class="grid-x">
 											<div>
 												<p>ssssssssssssssssssssssssssssssssssssssssssss;</p>
@@ -197,24 +199,19 @@
 
 												<div
 													class="cell small-9 small-offset-3   medium-6 medium-offset-0">
-													<div style="display: flex; align-items: center; justify-content: flex-end; gap: 1.2rem;">
+													<div
+														style="display: flex; align-items: center; justify-content: flex-end; gap: 1.2rem;">
 
-														<button
-												            type="button"
-												            id="buttonClearSelection"
-												            onclick="clearSelection()"
-												            class="button hollow">
-												            <span class="clear-selection-label">Clear Selection</span>
-												        </button>
-												        <button
-												            
-												            class="button"
-												            id="buttonBookingConfirm"
-												            name="buttonBookingConfirm"
-												            onclick="storeSelection()">
-												           <i class="far fa-calendar-check"></i> Continue
-												          </button>
-														
+														<button type="button" id="buttonClearSelection"
+															onclick="clearSelection()" class="button hollow">
+															<span class="clear-selection-label">Clear
+																Selection</span>
+														</button>
+														<button class="button" id="buttonBookingConfirm"
+															name="buttonBookingConfirm" onclick="storeSelection()">
+															<i class="far fa-calendar-check"></i> Continue
+														</button>
+
 
 													</div>
 												</div>
