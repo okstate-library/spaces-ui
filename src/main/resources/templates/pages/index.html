@@ -156,19 +156,15 @@
 											data-th-text="${timeslot.fromTime}">...</button>
 									</div>
 
-									<div class="callout" style="display: block;height:0.5rem;visibility:hidden;">
-										<div class="grid-x">
-											<div>
-												<p>ssssssssssssssssssssssssssssssssssssssssssss;</p>
-											</div>
-
-										</div>
+									<div
+										style="display: block; height: 0.25rem; visibility: hidden;">
+										<p>ssssssssssssssssssssssssssssssssssssssssssss</p>
 									</div>
 
 
 
 									<div th:id="'confirmWindow-' + ${room.id}" class="callout"
-										style="margin-top: 1.5rem; display: none;">
+										style="margin-top: 1.0rem; display: none;">
 
 
 										<form class="form-group" method="post" th:action="@{/booking}">

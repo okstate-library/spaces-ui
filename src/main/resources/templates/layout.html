@@ -12,10 +12,14 @@
 
 <title th:text="${pageTitle}">Default Title</title>
 
-<link href="https://fonts.googleapis.com/css?family=Fjalla+One:400&display=swap" rel="stylesheet">
+<link
+	href="https://fonts.googleapis.com/css?family=Fjalla+One:400&display=swap"
+	rel="stylesheet">
 
-<link href="https://fonts.googleapis.com/css?family=Rubik:400&display=swap" rel="stylesheet"> 
-		
+<link
+	href="https://fonts.googleapis.com/css?family=Rubik:400&display=swap"
+	rel="stylesheet">
+
 <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
 
 <link rel="stylesheet" href="/css/foundation-6.6.3.css" />
@@ -64,71 +68,6 @@ function getValue() {
 			class="ribbonclass" th:classappend="${messageclass}"
 			th:text="${ribbonmessage} + ' (click to close)'"></div>
 
-		<!-- <div class="xy-branding">
-
-			<div class="grid-container">
-
-				<div class="grid-x">
-					<div class="cell small-12 large-6">
-						<img
-							src="https://digitalassets.okstate.edu/m/5edd2b756cf31c9c/original/Logo-Web-Ready.svg"
-							alt="logo" style="position: absolute; z-index: 11;">
-						<div id="site-branding">
-							<a href="//library.okstate.edu" id="site-name">Edmon Low
-								Library</a>
-							<p id="tagline">
-								&amp; <a href="https://library.okstate.edu/about/locations/"
-									class="banner-link">Branch Libraries</a>
-							</p>
-						</div>
-					</div>
-
-				</div>
-			</div>
-		</div>
-
-		<div class="title-bar" data-responsive-toggle="example-menu"
-			data-hide-for="medium">
-			<div class="title-bar-right">
-				<button class="menu-icon" type="button" data-toggle="example-menu">
-					<span class="sr-only">Menu</span>
-				</button>
-			</div>
-
-		</div>
-
-
-
-		<div class="top-bar-wrapper">
-			<div class="grid-container">
-				<div class="top-bar" id="example-menu">
-					<div class="top-bar-left">
-						<ul class="vertical medium-horizontal menu">
-							<li class="menu-text make-125px hide-for-small-only">&nbsp;</li>
-							<li><a href="https://library.okstate.edu">Home </a></li>
-							<li th:if="${showExternalLinks}"><a
-								href="https://forms.library.okstate.edu/machform/view.php?id=181450">
-									Testing Space</a></li>
-							<li th:if="${showExternalLinks}"><a
-								href="https://info.library.okstate.edu/family-study-room">Family
-									Study Room</a></li>
-						</ul>
-
-					</div>
-
-					<div class="top-bar-right">
-						<ul class="vertical medium-horizontal  menu">
-							<li><a href="https://library.okstate.edu/chat">Chat</a></li>
-							<li class=""><a href="#" data-open="search-modal"><i
-									class="fa fa-search" aria-hidden="true"></i> <span
-									class="sr-only">Search</span></a></li>
-						</ul>
-					</div>
-
-				</div>
-
-			</div>
-		</div> -->
 
 		<!-- Top Banner with Branding and Navigation  -->
 		<div class="main-header">
@@ -141,8 +80,8 @@ function getValue() {
 				<div class="grid-x  grid-margin-x " style="padding-top: 2.5rem;">
 					<!-- OKState Logo -->
 					<div class="cell shrink  ">
-						<a href ="https://go.okstate.edu/">
-							<img alt="OSU Logo" src="https://digitalassets.okstate.edu/m/5edd2b756cf31c9c/original/Logo-Web-Ready.svg">
+						<a href="https://go.okstate.edu/"> <img alt="OSU Logo"
+							src="https://digitalassets.okstate.edu/m/5edd2b756cf31c9c/original/Logo-Web-Ready.svg">
 						</a>
 					</div>
 
@@ -150,9 +89,9 @@ function getValue() {
 					<div class="cell auto ">
 						<div class="library-div align-middle">
 							<a href="https://library.okstate.edu/">
-							<div class="library-title-div ">Edmon Low Library</div>
-							<div class="library-subtitle-div">& Branch Libraries</div>
-							</a> 
+								<div class="library-title-div ">Edmon Low Library</div>
+								<div class="library-subtitle-div">& Branch Libraries</div>
+							</a>
 						</div>
 					</div>
 				</div>
@@ -169,25 +108,9 @@ function getValue() {
 				</div>
 
 				<!-- Main Navigation Menu  -->
-				<div class="top-bar" id="main-nav-menu">
-					<div class="top-bar-left">
-						<ul class="vertical medium-horizontal menu main-nav-menu">
-							<li><a href="https://spaces.library.okstate.edu/" class="main-nav-link">Study Rooms</a></li>
-							<li th:if="${showExternalLinks}"><a
-								href="https://forms.library.okstate.edu/machform/view.php?id=181450"
-								class="main-nav-link">Testing Space</a></li>
-							<li th:if="${showExternalLinks}"><a
-								href="https://info.library.okstate.edu/family-study-room"
-								class="main-nav-link">Family Study Room</a></li>
 
-							<li th:if="${showExternalLinks}"><a
-								href="https://library.okstate.edu/staff/forms/venue-reservations-at-the-edmon-low-library/"
-								class="main-nav-link">Browsing & Event Room</a></li>
+				<div th:replace="${mainNavigationPath} :: main-nav"></div>
 
-
-						</ul>
-					</div>
-				</div>
 			</div>
 		</div>
 
@@ -196,13 +119,9 @@ function getValue() {
 				<div class="grid-x">
 					<div class="cell">
 						<nav aria-label="You are here:" role="navigation">
-							<ul class="breadcrumbs">
-								<li><a href="https://library.okstate.edu/">Home</a></li>
-								<!--<li><a href="#">Study & Create</a></li> -->
-								<li class="disabled" style="text-transform: none !important;">Study
-									Rooms</li>
 
-							</ul>
+							<div th:replace="${breadcrumbPath} :: breadcrumb"></div>
+
 						</nav>
 
 					</div>
@@ -215,7 +134,9 @@ function getValue() {
 			<div class="grid-container">
 				<div class="grid-x">
 					<div class="cell">
-						<h1 class="pagetitle">Reserve a Study Room</h1>
+
+						<div th:replace="${pageTitlePath} :: page-title"></div>
+						<!-- <h1 class="pagetitle">Reserve a Study Room</h1> -->
 					</div>
 
 					<!-- 					<p>
@@ -309,7 +230,8 @@ function getValue() {
 							OSU</div>
 						<div class="">
 							<p>
-								<a href="https://news.okstate.edu/" class="footer-social-link">News</a> | <a href="https://events.okstate.edu/"
+								<a href="https://news.okstate.edu/" class="footer-social-link">News</a>
+								| <a href="https://events.okstate.edu/"
 									class="footer-social-link">Events</a> | <a href="#"
 									class="footer-social-link">Inside OSU</a>
 							</p>
@@ -332,10 +254,9 @@ function getValue() {
 										</a>
 									</div>
 									<div class="cell">
-										<a
-											href="https://x.com/okstate"
-											class="footer-social-icon"> <span class="show-for-sr">Twitter</span>
-											<svg xmlns:xlink="http://www.w3.org/1999/xlink" role="img"
+										<a href="https://x.com/okstate" class="footer-social-icon">
+											<span class="show-for-sr">Twitter</span> <svg
+												xmlns:xlink="http://www.w3.org/1999/xlink" role="img"
 												class="img-fluid icon" id="xicon" aria-hidden="true"
 												viewBox="0 0 47 46">
 												<use xlink:href="#social--twitter-white"></use>
@@ -343,8 +264,7 @@ function getValue() {
 										</a>
 									</div>
 									<div class="cell">
-										<a
-											href="https://www.instagram.com/okstate/"
+										<a href="https://www.instagram.com/okstate/"
 											class="footer-social-icon"> <span class="show-for-sr">Instagram</span>
 											<svg xmlns:xlink="http://www.w3.org/1999/xlink" role="img"
 												class="img-fluid icon" id="xicon" aria-hidden="true"
@@ -355,8 +275,7 @@ function getValue() {
 									</div>
 
 									<div class="cell">
-										<a
-											href="https://www.snapchat.com/@okstateu"
+										<a href="https://www.snapchat.com/@okstateu"
 											class="footer-social-icon"> <span class="show-for-sr">Snapchat</span>
 											<svg xmlns:xlink="http://www.w3.org/1999/xlink" role="img"
 												class="img-fluid icon" id="xicon" aria-hidden="true"

@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+
+<div th:fragment="main-nav">
+
+	<div class="top-bar-left">
+		<ul class="vertical medium-horizontal menu main-nav-menu">
+			<li><a th:href="@{/}"
+				class="main-nav-link">Study Rooms</a></li>
+			<li th:if="${showExternalLinks}"><a
+				href="https://forms.library.okstate.edu/machform/view.php?id=181450"
+				class="main-nav-link">Testing Space</a></li>
+			<li th:if="${showExternalLinks}"><a
+				href="https://info.library.okstate.edu/family-study-room"
+				class="main-nav-link">Family Study Room</a></li>
+
+			<li th:if="${showExternalLinks}"><a
+				href="https://library.okstate.edu/staff/forms/venue-reservations-at-the-edmon-low-library/"
+				class="main-nav-link">Browsing & Event Room</a></li>
+
+		</ul>
+	</div>
+</div>
+
+</html>
+

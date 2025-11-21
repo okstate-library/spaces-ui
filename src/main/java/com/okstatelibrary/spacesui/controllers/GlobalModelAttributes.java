@@ -29,6 +29,10 @@ public class GlobalModelAttributes {
 		model.addAttribute("helpDeskName", globalConfigs.getHelpDeskName());
 		model.addAttribute("policyUrl", globalConfigs.getPolicyUrl());
 		model.addAttribute("summaryHelpInfoPath", "common/" + globalConfigs.getInstanceName() + "/summary-helpinfo");
+		model.addAttribute("mainNavigationPath", "common/" + globalConfigs.getInstanceName() + "/main-nav");
+		model.addAttribute("breadcrumbPath", "common/" + globalConfigs.getInstanceName() + "/breadcrumb");
+		model.addAttribute("pageTitlePath", "common/" + globalConfigs.getInstanceName() + "/page-title");
+		
 	}
 
 	@ExceptionHandler(Exception.class)
