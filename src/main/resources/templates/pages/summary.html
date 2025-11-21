@@ -97,30 +97,16 @@
 
 
 							<!-- Buttons  -->
-							<div class="grid-x top-margin-4">
-								<div class="cell">
-									<div class="grid-x">
+							<div style="display: flex; justify-content: flex-end; gap: 2rem;">
+  <form class="form-group" method="post" th:action="@{/cancel}">
+    <input type="hidden" th:value="${summaryModel.bookId}" name="bookingId" id="bookingId" required="required" />
+    <button type="submit" id="buttonClearSelection" class="button hollow">
+      <span class="clear-selection-label">Cancel Booking</span>
+    </button>
+  </form>
+  <a th:href="@{/}" class="button" id="buttonBookingConfirm" name="buttonBookingConfirm">Continue...</a>
+</div>
 
-										<!-- Clear and Start over  -->
-										<div
-											class="cell small-5 small-offset-1  medium-3 medium-offset-5 text-left">
-											<form class="form-group" method="post" th:action="@{/cancel}">
-												<input type="hidden" th:value="${summaryModel.bookId}"
-													name="bookingId" id="bookingId" required="required" />
-												<button type="submit" class="hollow button  expanded ">
-													Cancel Booking</button>
-											</form>
-
-										</div>
-
-										<!-- Cancel Booking  -->
-										<div
-											class="cell small-5 small-offset-1   medium-3 medium-offset-1 text-right">
-											<a th:href="@{/}" class="button expanded"> Continue...</a>
-										</div>
-									</div>
-								</div>
-							</div>
 						</div>
 					</div>
 				</div>
@@ -138,13 +124,13 @@
 				<!-- Progress Indicator -->
 				<div class="cell small-12 medium-8 medium-offset-2">
 					<ul class="menu align-center simple steps">
-						<li>1 Select</li>
-						<li>&gt;</li>
-						<li>2 Login</li>
-						<li>&gt;</li>
-						<li>3 Checkout</li>
-						<li>&gt;</li>
-						<li class="progress-active">4 Canceled</li>
+						<li>1. Select</li>
+						
+						<li>2. Login</li>
+						
+						<li>3. Checkout</li>
+						
+						<li class="progress-active">4. Canceled</li>
 					</ul>
 				</div>
 
@@ -170,7 +156,8 @@
 											<!-- Cancel Booking  -->
 											<div
 												class="cell small-5 small-offset-7   medium-3 medium-offset-9 text-right">
-												<a th:href="@{/}" role="button" class="button expanded">
+												<a th:href="@{/}" role="button" class="button" id="buttonBookingConfirm"
+							            name="buttonBookingConfirm">
 													Select a new reservation</a>
 											</div>
 										</div>
