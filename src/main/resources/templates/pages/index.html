@@ -150,8 +150,8 @@
 									<div data-th-each="timeslot : ${room.availability}"
 										style="display: inline;">
 
-										<button class="button"
-											th:classappend="${ timeslot.booked ? 'disabled orange-round-button' : 'clear orange-round-button'}"
+										<button class="button orange-round-button"
+											th:classappend="${ timeslot.booked ? 'disabled' : 'clear'}"
 											th:onclick="addItem(this, '[(${room.name})]','[(${room.id})]', '[(${timeslot.fromTime})]' 
 										, '[(${timeslot.toTime})]' , '[(${timeslot.fromDateTime})]' , '[(${timeslot.booked})]' );"
 											data-th-text="${timeslot.fromTime}">...</button>

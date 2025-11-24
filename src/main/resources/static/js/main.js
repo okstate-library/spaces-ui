@@ -70,6 +70,7 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 		} else {
 			if (selectedRoomName != roomName) {
 				alert('You may only reserve one room at a time.');
+				unselectButtonStyle($(button));
 				return;
 			} else {
 
@@ -87,12 +88,14 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 						if ((firstFromTime - suppliedTime > 30)
 								|| (lastFromTime - suppliedTime < -30)) {
 							alert('Please select continuous time slots.');
+							unselectButtonStyle($(button));
 							return;
 						}
 
 						// Checking more than 4 time slots selection.
 						if (selectedSlots.length == timeSlotLimits) {
 							alert('You may select up to ' + timeSlotLimits + ' time slots at a time.');
+							unselectButtonStyle($(button));
 							return;
 						}
 
@@ -163,7 +166,7 @@ function selectButtonStyle(button) {
 }
 
 // Change the button unselected style
-function unselectButtonStyle(button) {
+function unselectButtonStyle(button) {	
     $(button).css('background', '#FE5C00'); // orange background as per your default button style
     $(button).css('color', '#fff');         // white text as per your default button style
 }
