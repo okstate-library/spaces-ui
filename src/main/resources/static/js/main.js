@@ -162,10 +162,10 @@ function selectButtonStyle(button) {
 	$(button).css('color', '#fff');
 }
 
-// change the button unselected style
+// Change the button unselected style
 function unselectButtonStyle(button) {
-	$(button).css('color', '');
-	$(button).css('background', '');
+    $(button).css('background', '#FE5C00'); // orange background as per your default button style
+    $(button).css('color', '#fff');         // white text as per your default button style
 }
 
 // Time value based on
@@ -260,3 +260,5 @@ function bookingPageLoad() {
 function cleanSession() {
 	sessionStorage.clear()
 }
+
+
