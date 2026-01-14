@@ -4,6 +4,11 @@ var dateToday = new Date();
 
 dateToday.setDate(dateToday.getDate() - 1);
 
+
+var endDateToday = new Date();
+
+endDateToday.setDate(endDateToday.getDate() + 21);
+
 // document.getElementById("year").innerHTML = new Date().getFullYear();
 
 
@@ -17,6 +22,7 @@ $(document).ready(function() {
 	
 	$('#date').fdatepicker({
 		startDate : dateToday,
+		endDate : endDateToday,
 		format : 'yyyy-mm-dd'
 	}).on('changeDate', function(event) {
 		
