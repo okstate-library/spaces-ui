@@ -25,6 +25,12 @@
 			<email>roy.degler@okstate.edu</email>
 			<timezone>+1</timezone>
 		</developer>
+		<developer>
+			<id>nikhilmotwani24</id>
+			<name>Nikhil Motwani</name>
+			<email>nikhil.motwani@okstate.edu</email>
+			<timezone>+1</timezone>
+		</developer>
 	</developers>
 	<licenses>
 		<license>
