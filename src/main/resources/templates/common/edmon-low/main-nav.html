@@ -6,8 +6,10 @@
 
 	<div class="top-bar-left">
 		<ul class="vertical medium-horizontal menu main-nav-menu">
-			<li><a th:href="@{/}"
-				class="main-nav-link">Study Rooms</a></li>
+			<li><a th:href="@{/}" class="main-nav-link">Study Rooms</a></li>
+			<li th:if="${showExternalLinks}"><a
+				href="https://creative-spaces.library.okstate.edu/"
+				class="main-nav-link">Creative Studios</a></li>
 			<li th:if="${showExternalLinks}"><a
 				href="https://info.library.okstate.edu/testing-space"
 				class="main-nav-link">Testing Space</a></li>
@@ -18,6 +20,9 @@
 			<li th:if="${showExternalLinks}"><a
 				href="https://library.okstate.edu/staff/forms/venue-reservations-at-the-edmon-low-library/"
 				class="main-nav-link">Browsing & Event Room</a></li>
+
+
+
 
 		</ul>
 	</div>
