@@ -11,6 +11,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+//import javax.servlet.http.HttpServletRequest;
+//import javax.servlet.http.HttpSession;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -23,7 +26,8 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-import org.springframework.security.saml.metadata.MetadataManager;
+//import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistration;
+//import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -42,6 +46,10 @@ import com.okstatelibrary.spacesui.services.AccessTokenService;
 import com.okstatelibrary.spacesui.services.FolioService;
 import com.okstatelibrary.spacesui.services.SpacesService;
 import com.okstatelibrary.spacesui.stereotypes.CurrentUser;
+import com.okstatelibrary.spacesui.tenant.MasterData;
+import com.okstatelibrary.spacesui.tenant.TenantConfigRegistry;
+import com.okstatelibrary.spacesui.tenant.TenantContext;
+import com.okstatelibrary.spacesui.tenant.TenantMasterDataCache;
 import com.okstatelibrary.spacesui.util.DateTimeUtil;
 import com.okstatelibrary.spacesui.util.Globals;
 import com.okstatelibrary.spacesui.util.Messages;
@@ -76,7 +84,7 @@ public class HomeController {
 	@Autowired
 	SpacesService spaceService;
 
-	private final GlobalConfigs globalConfigs;
+	// private final GlobalConfigs globalConfigs;
 
 	/**
 	 * Folio services
@@ -84,26 +92,34 @@ public class HomeController {
 	@Autowired
 	FolioService folioService;
 
+	@Autowired
+	private final TenantConfigRegistry registry;
+
 	/**
 	 * Metadata Manager class
 	 */
-	@Autowired
-	private MetadataManager metadata;
+	//@Autowired
+	//private RelyingPartyRegistrationRepository metadata;
+
+	private final TenantMasterDataCache masterDataCache;
 
 	/**
 	 * Logger
 	 */
 	private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
-	public HomeController(GlobalConfigs globalConfigs) {
-		this.globalConfigs = globalConfigs;
+	public HomeController(TenantConfigRegistry registry, TenantMasterDataCache masterDataCache) {
+		// this.globalConfigs = null;
+		this.registry = registry;
+		this.masterDataCache = masterDataCache;
+		// this.globalConfigs = registry.getCurrentConfig();
 	}
 
 	private static final String sessionCategoryAttributeName = "categoryUrlId";
 
 	private static final String modelCategoryAttributeName = "categoryAttribute";
 
-	static Globals globalsInstance = null;
+	// static Globals globalsInstance = null;
 
 	private static final String roomsFoundLabelString = " Room(s) found...";
 
@@ -171,36 +187,46 @@ public class HomeController {
 	private void globalSetup()
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
-		if (globalsInstance == null) {
+//		if (globalsInstance == null) {
+//
+//			System.out.println("Tenant Instance in Home controller :"
+//					+ com.okstatelibrary.spacesui.tenant.TenantContext.getTenantId());
 
-			globalsInstance = new Globals();
+		// globalsInstance = new Globals();
 
-			if (!globalsInstance.getIsProccessed()) {
+		// if (!globalsInstance.getIsProccessed()) {
 
-				Map<String, String> studyRooms = new HashMap<>();
+		Map<String, String> studyRooms = new HashMap<>();
 
-				List<Room> roomList = new ArrayList<>();
+		List<Room> roomList = new ArrayList<>();
 
-				Category[] categoryItems = spaceService.getRoomsByCategory(getAccessTokenFromRequest(),
-						URLs.getRoomsByCategoryURL(this.globalConfigs.getCategoryNumber()));
+		GlobalConfigs config = registry.getCurrentConfig();
 
-				studyRooms.put(this.globalConfigs.getCategoryNumber(), categoryItems[0].getItems());
+		// String tenant = config.gett
 
-				Room[] rooms = spaceService.getRoom(getAccessTokenFromRequest(),
-						URLs.GET_ROOM_DETAILS_URL + categoryItems[0].getItems());
+		MasterData masterData = masterDataCache.get(TenantContext.getTenantId());
 
-				for (Room room : rooms) {
-					roomList.add(room);
-				}
+		Category[] categoryItems = masterData.getCategories();
 
-				globalsInstance.setRoomDetails(roomList);
+//		Category[] categoryItems = spaceService.getRoomsByCategory(getAccessTokenFromRequest(),
+//				URLs.getRoomsByCategoryURL(config.getCategoryNumber()));
 
-				globalsInstance.setStudyRooms(studyRooms);
+		studyRooms.put(config.getCategoryNumber(), categoryItems[0].getItems());
 
-				globalsInstance.setIsProccessed(true);
+		Room[] rooms = spaceService.getRoom(getAccessTokenFromRequest(),
+				URLs.GET_ROOM_DETAILS_URL + categoryItems[0].getItems());
 
-			}
+		for (Room room : rooms) {
+			roomList.add(room);
 		}
+
+		masterData.setRooms(roomList);
+		// globalsInstance.setRoomDetails(roomList);
+
+		// globalsInstance.setStudyRooms(studyRooms);
+
+		// }
+		// }
 	}
 
 	/**
@@ -246,12 +272,14 @@ public class HomeController {
 			String selectedSeats = "0";
 			String selectedFloor = "0";
 
-			Map<String, String> seatList = this.globalConfigs.getSeatList();
+			GlobalConfigs globalConfigs = registry.getCurrentConfig();
 
-			model.addAttribute("hidefloorselection", this.globalConfigs.hideFloorSelection());
+			Map<String, String> seatList = globalConfigs.getSeatList();
+
+			model.addAttribute("hidefloorselection", globalConfigs.hideFloorSelection());
 
 			SpaceItem[] spaceItems = madeAvaliableTimeSlots(DateTimeUtil.getTodayDate(), selectedSeats, selectedFloor,
-					this.globalConfigs.getCategoryNumber());
+					globalConfigs.getCategoryNumber());
 
 			model.addAttribute("spaceList", spaceItems);
 
@@ -265,7 +293,7 @@ public class HomeController {
 			model.addAttribute("seats", seatList);
 			model.addAttribute("selectedSeat", selectedSeats);
 
-			model.addAttribute("floors", this.globalConfigs.getFloorList());
+			model.addAttribute("floors", globalConfigs.getFloorList());
 			model.addAttribute("selectedFloor", selectedFloor);
 
 			HttpSession session = request.getSession(true);
@@ -275,7 +303,7 @@ public class HomeController {
 
 //			session.setMaxInactiveInterval(20);
 
-			session.setAttribute(sessionCategoryAttributeName, this.globalConfigs.getCategoryNumber());
+			session.setAttribute(sessionCategoryAttributeName, globalConfigs.getCategoryNumber());
 
 			return "pages/index";
 		}
@@ -322,18 +350,20 @@ public class HomeController {
 				floor = "0";
 			}
 
-			String category = this.globalConfigs.getCategoryNumber();
+			GlobalConfigs globalConfigs = registry.getCurrentConfig();
 
-			Map<String, String> seatList = this.globalConfigs.getSeatList();
+			String category = globalConfigs.getCategoryNumber();
 
-			model.addAttribute("hidefloorselection", this.globalConfigs.hideFloorSelection());
+			Map<String, String> seatList = globalConfigs.getSeatList();
+
+			model.addAttribute("hidefloorselection", globalConfigs.hideFloorSelection());
 
 			model.addAttribute("dateString", date);
 
 			model.addAttribute("seats", seatList);
 			model.addAttribute("selectedSeat", seats);
 
-			model.addAttribute("floors", this.globalConfigs.getFloorList());
+			model.addAttribute("floors", globalConfigs.getFloorList());
 			model.addAttribute("selectedFloor", floor);
 
 			SpaceItem[] spaceItems = madeAvaliableTimeSlots(date, seats, floor, category);
@@ -371,6 +401,9 @@ public class HomeController {
 	public String idpSelection(HttpServletRequest request, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
+		
+		System.out.print("/discovery");
+
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 		if (auth == null)
 			LOG.debug("Current authentication instance from security context is null");
@@ -379,12 +412,12 @@ public class HomeController {
 
 		if (auth == null || (auth instanceof AnonymousAuthenticationToken)) {
 
-			Set<String> idps = metadata.getIDPEntityNames();
-
-			for (String idp : idps)
-				LOG.info("Configured Identity Provider for SSO: " + idp);
-
-			model.addAttribute("idps", idps);
+//			Set<String> idps = metadata. .getIDPEntityNames();
+//
+//			for (String idp : idps)
+//				LOG.info("Configured Identity Provider for SSO: " + idp);
+//
+//			model.addAttribute("idps", idps);
 
 			return "redirect:/saml/login?disco=true";
 		} else {
@@ -411,8 +444,10 @@ public class HomeController {
 	public String landing(HttpServletRequest request, @CurrentUser User user, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException {
 
-		// setupPolicyView(model);
+		//setupPolicyView(model);
 
+		System.out.println("/landing page");
+		
 		Authentication auth = SecurityContextHolder.getContext().getAuthentication();
 
 		if (auth == null)
@@ -467,13 +502,17 @@ public class HomeController {
 	public String cancel(@ModelAttribute("bookingId") String bookingId, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
+		System.out.println("cancel");
+		
 		String category = "";
+
+		GlobalConfigs globalConfigs = registry.getCurrentConfig();
 
 		if (bookingId.isEmpty() || bookingId == null) {
 
 			model.addAttribute("summaryModel", null);
 			model.addAttribute("errorMessage",
-					Messages.ERROR_BOOKING_SOMETING_WENT_WRONG + this.globalConfigs.getHelpDeskName());
+					Messages.ERROR_BOOKING_SOMETING_WENT_WRONG + globalConfigs.getHelpDeskName());
 
 		} else {
 
@@ -492,7 +531,7 @@ public class HomeController {
 
 				model.addAttribute("summaryModel", null);
 				model.addAttribute("errorMessage",
-						Messages.ERROR_BOOKING_CANCEL_SOMETING_WENT_WRONG + this.globalConfigs.getHelpDeskName());
+						Messages.ERROR_BOOKING_CANCEL_SOMETING_WENT_WRONG + globalConfigs.getHelpDeskName());
 
 			} else {
 
@@ -524,11 +563,13 @@ public class HomeController {
 
 		try {
 			System.out.println("Booking call");
-
+			
 			return "redirect:/saml/login?disco=true";
 		} catch (Exception e) {
 			System.out.print(e.getStackTrace());
 		}
+		System.out.println("Booking call - 2222");
+		
 		return "redirect:/errorp";
 	}
 
@@ -613,7 +654,11 @@ public class HomeController {
 	public String error(HttpServletRequest request, @PathVariable(required = false) String id, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
-		String errorMessage = Messages.ERROR_BOOKING_SOMETING_WENT_WRONG + this.globalConfigs.getHelpDeskName();
+		System.out.println("********** ERROR  Occured **********");
+		
+		GlobalConfigs globalConfigs = registry.getCurrentConfig();
+
+		String errorMessage = Messages.ERROR_BOOKING_SOMETING_WENT_WRONG + globalConfigs.getHelpDeskName();
 
 		model.addAttribute("showExtra", "true");
 
@@ -635,6 +680,19 @@ public class HomeController {
 				errorMessage = Messages.ERROR_BOOKING_RESERVATION_WITHIN_TWO_HOURS;
 			} else if (id.equals("306")) {
 				errorMessage = Messages.ERROR_USER_UNAUTHORIZE;
+			}else if (id.equals("888")) {
+			
+				System.out.println("Request URL     : " + request.getRequestURL());
+				System.out.println("Request URI     : " + request.getRequestURI());
+				System.out.println("Context Path    : " + request.getContextPath());
+				System.out.println("Server Name     : " + request.getServerName());
+				System.out.println("Server Port     : " + request.getServerPort());
+				System.out.println("Scheme          : " + request.getScheme());
+				System.out.println("Host Header     : " + request.getHeader("Host"));
+				System.out.println("X-Forwarded-Host: " + request.getHeader("X-Forwarded-Host"));
+				System.out.println("X-Forwarded-Proto: " + request.getHeader("X-Forwarded-Proto"));
+				System.out.println("X-Forwarded-Port: " + request.getHeader("X-Forwarded-Port"));
+				System.out.println("X-Forwarded-For : " + request.getHeader("X-Forwarded-For"));
 			}
 
 			model.addAttribute("errorMessageId", id);
@@ -646,26 +704,6 @@ public class HomeController {
 		model.addAttribute("errorMessage", errorMessage);
 
 		return "error";
-	}
-
-	/**
-	 * Redirects to the relevant error page with message.
-	 * 
-	 * @param id
-	 * @param model
-	 * @return
-	 * @throws JsonParseException
-	 * @throws JsonMappingException
-	 * @throws RestClientException
-	 * @throws IOException
-	 * @throws JSONException
-	 */
-	@RequestMapping(value = { "/spaces" })
-	public String spaces(Model model) {
-
-		System.out.println("spaces");
-
-		return "pages/spaces";
 	}
 
 	/**
@@ -686,18 +724,23 @@ public class HomeController {
 			@PathVariable(required = false) boolean isBooked, Model model)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
 
+		
+		System.out.println("***********   summary  ********************");
+		
 		globalSetup();
 
 		String category = "";
 
+		GlobalConfigs globalConfigs = registry.getCurrentConfig();
+
 		if (id.isEmpty() || id == null) {
 			model.addAttribute("summaryModel", null);
 			model.addAttribute("errorMessage",
-					Messages.ERROR_BOOKING_SOMETING_WENT_WRONG + this.globalConfigs.getHelpDeskName());
+					Messages.ERROR_BOOKING_SOMETING_WENT_WRONG + globalConfigs.getHelpDeskName());
 
 		} else {
 
-			System.out.println("categorycategorycategorycategorycategorycategory - " + category);
+			System.out.println("category - " + category);
 
 			BookedItem[] bookingItems = spaceService.getBookedItems(getAccessTokenFromRequest(),
 					URLs.GET_BOOKING_DETAILS_URL + id);
@@ -711,7 +754,13 @@ public class HomeController {
 
 				BookedItem bookedItem = bookingItems[0];
 
-				bookedItem.setRoom(globalsInstance.getRoomName(bookedItem.getEid()));
+				MasterData masterData = masterDataCache.get(TenantContext.getTenantId());
+
+				masterData.print();
+				
+				System.out.println("bookedItem.getEid() - " + bookedItem.getEid());
+				
+				bookedItem.setRoom(masterData.getRoomName(bookedItem.getEid()));
 
 				model.addAttribute("summaryModel", bookedItem);
 				model.addAttribute("isBooked", isBooked);
@@ -760,13 +809,26 @@ public class HomeController {
 
 		List<SpaceItem> list = new ArrayList<>();
 
+		GlobalConfigs config = registry.getCurrentConfig();
+
+		System.out.println("category - " + config.getSubDomain() + config.getCategoryNumber());
+
+		System.out.println("category - " + config.getSubDomain() + config.getCategoryNumber());
+
+		MasterData masterData = masterDataCache.get(TenantContext.getTenantId());
+
+		// Category[] categoryItems = masterData.getCategories();
+
+//		SpaceItem[] spaceItems = spaceService.getItems(getAccessTokenFromRequest(),
+//				URLs.getSpacesURL(globalsInstance.getStudyRoomByCategoryId(config.getCategoryNumber()), date));
+
 		SpaceItem[] spaceItems = spaceService.getItems(getAccessTokenFromRequest(),
-				URLs.getSpacesURL(globalsInstance.getStudyRoomByCategoryId(category), date));
+				URLs.getSpacesURL(masterData.getStudyRooms(), date));
 
 		for (SpaceItem spaceItem : spaceItems) {
 
 			// Print room id with name.
-			//System.out.println(spaceItem.getId() + " " + spaceItem.getName());
+			// System.out.println(spaceItem.getId() + " " + spaceItem.getName());
 
 			if (spaceItem.getAvailability().length > 0 && Integer.parseInt(spaceItem.getCapacity()) >= seatsCount
 					&& (floor.equals("0") ? true : floor.equals(spaceItem.getFloor()))) {
@@ -817,8 +879,9 @@ public class HomeController {
 				spaceItem.setAvailability(newAvailabilityList.toArray(new Availability[0]));
 
 				list.add(spaceItem);
-				
-				//System.out.println(spaceItem.getId() + " -- " + spaceItem.getName() + " -- " + newAvailabilityList.size());
+
+				// System.out.println(spaceItem.getId() + " -- " + spaceItem.getName() + " -- "
+				// + newAvailabilityList.size());
 
 			}
 

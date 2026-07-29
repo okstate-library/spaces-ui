@@ -54,7 +54,7 @@ public class URLs {
 	 * @return the constructed availability URL
 	 */
 	public static String getSpacesURL(String roomidList, String date) {
-		return BASE_URL + "/space/item/" + roomidList + "?availability=" + date;
+		return BASE_URL + "space/item/" + roomidList + "?availability=" + date;
 	}
 
 	/**

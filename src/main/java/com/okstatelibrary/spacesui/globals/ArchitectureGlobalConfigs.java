@@ -3,6 +3,8 @@ package com.okstatelibrary.spacesui.globals;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 /**
  * {@code ArchitectureGlobalConfigs} is an implementation of the
  * {@link GlobalConfigs} interface providing instance-specific configuration
@@ -14,6 +16,7 @@ import java.util.Map;
  * visibility toggles used in the application UI.
  * </p>
  */
+@Component("architecture")
 public class ArchitectureGlobalConfigs implements GlobalConfigs {
 
 	/**
@@ -157,5 +160,10 @@ public class ArchitectureGlobalConfigs implements GlobalConfigs {
 	public String displayExternalLinks() {
 
 		return "false";
-	}	
+	}
+
+	@Override
+	public String getSubDomain() {
+		return "architecture-spacest";
+	}
 }

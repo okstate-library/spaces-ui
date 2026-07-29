@@ -2,6 +2,8 @@ package com.okstatelibrary.spacesui.services;
 
 import java.io.IOException;
 
+import org.json.JSONException;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -13,14 +15,29 @@ import org.springframework.web.client.RestTemplate;
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.okstatelibrary.spacesui.globals.GlobalConfigs;
 import com.okstatelibrary.spacesui.models.*;
+import com.okstatelibrary.spacesui.tenant.MasterData;
+import com.okstatelibrary.spacesui.util.URLs;
 
 @Service
 public class SpacesService {
 
+	/**
+	 * Custom defines system properties.
+	 */
+	@Autowired
+	com.okstatelibrary.spacesui.util.SystemProperties systemProperties;
+
 	private RestTemplate restTemplate = new RestTemplate();
 
 	ObjectMapper mapper = new ObjectMapper();
+
+	/**
+	 * Access Token service
+	 */
+	@Autowired
+	AccessTokenService accessTokenService;
 
 	///
 	/// Get all the available categories.
@@ -49,8 +66,14 @@ public class SpacesService {
 	///
 	public SpaceItem[] getItems(String accessToken, String url)
 			throws JsonParseException, JsonMappingException, RestClientException, IOException {
+
+		System.out.println("accessToken : " + accessToken);
+		System.out.println("url : " + url);
+
 		HttpHeaders headers = new HttpHeaders();
+		
 		headers.add("Authorization", "Bearer " + accessToken);
+		
 		HttpEntity<String> request = new HttpEntity<String>(headers);
 		try {
 			ResponseEntity<SpaceItem[]> response = restTemplate.exchange(url, HttpMethod.GET, request,
@@ -58,6 +81,8 @@ public class SpacesService {
 			SpaceItem[] spaceItem = response.getBody();
 			return spaceItem;
 		} catch (Exception e) {
+
+			System.out.println("Error Accessing SpacesItem");
 			// TODO: handle exception
 			e.getMessage();
 			e.printStackTrace();
@@ -161,28 +186,58 @@ public class SpacesService {
 		}
 	}
 
-	///
-	/// Get the library opening hours otherwise an error.
-	///
-	public Location[] getHours(String accessToken, String url)
-			throws JsonParseException, JsonMappingException, RestClientException, IOException {
+//	///
+//	/// Get the library opening hours otherwise an error.
+//	///
+//	public Location[] getHours(String accessToken, String url)
+//			throws JsonParseException, JsonMappingException, RestClientException, IOException {
+//
+//		HttpHeaders headers = new HttpHeaders();
+//		headers.add("Authorization", "Bearer " + accessToken);
+//		HttpEntity<String> request = new HttpEntity<String>(headers);
+//
+//		try {
+//
+//			ResponseEntity<Location[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Location[].class);
+//
+//			return (Location[]) response.getBody();
+//
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.getMessage();
+//			e.printStackTrace();
+//			return null;
+//		}
+//	}
 
-		HttpHeaders headers = new HttpHeaders();
-		headers.add("Authorization", "Bearer " + accessToken);
-		HttpEntity<String> request = new HttpEntity<String>(headers);
+	private String getAccessTokenFromRequest()
+			throws JsonParseException, RestClientException, JsonMappingException, IOException, JSONException {
 
-		try {
+		AccessToken accessToken = accessTokenService.getAccessToken(URLs.GET_AUTH_TOKEN_URL,
+				systemProperties.getSpringShareClientId(), systemProperties.getSpringShareSecretkey());
 
-			ResponseEntity<Location[]> response = restTemplate.exchange(url, HttpMethod.GET, request, Location[].class);
-
-			return (Location[]) response.getBody();
-
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.getMessage();
-			e.printStackTrace();
+		if (accessToken != null) {
+			// System.out.println("accessToken.getAccessToken() : " +
+			// accessToken.getAccessToken());
+			return accessToken.getAccessToken();
+		} else {
 			return null;
 		}
+	}
+
+	public MasterData loadMasterData(GlobalConfigs config)
+			throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
+
+		MasterData masterData = new MasterData();
+
+		masterData.setCategories(getRoomsByCategory(getAccessTokenFromRequest(),
+				URLs.getRoomsByCategoryURL(config.getCategoryNumber())));
+
+		masterData.setCategoryNumber(config.getCategoryNumber());
+
+		masterData.setStudyRooms();
+
+		return masterData;
 	}
 
 }

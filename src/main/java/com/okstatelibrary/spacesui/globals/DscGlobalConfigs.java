@@ -3,6 +3,8 @@ package com.okstatelibrary.spacesui.globals;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 /**
  * {@code DscGlobalConfigs} implements {@link GlobalConfigs} and provides
  * configuration values for the Digital Scholarship Center (DSC) room
@@ -14,6 +16,7 @@ import java.util.Map;
  * behavior of the booking interface.
  * </p>
  */
+@Component("dsc")
 public class DscGlobalConfigs implements GlobalConfigs {
 
 	/**
@@ -156,5 +159,10 @@ public class DscGlobalConfigs implements GlobalConfigs {
 	@Override
 	public String displayExternalLinks() {
 		return "false";
+	}
+
+	@Override
+	public String getSubDomain() {
+		return "dsc-spacest";
 	}
 }

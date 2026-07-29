@@ -3,12 +3,15 @@ package com.okstatelibrary.spacesui.globals;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 /**
  * Implementation of the {@link GlobalConfigs} interface for the Vet Med
  * (William E. Brock Memorial Library) configuration. This class provides
  * specific configuration data such as category ID, seat list, and UI visibility
  * preferences related to the Vet Med instance.
  */
+@Component("vet-med")
 public class VetMetGlobalConfigs implements GlobalConfigs {
 
 	/**
@@ -142,5 +145,10 @@ public class VetMetGlobalConfigs implements GlobalConfigs {
 	@Override
 	public String displayExternalLinks() {
 		return "false";
+	}
+
+	@Override
+	public String getSubDomain() {
+		return "vetmed-spacest";
 	}
 }

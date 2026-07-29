@@ -38,6 +38,11 @@ public class SAMLUserDetailsServiceImpl implements SAMLUserDetailsService {
 	 */
 	public Object loadUserBySAML(SAMLCredential credential) throws UsernameNotFoundException {
 
+		
+		System.out.println("loadUserBySAML ");
+						
+		
+		
 		// The method is supposed to identify local account of user referenced by
 		// data in the SAML assertion and return UserDetails object describing the user.
 

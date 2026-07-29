@@ -7,17 +7,29 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.ui.Model;
 
 import com.okstatelibrary.spacesui.globals.GlobalConfigs;
+import com.okstatelibrary.spacesui.tenant.TenantConfigRegistry;
 
 @ControllerAdvice
 public class GlobalModelAttributes {
 
+//	@Autowired
+//	private GlobalConfigs globalConfigs;
+
 	@Autowired
-	private GlobalConfigs globalConfigs;
+	private final TenantConfigRegistry registry;
+
+	public GlobalModelAttributes(TenantConfigRegistry registry) {
+		// this.globalConfigs = null;
+		this.registry = registry;
+		// this.globalConfigs = registry.getCurrentConfig();
+	}
 
 	@ModelAttribute
 	public void addGlobalAttributes(Model model) {
 
 		System.out.println("Call addGlobalAttributes");
+
+		GlobalConfigs globalConfigs = registry.getCurrentConfig();
 
 		model.addAttribute("showExternalLinks", globalConfigs.displayExternalLinks());
 		model.addAttribute("pageTitle", globalConfigs.getTitle());

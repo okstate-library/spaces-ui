@@ -26,11 +26,6 @@ public class Globals {
 	/** A list of all available room details used for lookup operations. */
 	private List<Room> roomList;
 
-	/**
-	 * A flag indicating whether the study room data has been processed or
-	 * initialized.
-	 */
-	private Boolean isProccessed = false;
 
 	/** Default constructor. */
 	public Globals() {
@@ -42,9 +37,9 @@ public class Globals {
 	 * @param roomNumber the room number whose category is to be retrieved
 	 * @return the study room category name, or {@code null} if not found
 	 */
-	public String getStudyRoomCategory(String roomNumber) {
-		return this.studyRooms.get(roomNumber);
-	}
+//	public String getStudyRoomCategory(String roomNumber) {
+//		return this.studyRooms.get(roomNumber);
+//	}
 
 	/**
 	 * Returns the study room name or mapping based on a given category ID.
@@ -62,36 +57,19 @@ public class Globals {
 	 * @param studyRooms a map where keys are room numbers or category IDs, and
 	 *                   values are category names or room labels
 	 */
-	public void setStudyRooms(Map<String, String> studyRooms) {
-		this.studyRooms = studyRooms;
-	}
+//	public void setStudyRooms(Map<String, String> studyRooms) {
+//		this.studyRooms = studyRooms;
+//	}
 
-	/**
-	 * Returns whether the study room data has been processed.
-	 *
-	 * @return {@code true} if the data has been processed; {@code false} otherwise
-	 */
-	public Boolean getIsProccessed() {
-		return isProccessed;
-	}
-
-	/**
-	 * Sets the processed status of the study room data.
-	 *
-	 * @param isProccessed {@code true} to indicate the data has been processed
-	 */
-	public void setIsProccessed(Boolean isProccessed) {
-		this.isProccessed = isProccessed;
-	}
 
 	/**
 	 * Stores the list of study room details.
 	 *
 	 * @param roomList a list of {@link Room} objects representing room metadata
 	 */
-	public void setRoomDetails(List<Room> roomList) {
-		this.roomList = roomList;
-	}
+//	public void setRoomDetails(List<Room> roomList) {
+//		this.roomList = roomList;
+//	}
 
 	/**
 	 * Retrieves the room name based on the provided room ID.

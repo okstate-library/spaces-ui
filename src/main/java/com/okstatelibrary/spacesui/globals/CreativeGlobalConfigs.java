@@ -3,6 +3,8 @@ package com.okstatelibrary.spacesui.globals;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.springframework.stereotype.Component;
+
 /**
  * EdmonLowGlobalConfigs is a concrete implementation of the GlobalConfigs
  * interface. It provides configuration values for the Edmon Low Library and
@@ -10,6 +12,7 @@ import java.util.Map;
  * categories, as well as UI control flags and metadata like policy URLs and
  * titles.
  */
+@Component("creative")
 public class CreativeGlobalConfigs implements GlobalConfigs {
 
 	/**
@@ -154,6 +157,11 @@ public class CreativeGlobalConfigs implements GlobalConfigs {
 	@Override
 	public String displayExternalLinks() {
 		return "false";
+	}
+
+	@Override
+	public String getSubDomain() {
+		return "creative-spacest";
 	}
 
 }
