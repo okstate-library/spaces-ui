@@ -44,7 +44,7 @@ public class FolioService extends FolioServiceToken {
 
 		try {
 
-			String url = SystemProperties.FolioURL + "users?query=(externalSystemId=A" + externalSystemId
+			String url = SystemProperties.FolioURL + "users?query=(externalSystemId=" + externalSystemId
 					+ " and active=true)";
 
 			System.out.println("url " + url);

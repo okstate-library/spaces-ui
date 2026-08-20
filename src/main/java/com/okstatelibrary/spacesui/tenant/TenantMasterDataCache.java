@@ -17,12 +17,4 @@ public class TenantMasterDataCache {
     public MasterData get(String tenant) {
         return cache.get(tenant);
     }
-
-    public boolean contains(String tenant) {
-        return cache.containsKey(tenant);
-    }
-
-    public void clear(String tenant) {
-        cache.remove(tenant);
-    }
 }

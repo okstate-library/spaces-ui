@@ -1,0 +1,5 @@
+spring:
+  application:
+    name : spaces-ui
+  profiles:
+    active: dev

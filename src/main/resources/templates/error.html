@@ -1,12 +1,9 @@
 <!doctype html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org"
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-	xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity3"
 	layout:decorate="~{layout}">
 
-
 <body>
-
 
 	<!-- Content starts -->
 	<section class="my-3 p-3 bg-white rounded box-shadow"
@@ -36,10 +33,9 @@
 									<p>
 										The problem might be temporary. Wait a few minutes and please
 										<strong> <a
-											th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
-												try again</a>
-
-										</strong>.
+											th:href="@{/}">
+												try again.</a>
+										</strong>
 									</p>
 									<p>If you continue to receive this error please contact</p>
 									<p th:text="${helpDeskName}"></p>
@@ -55,9 +51,8 @@
 								<dt>Please Try Again</dt>
 								<dd>
 									<strong> <a
-										th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
+											th:href="@{/}">
 											Start over</a>
-
 									</strong> and select a different room or time.
 								</dd>
 							</dl>
@@ -68,7 +63,7 @@
 								<dt>Select a Different Day</dt>
 								<dd>
 									<strong> <a
-										th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
+											th:href="@{/}">
 											Start over</a></strong> and select a different <em>date</em>.
 								</dd>
 							</dl>
@@ -120,9 +115,9 @@
 									<p>
 										The problem might be temporary. Wait a few minutes and please
 										<strong> <a
-											th:href="${categoryAttribute eq null} ? @{/} : @{/}  + ${categoryAttribute}">
-												try again </a>
-										</strong>.
+											th:href="@{/}">
+												try again.</a>
+										</strong>
 									</p>
 									<p>If you continue to receive this error please contact
 										[[${helpDeskName}]]</p>
@@ -136,8 +131,34 @@
 						<!-- Contact information is always displayed -->
 						<dl class="error-cta-list">
 
-							<dd class="cell medium-4"
-								th:replace="${helpInfoPath} :: helpinfo"></dd>
+							<th:block th:switch="${instanceName}">
+
+								<th:block th:case="'edmon-low'">
+									<th:block
+											th:replace="~{common/edmon-low/helpinfo :: helpinfo}"/>
+								</th:block>
+
+								<th:block th:case="'architecture'">
+									<th:block
+											th:replace="~{common/architecture/helpinfo :: helpinfo}"/>
+								</th:block>
+
+								<th:block th:case="'creative'">
+									<th:block
+											th:replace="~{common/creative/helpinfo :: helpinfo}"/>
+								</th:block>
+
+								<th:block th:case="'dsc'">
+									<th:block
+											th:replace="~{common/dsc/helpinfo :: helpinfo}"/>
+								</th:block>
+
+								<th:block th:case="'vet-med'">
+									<th:block
+											th:replace="~{common/vet-med/helpinfo :: helpinfo}"/>
+								</th:block>
+
+							</th:block>
 
 						</dl>
 

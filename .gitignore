@@ -59,3 +59,13 @@ src/main/resources/22_23_library_wildcard.jks
 src/main/resources/23_24_library_wildcard.jks
 src/main/resources/24_25_library_wildcard.jks
 src/main/resources/keystore.jks
+src/main/resources/application-dev.yml
+src/main/resources/application-prod-osu.yml
+src/main/resources/application-prod-osu.yml
+src/main/resources/application-prod.yml
+src/main/resources/certificate.crt
+src/main/resources/private-prod.key
+src/main/resources/private.key
+src/main/resources/Spaces-test.cer
+src/main/resources/application-prod-osu.yml
+src/main/resources/application-prod.yml

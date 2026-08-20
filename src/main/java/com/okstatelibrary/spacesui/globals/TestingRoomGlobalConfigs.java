@@ -1,9 +1,9 @@
 package com.okstatelibrary.spacesui.globals;
 
+import org.springframework.stereotype.Component;
+
 import java.util.HashMap;
 import java.util.Map;
-
-import org.springframework.stereotype.Component;
 
 /**
  * EdmonLowGlobalConfigs is a concrete implementation of the GlobalConfigs
@@ -12,10 +12,10 @@ import org.springframework.stereotype.Component;
  * categories, as well as UI control flags and metadata like policy URLs and
  * titles.
  */
-@Component("edmon-low")
-public class EdmonLowGlobalConfigs implements GlobalConfigs {
+@Component("test-room")
+public class TestingRoomGlobalConfigs implements GlobalConfigs {
 
-    private static final String instanceName = "edmon-low";
+    private static final String instanceName = "test-room";
 
     /**
      * Defines the floor dropdown list for Edmon Low Library.
@@ -25,32 +25,24 @@ public class EdmonLowGlobalConfigs implements GlobalConfigs {
 
         {
             put("0", "Any");
-            put("1", "First");
-            put("2", "Second");
-            put("3", "Third");
         }
     };
 
     /**
      * Seat count dropdown list specific to Edmon Low Library.
      */
-    private static final Map<String, String> edmonLowSeatList = new HashMap<String, String>() {
+    private static final Map<String, String> seatList = new HashMap<String, String>() {
         private static final long serialVersionUID = 1L;
 
         {
             put("1", "1+");
-            put("2", "2+");
-            put("4", "4+");
-            put("6", "6+");
-            put("8", "8+");
-            put("10", "10+");
         }
     };
 
     /**
      * Category number representing Edmon Low Library.
      */
-    private static final String edmonLowLibraryCategoryNumber = "7030";
+    private static final String categoryNumber = "50601";
 
     /**
      * Returns the appropriate seat list depending on the category.
@@ -59,7 +51,7 @@ public class EdmonLowGlobalConfigs implements GlobalConfigs {
      */
     @Override
     public Map<String, String> getSeatList() {
-        return edmonLowSeatList;
+        return seatList;
 
     }
 
@@ -90,7 +82,7 @@ public class EdmonLowGlobalConfigs implements GlobalConfigs {
      */
     @Override
     public String getCategoryNumber() {
-        return edmonLowLibraryCategoryNumber;
+        return categoryNumber;
     }
 
     /**
@@ -171,7 +163,7 @@ public class EdmonLowGlobalConfigs implements GlobalConfigs {
 
     @Override
     public String getSubDomain() {
-        return "spacest";
+        return "testroom-spacest";
     }
 
 }
