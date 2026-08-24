@@ -167,14 +167,12 @@ function addItem(button, roomName, roomId, fromTime, toTime, fromDateTime,
 
 // change the button selected style
 function selectButtonStyle(button) {
-	$(button).css('background', '#333');
-	$(button).css('color', '#fff');
+	$(button).addClass('time-selected');
 }
 
 // Change the button unselected style
-function unselectButtonStyle(button) {	
-    $(button).css('background', '#FE5C00'); // orange background as per your default button style
-    $(button).css('color', '#fff');         // white text as per your default button style
+function unselectButtonStyle(button) {
+	$(button).removeClass('time-selected');
 }
 
 // Time value based on
