@@ -123,7 +123,7 @@
 
 
                         <!-- Buttons  -->
-                        <div style="display: flex; align-items: center; justify-content: flex-end; gap: 2rem;">
+                        <div class="booking-actions">
                             <form class="form-group" method="post" th:action="@{/cancel}">
                                 <input type="hidden" th:value="${summaryModel.bookId}" name="bookingId" id="bookingId"
                                        required="required"/>
@@ -177,7 +177,7 @@
                             <div class="grid-x top-margin-4">
                                 <div class="cell">
                                     <!-- Select a new reservation -->
-                                    <div style="display: flex; align-items: center; justify-content: flex-end;">
+                                    <div class="booking-actions">
                                         <a th:href="@{/}" role="button" class="button" id="buttonBookingConfirm">Select a new reservation</a>
                                     </div>
                                 </div>
