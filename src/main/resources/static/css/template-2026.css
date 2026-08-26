@@ -214,8 +214,8 @@
 	background: url('/img/pagetitle-bg.jpg') no-repeat center;
 	background-size: cover;
 	margin-bottom: 1rem;
-	padding-top: 32px;
-	padding-bottom: 32px;
+	padding-top: 24px;
+	padding-bottom: 24px;
 }
 
 h1.pagetitle {
@@ -225,7 +225,7 @@ h1.pagetitle {
   line-height: 1.2;
   color: #FFF;
   text-transform: none;
-  margin: .5rem 0 1rem 0;
+  margin: 0;
 }
 
 
@@ -239,8 +239,9 @@ h1.pagetitle {
 	border: 4px solid #fe5c00;
 	border-radius: 20rem;
 	margin-left: 4px;
-	font-weight: bold;
-	font-size: 22px!important;
+	font-family: 'Rubik', sans-serif;
+	font-weight: 600; /* semi-bold */
+	font-size: 24px!important;
 	padding: 8px 16px;
 }
 
@@ -261,7 +262,7 @@ h1.pagetitle {
     color: #fff;
     border-color: #757575;
     cursor: pointer;
-    font-size: 22px !important;
+    font-size: 24px !important;
     border-radius: 20rem;
     margin-left: 4px;
 }
@@ -273,7 +274,7 @@ h1.pagetitle {
     color: #fff;
     border-color: #757575;
     cursor: pointer;
-    font-size: 22px !important;
+    font-size: 24px !important;
     border-radius: 20rem;
     margin-left: 4px;
     transform: none;
@@ -288,7 +289,7 @@ h1.pagetitle {
     color: #fff;
     border-color: #757575;
     cursor: pointer;
-    font-size: 22px !important;
+    font-size: 24px !important;
     border-radius: 20rem;
     margin-left: 4px;
     outline: none;
