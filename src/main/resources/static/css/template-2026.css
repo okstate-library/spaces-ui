@@ -1,6 +1,30 @@
 /*----------------------------------------*/
 /* General CSS styling */
 /*----------------------------------------*/
+/*----------------------------------------*/
+/* Base typography                        */
+/*----------------------------------------*/
+/* Foundation defaults BOTH body and h1-h6 to "Helvetica Neue", which is why
+   the breadcrumb, filter bar, room name, summary text and popup were all
+   rendering in it. Rubik is the Spaces body face, so set it once here rather
+   than per-component.
+
+   Headings are reset to `inherit` so they follow suit; the explicit Fjalla One
+   display rules (h1.pagetitle, .card-divider .h3) are more specific and still
+   win.
+
+   Deliberately NOT touched: pre / code / kbd / samp (monospace, own rules) and
+   .foundation-mq, whose font-family is the breakpoint string Foundation's JS
+   parses at runtime. Both carry their own declarations. */
+body {
+	font-family: 'Rubik', sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6,
+.h1, .h2, .h3, .h4, .h5, .h6 {
+	font-family: inherit;
+}
+
 .orange {
 	color: #fe5c00;
 }
