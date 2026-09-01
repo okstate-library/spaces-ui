@@ -269,3 +269,53 @@ function cleanSession() {
 }
 
 
+
+/* Room details popup (Foundation dropdown-pane) */
+
+// Close button. Outside-click is handled by data-close-on-click on the pane.
+$(document).on('click', '.room-desc-close', function (e) {
+	e.preventDefault();
+	e.stopPropagation();
+	$(this).closest('.dropdown-pane').foundation('close');
+});
+
+// Escape also closes the open pane.
+$(document).on('keydown', function (e) {
+	if (e.key === 'Escape' || e.keyCode === 27) {
+		$('.room-desc-pane.is-open').foundation('close');
+	}
+});
+
+/* The LibCal description may end with an unlabelled narrative paragraph.
+ * Find the block after "Location" that is long enough to be prose and label it.
+ * Rooms with no narrative are left untouched. */
+function addBehindTheNameHeading(body) {
+	var $body = $(body);
+	if ($body.data('btnDone')) { return; }
+	$body.data('btnDone', true);
+
+	var $blocks = $body.children();
+	if (!$blocks.length) { return; }
+
+	var locIdx = -1;
+	$blocks.each(function (i) {
+		if (locIdx === -1 && /location/i.test($(this).text())) { locIdx = i; }
+	});
+	if (locIdx === -1) { return; }
+
+	var $narrative = null;
+	$blocks.slice(locIdx + 1).each(function () {
+		if ($.trim($(this).text()).length > 80) {
+			$narrative = $(this);
+			return false; // break
+		}
+	});
+	if (!$narrative) { return; }
+
+	$('<p class="room-desc-subhead"><strong>Behind the Name:</strong></p>')
+		.insertBefore($narrative);
+}
+
+$(function () {
+	$('.room-desc-body').each(function () { addBehindTheNameHeading(this); });
+});

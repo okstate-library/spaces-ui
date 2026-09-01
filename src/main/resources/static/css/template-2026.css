@@ -2,20 +2,10 @@
 /* General CSS styling */
 /*----------------------------------------*/
 /*----------------------------------------*/
-/* Base typography                        */
+/* Base typography */
 /*----------------------------------------*/
-/* Foundation defaults BOTH body and h1-h6 to "Helvetica Neue", which is why
-   the breadcrumb, filter bar, room name, summary text and popup were all
-   rendering in it. Rubik is the Spaces body face, so set it once here rather
-   than per-component.
-
-   Headings are reset to `inherit` so they follow suit; the explicit Fjalla One
-   display rules (h1.pagetitle, .card-divider .h3) are more specific and still
-   win.
-
-   Deliberately NOT touched: pre / code / kbd / samp (monospace, own rules) and
-   .foundation-mq, whose font-family is the breakpoint string Foundation's JS
-   parses at runtime. Both carry their own declarations. */
+/* Foundation defaults body and h1-h6 to Helvetica Neue; Rubik is the body face.
+   Headings inherit so the explicit Fjalla One rules still win. */
 body {
 	font-family: 'Rubik', sans-serif;
 }
@@ -45,9 +35,7 @@ h1, h2, h3, h4, h5, h6,
   background-color: #fff;
   color: #333;
   border: 4px solid #FE5C00;
-  /* Foundation's base padding is .85em 1em over a 1px border. The outline is
-     now 4px, so trim 3px per side to keep the button the same outer size as
-     before the restyle. */
+  /* trim 3px per side so the 4px border does not grow the button */
   padding: calc(0.85em - 3px) calc(1em - 3px);
   font-weight: 700;
   font-size: 18px !important;
@@ -265,6 +253,9 @@ h1.pagetitle {
 	margin-left: 4px;
 	font-family: 'Rubik', sans-serif;
 	font-weight: 600; /* semi-bold */
+	/* equal-width digits so time labels line up in columns */
+	font-variant-numeric: tabular-nums;
+	font-feature-settings: 'tnum' 1;
 	font-size: 24px!important;
 	padding: 8px 16px;
 }
@@ -922,8 +913,7 @@ screen and (min-width: 40em) {
   font-weight: 500; /* Medium */
   font-size: 14px;
   line-height: 1.5;
-  /* Even spacing between the orange banner and the content card, on every
-     step of the sequence. Do not add <br/> around this list. */
+  /* even spacing between banner and card on every step */
   padding: 1.5rem 0;
   margin: 0;
   list-style: none;
@@ -1042,17 +1032,15 @@ screen and (min-width: 40em) {
        font-size: 14px;
    }
 
-   /* Primary CTAs — "Continue", "Book the Room", "Continue...",
-      "Select a new reservation". Base here is the disabled state.
-      font-size needs !important to beat `.button { font-size: 18px !important }`
-      above; without it these silently render at 18px. */
+   /* Primary CTAs; base is the disabled state.
+      !important beats `.button { font-size: 18px !important }` above. */
    #buttonBookingConfirm,
    #buttonBookingContinue {
     font-family: 'Rubik', sans-serif;
     font-weight: 600;
     font-size: 24px !important;
     line-height: 1.25;
-    /* was 8px 16px over a borderless button; trim 4px per side for the outline */
+    /* trimmed 4px per side for the 4px border */
     padding: 4px 12px;
     border-radius: 37px;
     white-space: nowrap; /* keep "Select a new reservation" on one line */
@@ -1084,8 +1072,7 @@ screen and (min-width: 40em) {
     border-color: #FE5C00;
 }
 
-/* Very narrow phones (~320px): 24px cannot fit "Select a new reservation" on
-   one line, so step the CTAs down rather than let them wrap or clip. */
+/* ~320px: 24px cannot fit "Select a new reservation" on one line */
 @media screen and (max-width: 24.9375em) {
     #buttonBookingConfirm,
     #buttonBookingContinue {
@@ -1103,8 +1090,7 @@ screen and (min-width: 40em) {
     border: none;
     font-family: 'Rubik', sans-serif;
     font-weight: 600;
-    /* matches the 24px primary CTAs it sits beside; !important is needed to
-       beat `.button { font-size: 18px !important }` */
+    /* matches the 24px CTAs beside it; !important beats `.button` */
     font-size: 24px !important;
     line-height: 1.2;
     color: #333;
@@ -1153,26 +1139,49 @@ button#buttonClearSelection:hover .clear-selection-label {
 }
 
 
-/* ===========================================================
-   Action button rows (Clear Selection + Continue / Book the Room /
-   Cancel Booking + Continue... / Select a new reservation)
-   Replaces the repeated inline flex styles these rows used to carry.
-   =========================================================== */
+/* Action button rows (replaces the inline flex styles these rows carried) */
 .booking-actions {
     display: flex;
     align-items: center;
     justify-content: flex-end;
     gap: 1.2rem;
-    /* The buttons are nowrap and wider than the cell on phones; without this
-       the row overflows to the LEFT (flex-end) and slides under the
-       neighbouring column instead of wrapping. */
+    /* without this the row overflows LEFT on phones instead of wrapping */
     flex-wrap: wrap;
 }
 
-/* Small screens: tighten the gap so both buttons keep sharing one line for
-   as long as possible before wrapping. */
+/* tighter gap so both buttons share one line for longer */
 @media screen and (max-width: 39.9375em) {
     .booking-actions {
         gap: 0.6rem;
     }
+}
+
+/* Room details popup (Foundation dropdown-pane) */
+.room-desc-pane {
+    /* do NOT set position here: .dropdown-pane is absolute, which is what
+       makes the popup float instead of pushing the time slots down */
+    padding-right: 2.75rem;
+}
+
+.room-desc-close {
+    position: absolute;
+    top: 0.4rem;
+    right: 0.5rem;
+    background: transparent;
+    border: 0;
+    padding: 0 0.25rem;
+    font-size: 28px;
+    line-height: 1;
+    color: #333;
+    cursor: pointer;
+}
+
+.room-desc-close:hover,
+.room-desc-close:focus {
+    color: #FE5C00;
+    outline: none;
+}
+
+.room-desc-subhead {
+    margin: 1rem 0 0.25rem 0;
 }
