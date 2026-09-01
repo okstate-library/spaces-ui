@@ -256,7 +256,7 @@ h1.pagetitle {
 	/* equal-width digits so time labels line up in columns */
 	font-variant-numeric: tabular-nums;
 	font-feature-settings: 'tnum' 1;
-	font-size: 24px!important;
+	font-size: 22px!important;
 	padding: 8px 16px;
 }
 
@@ -277,7 +277,7 @@ h1.pagetitle {
     color: #fff;
     border-color: #757575;
     cursor: pointer;
-    font-size: 24px !important;
+    font-size: 22px !important;
     border-radius: 20rem;
     margin-left: 4px;
 }
@@ -289,7 +289,7 @@ h1.pagetitle {
     color: #fff;
     border-color: #757575;
     cursor: pointer;
-    font-size: 24px !important;
+    font-size: 22px !important;
     border-radius: 20rem;
     margin-left: 4px;
     transform: none;
@@ -304,7 +304,7 @@ h1.pagetitle {
     color: #fff;
     border-color: #757575;
     cursor: pointer;
-    font-size: 24px !important;
+    font-size: 22px !important;
     border-radius: 20rem;
     margin-left: 4px;
     outline: none;
@@ -1038,7 +1038,7 @@ screen and (min-width: 40em) {
    #buttonBookingContinue {
     font-family: 'Rubik', sans-serif;
     font-weight: 600;
-    font-size: 24px !important;
+    font-size: 22px !important;
     line-height: 1.25;
     /* trimmed 4px per side for the 4px border */
     padding: 4px 12px;
@@ -1072,7 +1072,7 @@ screen and (min-width: 40em) {
     border-color: #FE5C00;
 }
 
-/* ~320px: 24px cannot fit "Select a new reservation" on one line */
+/* ~320px: 22px cannot fit "Select a new reservation" on one line */
 @media screen and (max-width: 24.9375em) {
     #buttonBookingConfirm,
     #buttonBookingContinue {
@@ -1090,8 +1090,8 @@ screen and (min-width: 40em) {
     border: none;
     font-family: 'Rubik', sans-serif;
     font-weight: 600;
-    /* matches the 24px CTAs beside it; !important beats `.button` */
-    font-size: 24px !important;
+    /* matches the 22px CTAs beside it; !important beats `.button` */
+    font-size: 22px !important;
     line-height: 1.2;
     color: #333;
     cursor: pointer;
@@ -1108,7 +1108,7 @@ screen and (min-width: 40em) {
     align-items: center;
     position: relative;
     color: #333;
-    font-size: 24px;
+    font-size: 22px;
     font-family: 'Rubik', sans-serif;
     font-weight: 600;
     line-height: 1.2;
@@ -1170,16 +1170,16 @@ button#buttonClearSelection:hover .clear-selection-label {
     background: transparent;
     border: 0;
     padding: 0 0.25rem;
-    font-size: 28px;
+    font-size: 34px;
     line-height: 1;
-    color: #333;
+    color: #000;
     cursor: pointer;
 }
 
-.room-desc-close:hover,
-.room-desc-close:focus {
-    color: #FE5C00;
-    outline: none;
+/* the pane auto-focuses this button on open, so :focus must not recolour it */
+.room-desc-close:focus-visible {
+    outline: 2px solid #FE5C00;
+    outline-offset: 2px;
 }
 
 .room-desc-subhead {
