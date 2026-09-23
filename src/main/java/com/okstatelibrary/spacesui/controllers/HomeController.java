@@ -2,6 +2,7 @@
 package com.okstatelibrary.spacesui.controllers;
 
 import java.io.IOException;
+import java.io.Serial;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -9,27 +10,21 @@ import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-//import javax.servlet.http.HttpServletRequest;
-//import javax.servlet.http.HttpSession;
 
 import com.okstatelibrary.spacesui.util.SystemProperties;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 
+import org.checkerframework.checker.nullness.qual.Nullable;
 import org.json.JSONException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
-//import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistration;
-//import org.springframework.security.saml2.provider.service.registration.RelyingPartyRegistrationRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -67,67 +62,57 @@ import com.okstatelibrary.spacesui.util.URLs;
 public class HomeController {
 
     /**
-     * Custom defines system properties.
+     * Provides access to application-level system properties and configuration values.
      */
     @Autowired
-    com.okstatelibrary.spacesui.util.SystemProperties systemProperties;
+    private com.okstatelibrary.spacesui.util.SystemProperties systemProperties;
 
     /**
-     * Access Token service
+     * Service responsible for retrieving and managing API access tokens.
      */
     @Autowired
-    AccessTokenService accessTokenService;
+    private AccessTokenService accessTokenService;
 
     /**
-     * Space services
+     * Service responsible for communicating with the Springshare Spaces API.
      */
     @Autowired
-    SpacesService spaceService;
+    private SpacesService spaceService;
 
     /**
-     * Folio services
+     * Service responsible for communicating with the FOLIO API.
      */
     @Autowired
-    FolioService folioService;
+    private FolioService folioService;
 
     /**
-     *
+     * Registry that provides configuration settings for the current tenant.
      */
-    @Autowired
     private final TenantConfigRegistry registry;
 
     /**
-     *
+     * Cache that stores tenant-specific master data, such as room and category information.
      */
     private final TenantMasterDataCache masterDataCache;
 
     /**
-     * Logger
+     * Logger used for application logging and diagnostic messages.
      */
     private static final Logger LOG = LoggerFactory.getLogger(HomeController.class);
 
     /**
-     *
-     * @param registry
-     * @param masterDataCache
-     */
-    public HomeController(TenantConfigRegistry registry, TenantMasterDataCache masterDataCache) {
-        this.registry = registry;
-        this.masterDataCache = masterDataCache;
-    }
-
-    /**
-     *
+     * The variable defines the message to be displayed when rooms are found.
      */
     private static final String roomsFoundLabelString = " Room(s) found...";
 
     /**
      * All the time slots
      */
-    private static final List<Availability> fixedTimeSlots = new ArrayList<Availability>() {
+    private static final List<Availability> fixedTimeSlots = new ArrayList<>() {
         /**
          * Add predefine time slots
          */
+        @Serial
         private static final long serialVersionUID = 1L;
 
         {
@@ -182,43 +167,35 @@ public class HomeController {
         }
     };
 
-    private void globalSetup()
-            throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
-
-        Map<String, String> studyRooms = new HashMap<>();
-
-        List<Room> roomList = new ArrayList<>();
-
-        GlobalConfigs config = registry.getCurrentConfig();
-
-        MasterData masterData = masterDataCache.get(TenantContext.getTenantId());
-
-        Category[] categoryItems = masterData.getCategories();
-
-        studyRooms.put(config.getCategoryNumber(), categoryItems[0].getItems());
-
-        Room[] rooms = spaceService.getRoom(getAccessTokenFromRequest(),
-                URLs.GET_ROOM_DETAILS_URL + categoryItems[0].getItems());
-
-        for (Room room : rooms) {
-            roomList.add(room);
-        }
-
-        masterData.setRooms(roomList);
+    /**
+     * The variable defines the message to be displayed when rooms are found.
+     *
+     * @param masterDataCache
+     */
+    public HomeController(TenantConfigRegistry registry, TenantMasterDataCache masterDataCache) {
+        this.registry = registry;
+        this.masterDataCache = masterDataCache;
     }
 
+
     /**
-     * Initial method of page loading.
+     * Loads the application home page and initializes the required data, including
+     * available rooms, seats, floors, and time slots.
      *
-     * @param request
-     * @param model
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws RestClientException
-     * @throws IOException
-     * @throws JSONException
-     * @throws ParseException
+     * <p>The method also validates the API access token and redirects to the
+     * appropriate error page if the external API is unavailable.</p>
+     *
+     * @param request the HTTP request used to manage the user session
+     * @param model   the Spring MVC model used to pass data to the view
+     * @return the name of the view to display or a redirect URL
+     * @throws JsonParseException   if the API response cannot be parsed
+     * @throws JsonMappingException if the API response cannot be mapped
+     * @throws RestClientException  if an error occurs while communicating with the API
+     * @throws IOException          if an input/output error occurs
+     * @throws JSONException        if a JSON processing error occurs
+     * @throws ParseException       if date or time parsing fails
+     *
+     *
      */
     @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public String index(HttpServletRequest request, Model model) throws JsonParseException, JsonMappingException,
@@ -226,11 +203,10 @@ public class HomeController {
 
         readRibbonMessage(model);
 
-        System.out.println("***************************************");
-        System.out.println("Normal Loadning");
+        System.out.println("Normal Loading");
 
-        // "Please be aware that building construction noise may be disruptive.
-        // Construction activity takes place Mon-Fri between 8 a.m. and 5 p.m.");
+        // Please be aware that building construction noise may be disruptive.
+        // Construction activity takes place Mon-Fri between 8 a.m. and 5 p.m.;
 
         globalSetup();
 
@@ -252,17 +228,14 @@ public class HomeController {
 
             model.addAttribute("hidefloorselection", globalConfigs.hideFloorSelection());
 
-            SpaceItem[] spaceItems = madeAvaliableTimeSlots(DateTimeUtil.getTodayDate(), selectedSeats, selectedFloor,
-                    globalConfigs.getCategoryNumber());
+            SpaceItem[] spaceItems = madeAvailableTimeSlots(DateTimeUtil.getTodayDate(), selectedSeats, selectedFloor);
 
             model.addAttribute("spaceList", spaceItems);
 
             model.addAttribute("dateString", DateTimeUtil.getTodayDate());
 
-            String roomId = null;
-
-            model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0) + roomsFoundLabelString);
-            model.addAttribute("selectedRoomId", roomId);
+            model.addAttribute("totalRooms", (spaceItems != null ? spaceItems.length : 0)
+                    + roomsFoundLabelString);
 
             model.addAttribute("seats", seatList);
             model.addAttribute("selectedSeat", selectedSeats);
@@ -280,51 +253,29 @@ public class HomeController {
 
     }
 
-    /**
-     *
-     * @param model
-     */
-    public void readRibbonMessage(Model model) {
 
-        GlobalConfigs config = registry.getCurrentConfig();
-
-        Path file = Path.of(SystemProperties.RibbonMessageFolderPath + config.getInstanceName() + "-message.txt");
-
-        if (Files.exists(file)) {
-            try {
-
-                String message = Files.readString(file, StandardCharsets.UTF_8);
-
-                String[] typeAndMessage = message.split(",");
-
-                model.addAttribute("message", message);
-
-                model.addAttribute("ribbonmessagevisibility", "show");
-                model.addAttribute("messageclass", "ribbon-" + typeAndMessage[0]);
-                model.addAttribute("ribbonmessage", typeAndMessage[1]);
-            } catch (IOException e) {
-            }
-        } else {
-            model.addAttribute("ribbonmessagevisibility", "hide");
-//
-        }
-    }
 
     /**
-     * Index method. List all the available room with time slots in the index page.
+     * Processes the room search/filter request submitted from the home page.
      *
-     * @param request
-     * @param date
-     * @param seats
-     * @param floor
-     * @param model
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws RestClientException
-     * @throws IOException
-     * @throws JSONException
-     * @throws ParseException
+     * <p>The method filters available rooms based on the selected date, seat
+     * capacity, and floor, then returns the updated room availability information
+     * to the index page.</p>
+     *
+     * @param request the HTTP request
+     * @param date    the selected date
+     * @param seats   the selected minimum seat capacity
+     * @param floor   the selected floor
+     * @param model   the Spring MVC model used to pass data to the view
+     * @return the name of the view to display or a redirect URL
+     * @throws JsonParseException   if the API response cannot be parsed
+     * @throws JsonMappingException if the API response cannot be mapped
+     * @throws RestClientException  if an error occurs while communicating with the API
+     * @throws IOException          if an input/output error occurs
+     * @throws JSONException        if a JSON processing error occurs
+     * @throws ParseException       if date or time parsing fails
+     *
+     *
      */
     @RequestMapping(value = "/", method = RequestMethod.POST)
     public String index(HttpServletRequest request, @ModelAttribute("date") String date,
@@ -334,10 +285,9 @@ public class HomeController {
 
         try {
 
-            System.out.println("Drop down filteration request loading");
+            System.out.println("Drop down filtration request loading");
 
             if (date.isEmpty() || date == null) {
-
                 date = DateTimeUtil.getTodayDate();
             }
 
@@ -365,7 +315,7 @@ public class HomeController {
             model.addAttribute("floors", globalConfigs.getFloorList());
             model.addAttribute("selectedFloor", floor);
 
-            SpaceItem[] spaceItems = madeAvaliableTimeSlots(date, seats, floor, category);
+            SpaceItem[] spaceItems = madeAvailableTimeSlots(date, seats, floor);
 
             model.addAttribute("spaceList", spaceItems);
 
@@ -381,61 +331,24 @@ public class HomeController {
     }
 
     /**
+     * Handles the page displayed after successful authentication through the
+     * Identity Provider (IdP).
      *
-     * IDP Selection proceed. If user not logged to relevant IDP it will redirectsto
-     * the SSO.
+     * <p>The method retrieves the authenticated user's SAML information,
+     * verifies that the user exists in the library system, and redirects the
+     * user to the booking page. Unauthorized or incomplete user information
+     * results in an appropriate error redirect.</p>
      *
-     * @param request
-     * @param model
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws RestClientException
-     * @throws IOException
-     * @throws JSONException
-     */
-    @RequestMapping(value = "/discovery", method = RequestMethod.GET)
-    public String idpSelection(HttpServletRequest request, Model model)
-            throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
-
-
-        System.out.print("/discovery");
-
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth == null)
-            LOG.debug("Current authentication instance from security context is null");
-        else
-            LOG.debug("Current authentication instance from security context: " + this.getClass().getSimpleName());
-
-        if (auth == null || (auth instanceof AnonymousAuthenticationToken)) {
-
-//			Set<String> idps = metadata. .getIDPEntityNames();
-//
-//			for (String idp : idps)
-//				LOG.info("Configured Identity Provider for SSO: " + idp);
-//
-//			model.addAttribute("idps", idps);
-
-            return "redirect:/saml/login?disco=true";
-        } else {
-            LOG.warn("The current user is already logged.");
-            return "redirect:/booking";
-        }
-    }
-
-    /**
+     * @param request the HTTP request used to access the user's session
+     * @param user    the authenticated user
+     * @param model   the Spring MVC model used to pass user information to the view
+     * @return the booking page or an appropriate redirect URL
+     * @throws JsonParseException   if the API response cannot be parsed
+     * @throws JsonMappingException if the API response cannot be mapped
+     * @throws RestClientException  if an error occurs while communicating with the API
+     * @throws IOException          if an input/output error occurs
      *
-     * After IDP redirects, this will redirects to the relevant page to populate
-     * user and booking details
      *
-     * @param request
-     * @param user
-     * @param model
-     * @return
-     * @throws IOException
-     * @throws RestClientException
-     * @throws JsonMappingException
-     * @throws JsonParseException
      */
     @RequestMapping("/landing")
     public String landing(HttpServletRequest request, @CurrentUser User user, Model model)
@@ -478,17 +391,20 @@ public class HomeController {
     }
 
     /**
+     * Cancels an existing room booking and displays the cancellation result.
      *
-     * Cancellation of the booking.
+     * <p>The method retrieves the booking details, submits the cancellation
+     * request to the Spaces API, and displays either a success or error message.</p>
      *
-     * @param bookingId
-     * @param model
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws RestClientException
-     * @throws IOException
-     * @throws JSONException
+     * @param bookingId the identifier of the booking to cancel
+     * @param model     the Spring MVC model used to pass the result to the view
+     * @return the booking summary view * @throws JsonParseException if the API response cannot be parsed
+     * @throws JsonMappingException if the API response cannot be mapped
+     * @throws RestClientException  if an error occurs while communicating with the API
+     * @throws IOException          if an input/output error occurs
+     * @throws JSONException        if a JSON processing error occurs
+     *
+     *
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/cancel", method = RequestMethod.POST)
@@ -532,19 +448,18 @@ public class HomeController {
     }
 
     /**
-     * Booking method. If someone not logged this will redirect to their login page.
+     * Initiates the room booking process by redirecting the user to the
+     * configured SAML authentication endpoint.
      *
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws RestClientException
-     * @throws IOException
-     * @throws JSONException
+     * @return the SAML authentication redirect URL or the application error page
+     * if an unexpected error occurs
+     *
+     *
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/booking", method = RequestMethod.POST)
     public String booking()
-            throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
+            throws RestClientException, IOException, JSONException {
         try {
             System.out.println("Booking call");
             return "redirect:/saml2/authenticate?registrationId=okstate";
@@ -555,20 +470,26 @@ public class HomeController {
     }
 
     /**
-     * Reserve the room.
+     * Reserves the selected room for the authenticated user.
      *
-     * @param request
-     * @param roomNumber
-     * @param bookDate
-     * @param startTime
-     * @param endTime
-     * @param model
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws RestClientException
-     * @throws IOException
-     * @throws JSONException
+     * <p>The method validates the booking information, creates the booking
+     * payload, submits the reservation to the Spaces API, and redirects the
+     * user to either the booking summary or the appropriate error page.</p>
+     *
+     * @param request    the HTTP request used to retrieve the user's session
+     * @param roomNumber the room selected for the reservation
+     * @param bookDate   the date of the reservation
+     * @param startTime  the reservation start time
+     * @param endTime    the reservation end time
+     * @param model      the Spring MVC model
+     * @return a redirect URL for the booking summary or error page
+     * @throws JsonParseException   if the API response cannot be parsed
+     * @throws JsonMappingException if the API response cannot be mapped
+     * @throws RestClientException  if an error occurs while communicating with the API
+     * @throws IOException          if an input/output error occurs
+     * @throws JSONException        if a JSON processing error occurs
+     *
+     *
      */
     @CrossOrigin(origins = "*")
     @RequestMapping(value = "/reserve", method = RequestMethod.POST)
@@ -620,16 +541,22 @@ public class HomeController {
     }
 
     /**
-     * Redirects to the relevant error page with message.
+     * Displays an appropriate error page based on the supplied error code.
      *
-     * @param id
-     * @param model
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws RestClientException
-     * @throws IOException
-     * @throws JSONException
+     * <p>The method maps application-specific error codes to user-friendly
+     * error messages and adds the message information to the model.</p>
+     *
+     * @param request the HTTP request used for diagnostic information
+     * @param id      the optional application error code
+     * @param model   the Spring MVC model used to pass error information to the view
+     * @return the error view
+     * @throws JsonParseException   if JSON parsing fails
+     * @throws JsonMappingException if JSON mapping fails
+     * @throws RestClientException  if an API communication error occurs
+     * @throws IOException          if an input/output error occurs
+     * @throws JSONException        if JSON processing fails
+     *
+     *
      */
     @RequestMapping(value = {"/errorp", "/errorp/{id}"})
     public String error(HttpServletRequest request, @PathVariable(required = false) String id, Model model)
@@ -685,17 +612,24 @@ public class HomeController {
     }
 
     /**
-     * Displays the summary of the booking.
+     * Displays the summary information for a room booking.
      *
-     * @param id
-     * @param isBooked
-     * @param model
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws RestClientException
-     * @throws IOException
-     * @throws JSONException
+     * <p>The method retrieves the booking details from the Spaces API and
+     * enriches the booking information with the room name stored in the
+     * tenant-specific master data cache.</p>
+     *
+     * @param request  the HTTP request
+     * @param id       the booking identifier
+     * @param isBooked indicates whether the booking was successfully created
+     * @param model    the Spring MVC model used to pass booking information to the view
+     * @return the booking summary view
+     * @throws JsonParseException   if the API response cannot be parsed
+     * @throws JsonMappingException if the API response cannot be mapped
+     * @throws RestClientException  if an API communication error occurs
+     * @throws IOException          if an input/output error occurs
+     * @throws JSONException        if JSON processing fails
+     *
+     *
      */
     @RequestMapping(value = {"/summary/{id}", "/summary/{id}/{isBooked}"})
     public String summary(HttpServletRequest request, @PathVariable("id") String id,
@@ -729,15 +663,10 @@ public class HomeController {
 
                 masterData.print();
 
-                System.out.println("bookedItem.getEid() - " + bookedItem.getEid());
-
                 bookedItem.setRoom(masterData.getRoomName(bookedItem.getEid()));
 
                 model.addAttribute("summaryModel", bookedItem);
                 model.addAttribute("isBooked", isBooked);
-
-                System.out.println("bookedItem.getCid() -- " + bookedItem.getCid());
-
             }
         }
 
@@ -745,24 +674,171 @@ public class HomeController {
     }
 
     /**
+     * Displays the list of currently active SAML user sessions.
      *
-     * Returns the available rooms with available time slots. While populating the
-     * time it converts 24 hr time to 12 hr time. Also based on the time slot it
-     * returns already booked time slots. aSo user can get better idea of what time
-     * slots can book.
+     * @param request the HTTP request
+     * @param model   the Spring MVC model used to pass active sessions to the view
+     * @return the sessions view
      *
-     * @param date
-     * @param seats
-     * @param floor
-     * @return
-     * @throws JsonParseException
-     * @throws JsonMappingException
-     * @throws RestClientException
-     * @throws IOException
-     * @throws JSONException
-     * @throws ParseException
      */
-    private SpaceItem[] madeAvaliableTimeSlots(String date, String seats, String floor, String category)
+    @RequestMapping(value = {"/session-count"})
+    public String getSessions(HttpServletRequest request, Model model) {
+        ArrayList<SAMLUser> sessions = SAMLUserList.getInstance().getUserArray();
+        model.addAttribute("sysSessions", sessions);
+        return "pages/sessions";
+    }
+
+    /**
+     * Removes all active SAML user sessions and redirects to the session
+     * monitoring page.
+     *
+     * @param request the HTTP request
+     * @param model   the Spring MVC model
+     * @return a redirect to the session count page
+     */
+    @CrossOrigin(origins = "*")
+    @RequestMapping(value = "/clean", method = RequestMethod.POST)
+    public String clean(HttpServletRequest request, Model model) {
+
+        SAMLUserList samlUserList = SAMLUserList.getInstance();
+
+        if (samlUserList != null) {
+            ArrayList<SAMLUser> sessions = samlUserList.getUserArray();
+
+            if (sessions != null && !sessions.isEmpty()) {
+                for (SAMLUser session : sessions) {
+                    samlUserList.removeFromArray(session);
+                }
+            }
+
+        }
+
+        return "redirect:/session-count";
+    }
+
+    /**
+     * Calculates the remaining time before the current HTTP session expires * due to inactivity.
+     * <p>The remaining time is added to the model in seconds for display * on the session timeout page.</p>
+     *
+     * @param session the current HTTP session
+     * @param model   the Spring MVC model used to pass the remaining time to the view
+     * @return the session remaining-time view
+     */
+    @GetMapping("/session-remaining")
+    public String sessionRemaining(HttpSession session, Model model) {
+
+        System.out.println("session accessing");
+
+        long now = System.currentTimeMillis();
+        long lastAccessed = session.getLastAccessedTime();
+        int timeout = session.getMaxInactiveInterval(); // in seconds
+
+        long elapsedSeconds = (now - lastAccessed) / 1000;
+        long remainingSeconds = timeout - elapsedSeconds;
+
+        model.addAttribute("remainingSeconds", remainingSeconds > 0 ? remainingSeconds : 0);
+
+        return "session-remaining";
+    }
+
+    /**
+     * Reads the configured ribbon message from the message file and adds the
+     * message information to the model for display on the application page.
+     *
+     * <p>If the message file does not exist, the ribbon message is hidden.</p>
+     *
+     * @param model the Spring MVC model used to pass the message information
+     *              to the view
+     *
+     */
+    private void readRibbonMessage(Model model) {
+
+        GlobalConfigs config = registry.getCurrentConfig();
+
+        Path file = Path.of(SystemProperties.RibbonMessageFolderPath + config.getInstanceName() + "-message.txt");
+
+        if (Files.exists(file)) {
+            try {
+
+                String message = Files.readString(file, StandardCharsets.UTF_8);
+
+                String[] typeAndMessage = message.split(",");
+
+                model.addAttribute("message", message);
+
+                model.addAttribute("ribbonmessagevisibility", "show");
+                model.addAttribute("messageclass", "ribbon-" + typeAndMessage[0]);
+                model.addAttribute("ribbonmessage", typeAndMessage[1]);
+            } catch (IOException e) {
+            }
+        } else {
+            model.addAttribute("ribbonmessagevisibility", "hide");
+        }
+    }
+
+    /**
+     * Performs the global application setup by loading the configured study room
+     * category and retrieving the associated room details from the Spaces API.
+     *
+     * <p>The retrieved rooms are stored in the tenant-specific master data cache
+     * for use throughout the application.</p>
+     *
+     * @throws JsonParseException   if the API response cannot be parsed
+     * @throws JsonMappingException if the API response cannot be mapped to an object
+     * @throws RestClientException  if an error occurs while communicating with the API
+     * @throws IOException          if an input/output error occurs
+     * @throws JSONException        if a JSON processing error occurs
+     *
+     *
+     */
+    private void globalSetup()
+            throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException {
+
+        //Map<String, String> studyRooms = new HashMap<>();
+
+        List<Room> roomList = new ArrayList<>();
+
+        GlobalConfigs config = registry.getCurrentConfig();
+
+        MasterData masterData = masterDataCache.get(TenantContext.getTenantId());
+
+        Category[] categoryItems = masterData.getCategories();
+
+        //studyRooms.put(config.getCategoryNumber(), categoryItems[0].getItems());
+
+        Room[] rooms = spaceService.getRoom(getAccessTokenFromRequest(),
+                URLs.GET_ROOM_DETAILS_URL + categoryItems[0].getItems());
+
+        for (Room room : rooms) {
+            roomList.add(room);
+        }
+
+        masterData.setRooms(roomList);
+    }
+
+    /**
+     * Retrieves available rooms and builds their availability time slots for
+     * the specified date and search criteria. *
+     *
+     * <p>The method filters rooms by seat capacity and floor, removes availability
+     * records belonging to previous dates, and fills missing time slots as booked.
+     * The resulting rooms are sorted alphabetically by room name.</p>
+     *
+     * @param date  the date for which room availability is requested
+     * @param seats the minimum required seat capacity
+     * @param floor the selected floor; "0" indicates all floors
+     * @return an array of available rooms with their time-slot information,
+     * or {@code null} if no rooms are available
+     * @throws JsonParseException   if the API response cannot be parsed
+     * @throws JsonMappingException if the API response cannot be mapped
+     * @throws RestClientException  if an API communication error occurs
+     * @throws IOException          if an input/output error occurs
+     * @throws JSONException        if JSON processing fails
+     * @throws ParseException       if date or time parsing fails
+     *
+     *
+     */
+    private SpaceItem[] madeAvailableTimeSlots(String date, String seats, String floor)
             throws JsonParseException, JsonMappingException, RestClientException, IOException, JSONException,
             ParseException {
 
@@ -850,10 +926,12 @@ public class HomeController {
     }
 
     /**
-     * Returns the relevant time slot index.
+     * Finds the index of a fixed time slot that matches the specified start time.
      *
-     * @param fromTime
-     * @return
+     * @param fromTime the 12-hour formatted start time to search for
+     * @return the index of the matching time slot, or {@code -1} if no match is found
+     *
+     *
      */
     private int getFixedTimeSlotIndex(String fromTime) {
 
@@ -867,16 +945,20 @@ public class HomeController {
     }
 
     /**
-     * Returns the Access token.
+     * Retrieves an access token from the Spaces API authentication service.
      *
-     * @return
-     * @throws JsonParseException
-     * @throws RestClientException
-     * @throws JsonMappingException
-     * @throws IOException
-     * @throws JSONException
+     * <p>The token is generated using the configured client ID and secret key
+     * and is used to authenticate subsequent API requests.</p>
+     *
+     * @return the access token, or {@code null} if an access token could not be obtained
+     * @throws JsonParseException   if the authentication response cannot be parsed
+     * @throws RestClientException  if an error occurs while communicating with the API
+     * @throws JsonMappingException if the authentication response cannot be mapped
+     * @throws IOException          if an input/output error occurs
+     * @throws JSONException        if JSON processing fails
+     *
      */
-    private String getAccessTokenFromRequest()
+    private @Nullable String getAccessTokenFromRequest()
             throws JsonParseException, RestClientException, JsonMappingException, IOException, JSONException {
 
         AccessToken accessToken = accessTokenService.getAccessToken(URLs.GET_AUTH_TOKEN_URL,
@@ -888,69 +970,4 @@ public class HomeController {
             return null;
         }
     }
-
-    /**
-     *
-     * @param request
-     * @param model
-     * @return
-     */
-    @RequestMapping(value = {"/session-count"})
-    public String getSessions(HttpServletRequest request, Model model) {
-        ArrayList<SAMLUser> sessions = SAMLUserList.getInstance().getUserArray();
-
-        model.addAttribute("sysSessions", sessions);
-
-        return "pages/sessions";
-    }
-
-    /**
-     *
-     * @param request
-     * @param model
-     * @return
-     */
-    @CrossOrigin(origins = "*")
-    @RequestMapping(value = "/clean", method = RequestMethod.POST)
-    public String clean(HttpServletRequest request, Model model) {
-
-        SAMLUserList samlUserList = SAMLUserList.getInstance();
-
-        if (samlUserList != null) {
-            ArrayList<SAMLUser> sessions = samlUserList.getUserArray();
-
-            if (sessions != null && sessions.size() > 0) {
-                for (SAMLUser session : sessions) {
-                    samlUserList.removeFromArray(session);
-                }
-            }
-
-        }
-
-        return "redirect:/session-count";
-    }
-
-    /**
-     *
-     *
-     * @param session
-     * @param model
-     * @return
-     */
-    @GetMapping("/session-remaining")
-    public String sessionRemaining(HttpSession session, Model model) {
-
-        System.out.println("session accessing");
-
-        long now = System.currentTimeMillis();
-        long lastAccessed = session.getLastAccessedTime();
-        int timeout = session.getMaxInactiveInterval(); // in seconds
-
-        long elapsedSeconds = (now - lastAccessed) / 1000;
-        long remainingSeconds = timeout - elapsedSeconds;
-
-        model.addAttribute("remainingSeconds", remainingSeconds > 0 ? remainingSeconds : 0);
-        return "session-remaining";
-    }
-
 }

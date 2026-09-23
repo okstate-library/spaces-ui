@@ -154,6 +154,6 @@ public class VetMetGlobalConfigs implements GlobalConfigs {
 
     @Override
     public String getSubDomain() {
-        return "vetmed-spacest";
+        return "vetmed-spaces" + subDomainSuffix;
     }
 }

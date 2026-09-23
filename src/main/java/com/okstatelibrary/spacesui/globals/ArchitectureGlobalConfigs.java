@@ -167,6 +167,6 @@ public class ArchitectureGlobalConfigs implements GlobalConfigs {
 
     @Override
     public String getSubDomain() {
-        return "architecture-spacest";
+        return "architecture-spaces" + subDomainSuffix;
     }
 }

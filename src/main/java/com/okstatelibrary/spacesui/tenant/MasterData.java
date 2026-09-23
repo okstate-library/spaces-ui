@@ -13,23 +13,6 @@ public class MasterData {
 	private Category[] categories;
 	private List<Room> rooms;
 	Map<String, String> studyRooms = new HashMap<>();
-	// private List<Category> categories;
-//    private List<Equipment> equipment;
-//    private List<SpaceType> spaceTypes;
-
-//    private LocalDateTime loadedAt;
-//
-//    public MasterData() {
-//        this.loadedAt = LocalDateTime.now();
-//    }
-//
-//    public List<Building> getBuildings() {
-//        return buildings;
-//    }
-//
-//    public void setBuildings(List<Building> buildings) {
-//        this.buildings = buildings;
-//    }
 
 	public List<Room> getRooms() {
 		return rooms;
@@ -113,35 +96,4 @@ public class MasterData {
 	public String getRoomName(String roomId) {
 		return this.rooms.stream().filter(room -> roomId.equals(room.getId())).findAny().orElse(null).getName();
 	}
-//    public List<Category> getCategories() {
-//        return categories;
-//    }
-//
-//    public void setCategories(List<Category> categories) {
-//        this.categories = categories;
-//    }
-//
-//    public List<Equipment> getEquipment() {
-//        return equipment;
-//    }
-//
-//    public void setEquipment(List<Equipment> equipment) {
-//        this.equipment = equipment;
-//    }
-//
-//    public List<SpaceType> getSpaceTypes() {
-//        return spaceTypes;
-//    }
-//
-//    public void setSpaceTypes(List<SpaceType> spaceTypes) {
-//        this.spaceTypes = spaceTypes;
-//    }
-//
-//    public LocalDateTime getLoadedAt() {
-//        return loadedAt;
-//    }
-//
-//    public void setLoadedAt(LocalDateTime loadedAt) {
-//        this.loadedAt = loadedAt;
-//    }
 }

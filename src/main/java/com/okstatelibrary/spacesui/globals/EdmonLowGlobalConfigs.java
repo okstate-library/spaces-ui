@@ -171,7 +171,7 @@ public class EdmonLowGlobalConfigs implements GlobalConfigs {
 
     @Override
     public String getSubDomain() {
-        return "spacest";
+        return "spaces" + subDomainSuffix;
     }
 
 }

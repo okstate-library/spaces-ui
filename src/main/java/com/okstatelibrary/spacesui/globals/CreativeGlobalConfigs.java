@@ -166,7 +166,7 @@ public class CreativeGlobalConfigs implements GlobalConfigs {
 
     @Override
     public String getSubDomain() {
-        return "creative-spacest";
+        return "creative-spaces" + subDomainSuffix;
     }
 
 }

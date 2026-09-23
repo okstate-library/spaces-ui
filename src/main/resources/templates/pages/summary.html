@@ -35,7 +35,8 @@
                 <div class="bookingcard">
                     <div class="card-divider">
                         <h2 class="h3 orange primary">
-                            <img src="/img/stars.svg">&nbsp;&nbsp;Your room has been successfully
+                            <img src="/img/stars.svg" alt="Your room has been successfully
+                            booked!">&nbsp;&nbsp;Your room has been successfully
                             booked!
                         </h2>
                     </div>
@@ -163,7 +164,7 @@
             <div class="cell card">
                 <div class="card-divider">
                     <h2 class="h3 orange">
-                        <i class="comment-alt-check red"></i> Booking Cancelation
+                        <i class="comment-alt-check red"></i> Booking Cancellation
                     </h2>
                 </div>
 
@@ -178,7 +179,8 @@
                                 <div class="cell">
                                     <!-- Select a new reservation -->
                                     <div class="booking-actions">
-                                        <a th:href="@{/}" role="button" class="button" id="buttonBookingConfirm">Select a new reservation</a>
+                                        <a th:href="@{/}" role="button" class="button" id="buttonBookingConfirm">Select
+                                            a new reservation</a>
                                     </div>
                                 </div>
                             </div>
@@ -200,7 +202,6 @@
                                 <th:block th:case="'architecture'">
                                     <th:block
                                             th:replace="~{common/architecture/helpinfo :: helpinfo}"></th:block>
-                                    th:replace="~{common/architecture/helpinfo :: helpinfo}">
                                 </th:block>
 
                                 <th:block th:case="'creative'">
@@ -230,7 +231,7 @@
 
         <!----------------------------------------------->
         <!----                                       ---->
-        <!----       Successful Cancelation          ---->
+        <!----       Successful Cancellation          ---->
         <!----       Clicked on email link           ---->
         <!----                                       ---->
         <!----------------------------------------------->

@@ -167,6 +167,6 @@ public class DscGlobalConfigs implements GlobalConfigs {
 
     @Override
     public String getSubDomain() {
-        return "dsc-spacest";
+        return "dsc-spaces" + subDomainSuffix;
     }
 }

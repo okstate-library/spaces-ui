@@ -44,7 +44,6 @@ public class CurrentUserHandlerMethodArgumentResolver implements
 
         if (this.supportsParameter(methodParameter)) {
 
-
             Authentication authentication =
                     SecurityContextHolder.getContext().getAuthentication();
 
@@ -77,7 +76,7 @@ public class CurrentUserHandlerMethodArgumentResolver implements
                 String bannerId = samlPrincipal.getFirstAttribute(
                         "Banner_ID");
 
-                // For Testing purposese with
+                // For Testing purposes with
 //                String email = samlPrincipal.getFirstAttribute(
 //                        "http://schemas.xmlsoap.org/ws/2005/05/identity/claims/name");
 //                String userID = email;
@@ -104,12 +103,6 @@ public class CurrentUserHandlerMethodArgumentResolver implements
 
                 return user;
             }
-
-//            User user = (User) authentication.getPrincipal();
-//
-//            User user = (User) ((Authentication) principal).getPrincipal();
-
-            // return user;
 
         } else {
             return WebArgumentResolver.UNRESOLVED;

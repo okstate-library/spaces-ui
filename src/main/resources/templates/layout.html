@@ -37,29 +37,6 @@
     <meta name="numberOfLimitTimeSlots" th:content="${numberofTimeSlots}"/>
 
 </head>
-<!-- <script>
-window.onload = function() {
-	getValue();
-};
-
-$(document).ready(function() {
-	setInterval(function() {
-
-		getValue();
-
-	},5000);
-});
-
-function getValue() {
-	$(document).ready(function() {
-		$.ajax({
-			url : "/api/getRemainTime"
-		}).then(function(data) {
-			$('#countdown').text(data);
-		});
-	});
-}
-</script> -->
 <body>
 <!-- Main starts -->
 <div role="main">
@@ -253,9 +230,9 @@ function getValue() {
                     </div>
                     <ul class="vertical menu">
                         <li><a class="footer-contact-link"
-                               href="http://jobs.okstate.edu"> Careers at OSU </a></li>
+                               href="https://jobs.okstate.edu"> Careers at OSU </a></li>
                         <li><a class="footer-contact-link"
-                               href="http://hireosugrads.com"> Hire OSU Grads </a></li>
+                               href="https://hireosugrads.com"> Hire OSU Grads </a></li>
                     </ul>
                 </div>
                 <!-- OSU Locations -->
@@ -373,10 +350,10 @@ function getValue() {
             <div class="row footer-ribbon mt-5">
                 <div class="col">
                     <p class="copyright">
-                        <a id="de" href="https://manage.library.okstate.edu/manager"
-                           style="text-decoration: none">©</a></span>
+                        <span><a id="de" href="https://manage.library.okstate.edu/manager"
+                                 style="text-decoration: none">©</a></span>
                         <script>
-                            var year = new Date();
+                            const year = new Date();
                             document.write(year.getFullYear());
                         </script>
                         Oklahoma State University. All rights reserved.

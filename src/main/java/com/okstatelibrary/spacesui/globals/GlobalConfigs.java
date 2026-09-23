@@ -18,6 +18,8 @@ import java.util.Map;
  */
 public interface GlobalConfigs {
 
+	String  subDomainSuffix = "t";
+
 	/**
 	 * Returns the sub domain (e.g., "edmon-low", "vet-med").
 	 *

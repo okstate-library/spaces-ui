@@ -163,7 +163,7 @@ public class TestingRoomGlobalConfigs implements GlobalConfigs {
 
     @Override
     public String getSubDomain() {
-        return "testroom-spacest";
+        return "testroom-spaces" + subDomainSuffix;
     }
 
 }

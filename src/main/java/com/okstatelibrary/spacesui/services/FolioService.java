@@ -1,6 +1,7 @@
 package com.okstatelibrary.spacesui.services;
 
 import java.io.IOException;
+
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -11,62 +12,58 @@ import org.springframework.web.client.RestTemplate;
 
 import com.fasterxml.jackson.core.JsonParseException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.okstatelibrary.spacesui.folio.models.Root;
 import com.okstatelibrary.spacesui.util.SystemProperties;
 
 @Service
 public class FolioService extends FolioServiceToken {
 
-	private RestTemplate restTemplate = new RestTemplate();
+    private RestTemplate restTemplate = new RestTemplate();
 
-	ObjectMapper mapper = new ObjectMapper();
+    private HttpHeaders getHttpHeaders() {
 
-	private HttpHeaders getHttpHeaders() {
+        HttpHeaders headers = new HttpHeaders();
 
-		HttpHeaders headers = new HttpHeaders();
+        headers.add("x-okapi-tenant", SystemProperties.FolioTenant);
 
-		headers.add("x-okapi-tenant", SystemProperties.FolioTenant);
+        headers.add("x-okapi-token", this.getToken());
 
-		headers.add("x-okapi-token", this.getToken());
+        return headers;
 
-		return headers;
+    }
 
-	}
+    private HttpEntity<String> getHttpRequest() {
 
-	private HttpEntity<String> getHttpRequest() {
+        return new HttpEntity<String>(getHttpHeaders());
+    }
 
-		return new HttpEntity<String>(getHttpHeaders());
-	}
+    public boolean isUserExists(String externalSystemId)
+            throws JsonParseException, JsonMappingException, RestClientException, IOException {
 
-	public boolean isUserExists(String externalSystemId)
-			throws JsonParseException, JsonMappingException, RestClientException, IOException {
+        try {
 
-		try {
+            String url = SystemProperties.FolioURL + "users?query=(externalSystemId=" + externalSystemId
+                    + " and active=true)";
 
-			String url = SystemProperties.FolioURL + "users?query=(externalSystemId=" + externalSystemId
-					+ " and active=true)";
+            System.out.println("url " + url);
 
-			System.out.println("url " + url);
+            ResponseEntity<Root> response = restTemplate.exchange(url, HttpMethod.GET, getHttpRequest(), Root.class);
 
-			ResponseEntity<Root> response = restTemplate.exchange(url, HttpMethod.GET, getHttpRequest(), Root.class);
+            if (response.getBody().totalRecords > 0) {
 
-			if (response.getBody().totalRecords > 0) {
+                return true;
 
-				return true;
+            } else {
 
-			} else {
+                return false;
+            }
 
-				return false;
-			}
-
-		} catch (Exception e) {
-
-			// TODO: handle exception
-			e.getMessage();
-			e.printStackTrace();
-			return false;
-		}
-	}
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.getMessage();
+            e.printStackTrace();
+            return false;
+        }
+    }
 
 }
