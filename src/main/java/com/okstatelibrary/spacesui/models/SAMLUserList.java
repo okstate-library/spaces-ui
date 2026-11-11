@@ -1,15 +1,19 @@
 package com.okstatelibrary.spacesui.models;
 
+import org.apache.logging.log4j.core.config.Scheduled;
+
 import java.util.ArrayList;
 
 public class SAMLUserList {
 
 	private static SAMLUserList mInstance;
+
 	public ArrayList<SAMLUser> list = null;
 
 	public static SAMLUserList getInstance() {
-		if (mInstance == null)
+		if (mInstance == null) {
 			mInstance = new SAMLUserList();
+		}
 
 		return mInstance;
 	}

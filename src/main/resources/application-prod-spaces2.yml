@@ -1,0 +1,39 @@
+server:
+  port: 443
+  ssl:
+    key-store: "classpath:26_27_library_wildcard.jks"
+    key-store-password: "Pl3@sB33R1gh+"
+
+spring:
+  security:
+    saml2:
+      relyingparty:
+        registration:
+          okstate:
+            entity-id: "edu:okstate:library:spaces2"
+            signing:
+              credentials:
+                - private-key-location: "classpath:private-prod.key"
+                  certificate-location: "classpath:Spaces-test.cer"
+            assertingparty:
+              metadata-uri: "https://login.microsoftonline.com/2a69c91d-e849-4e34-a230-cdf8b27e1964/federationmetadata/2007-06/federationmetadata.xml?appid=29f65b17-9d71-451b-bde5-9118ae428f11"
+              want-authn-requests-signed: false
+
+#Spring share client id
+springShareClientId: 10
+
+#Spring share Key
+springShareSecretkey: 299461b7d6f280b416453f29da87380e
+
+# ===============================
+# = Folio configs
+# ===============================
+folioUsername: systemapi
+folioPassword: ftyQsuuSc#u@v2
+folioTenant: fs00001145
+folioURL: https://api-okstate.folio.ebsco.com/
+
+# ===============================
+# = Ribbon Message Folder Path
+# ===============================
+ribbonMessageFolderPath: /home/spacesadmin/release/message/

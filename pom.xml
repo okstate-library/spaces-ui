@@ -10,9 +10,6 @@
     <!-- Project description -->
     <name>Spaces - UI</name>
     <description>Spaces-UI is an application integrated with Using Springshare Spaces API.</description>
-    <url>https://buzz.springshare.com/producthighlights/libcal-public-libraries/overview ||
-        https://github.com/vdenotaris/spring-boot-security-saml-sample
-    </url>
     <developers>
         <developer>
             <id>mcdperera</id>
