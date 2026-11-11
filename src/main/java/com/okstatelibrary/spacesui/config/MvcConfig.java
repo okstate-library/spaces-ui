@@ -7,19 +7,33 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import com.okstatelibrary.spacesui.core.CurrentUserHandlerMethodArgumentResolver;
+import com.okstatelibrary.spacesui.tenant.TenantInterceptor;
 
 /**
  * MVC configurations
+ * 
  * @author Damith
  *
  */
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
+
+	private TenantInterceptor tenantInterceptor = new TenantInterceptor();
+
+	public MvcConfig(TenantInterceptor tenantInterceptor) {			
+		this.tenantInterceptor = tenantInterceptor;
+	}
+
+	@Override
+	public void addInterceptors(InterceptorRegistry registry) {
+		registry.addInterceptor(tenantInterceptor);
+	}
 
 	/**
 	 * 

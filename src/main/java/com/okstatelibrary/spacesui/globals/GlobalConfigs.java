@@ -19,6 +19,18 @@ import java.util.Map;
 public interface GlobalConfigs {
 
 	/**
+	 * Subdomain suffix-in production is null and testing is t
+	 */
+	String  subDomainSuffix = "2";
+
+	/**
+	 * Returns the sub domain (e.g., "edmon-low", "vet-med").
+	 *
+	 * @return instance name as String.
+	 */
+	String getSubDomain();
+	
+	/**
 	 * Gets the URL to the room or space usage policy.
 	 *
 	 * @return the policy document URL as a String.

@@ -22,7 +22,7 @@ import org.springframework.stereotype.Component;
  * <p>
  * Example property entries in application.properties:
  * </p>
- * 
+ *
  * <pre>
  * instanceName=MyAppInstance
  * springShareSecretkey=abc123
@@ -37,122 +37,147 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @ConfigurationProperties
-@PropertySource("classpath:application.properties")
+@PropertySource("classpath:application.yml")
 public class SystemProperties {
 
-	/**
-	 * Name of the current instance/environment (e.g., development, staging,
-	 * production).
-	 */
-	private String instanceName;
+    /**
+     * Name of the current instance/environment (e.g., development, staging,
+     * production).
+     */
+    private String instanceName;
 
-	/** Secret key used to access SpringShare APIs. */
-	private String springShareSecretkey;
+    /**
+     * Secret key used to access SpringShare APIs.
+     */
+    private String springShareSecretkey;
 
-	/** Client ID used for authenticating with SpringShare. */
-	private String springShareClientId;
+    /**
+     * Client ID used for authenticating with SpringShare.
+     */
+    private String springShareClientId;
 
-	/** Identity Provider (IdP) metadata URL for SAML authentication. */
-	private String idpMetadataURL;
+    /**
+     * Identity Provider (IdP) metadata URL for SAML authentication.
+     */
+    private String idpMetadataURL;
 
-	/** Entity ID defined in the SAML metadata. */
-	private String metadataEntityId;
+    /**
+     * Entity ID defined in the SAML metadata.
+     */
+    private String metadataEntityId;
 
-	/** FOLIO tenant identifier injected via application.properties. */
-	@Value("${folioTenant}")
-	private String folioTenant;
-	public static String FolioTenant;
+    /**
+     * FOLIO tenant identifier injected via application.properties.
+     */
+    @Value("${folioTenant}")
+    private String folioTenant;
+    public static String FolioTenant;
 
-	/** Base URL of the FOLIO system. */
-	@Value("${folioURL}")
-	private String folioURL;
-	public static String FolioURL;
+    /**
+     * Base URL of the FOLIO system.
+     */
+    @Value("${folioURL}")
+    private String folioURL;
+    public static String FolioURL;
 
-	/** Username for FOLIO login. */
-	@Value("${folioUsername}")
-	private String folioUsername;
-	public static String FolioUsername;
+    @Value("${ribbonMessageFolderPath}")
+    private String ribbonMessageFolderPath;
+    public static String RibbonMessageFolderPath;
 
-	/** Password for FOLIO login. */
-	@Value("${folioPassword}")
-	private String folioPassword;
-	public static String FolioPassword;
+    /**
+     * Username for FOLIO login.
+     */
+    @Value("${folioUsername}")
+    private String folioUsername;
+    public static String FolioUsername;
 
-	// ===== Getters and Setters =====
+    /**
+     * Password for FOLIO login.
+     */
+    @Value("${folioPassword}")
+    private String folioPassword;
+    public static String FolioPassword;
 
-	public String getInstanceName() {
-		return instanceName;
-	}
+    // ===== Getters and Setters =====
 
-	public void setInstanceName(String instanceName) {
-		this.instanceName = instanceName;
-	}
+    public String getInstanceName() {
+        return instanceName;
+    }
 
-	public String getSpringShareSecretkey() {
-		return springShareSecretkey;
-	}
+    public void setInstanceName(String instanceName) {
+        this.instanceName = instanceName;
+    }
 
-	public void setSpringShareSecretkey(String springShareSecretkey) {
-		this.springShareSecretkey = springShareSecretkey;
-	}
+    public String getSpringShareSecretkey() {
+        return springShareSecretkey;
+    }
 
-	public String getSpringShareClientId() {
-		return springShareClientId;
-	}
+    public void setSpringShareSecretkey(String springShareSecretkey) {
+        this.springShareSecretkey = springShareSecretkey;
+    }
 
-	public void setSpringShareClientId(String springShareClientId) {
-		this.springShareClientId = springShareClientId;
-	}
+    public String getSpringShareClientId() {
+        return springShareClientId;
+    }
 
-	public String getIdpMetadataURL() {
-		return idpMetadataURL;
-	}
+    public void setSpringShareClientId(String springShareClientId) {
+        this.springShareClientId = springShareClientId;
+    }
 
-	public void setIdpMetadataURL(String idpMetadataURL) {
-		this.idpMetadataURL = idpMetadataURL;
-	}
+    public String getIdpMetadataURL() {
+        return idpMetadataURL;
+    }
 
-	public String getMetadataEntityId() {
-		return metadataEntityId;
-	}
+    public void setIdpMetadataURL(String idpMetadataURL) {
+        this.idpMetadataURL = idpMetadataURL;
+    }
 
-	public void setMetadataEntityId(String metadataEntityId) {
-		this.metadataEntityId = metadataEntityId;
-	}
+    public String getMetadataEntityId() {
+        return metadataEntityId;
+    }
 
-	/**
-	 * Sets the folio tenant value and assigns it to the static field.
-	 * 
-	 * @param folioTenant the FOLIO tenant identifier
-	 */
-	public void setFolioTenant(String folioTenant) {
-		FolioTenant = folioTenant;
-	}
+    public void setMetadataEntityId(String metadataEntityId) {
+        this.metadataEntityId = metadataEntityId;
+    }
 
-	/**
-	 * Sets the folio URL and assigns it to the static field.
-	 * 
-	 * @param folioURL the FOLIO base URL
-	 */
-	public void setFolioURL(String folioURL) {
-		FolioURL = folioURL;
-	}
+    /**
+     * Sets the folio tenant value and assigns it to the static field.
+     *
+     * @param folioTenant the FOLIO tenant identifier
+     */
+    public void setFolioTenant(String folioTenant) {
+        FolioTenant = folioTenant;
+    }
 
-	/**
-	 * Sets the FOLIO username and assigns it to the static field.
-	 * 
-	 * @param folioUsername the FOLIO username
-	 */
-	public void setFolioUsername(String folioUsername) {
-		FolioUsername = folioUsername;
-	}
+    /**
+     * Sets the folio URL and assigns it to the static field.
+     *
+     * @param folioURL the FOLIO base URL
+     */
+    public void setFolioURL(String folioURL) {
+        FolioURL = folioURL;
+    }
 
-	/**
-	 * Sets the FOLIO password and assigns it to the static field.
-	 * 
-	 * @param folioPassword the FOLIO password
-	 */
-	public void setFolioPassword(String folioPassword) {
-		FolioPassword = folioPassword;
-	}
+    public void setRibbonMessageFolderPath(String ribbonMessageFolderPath) {
+        RibbonMessageFolderPath = ribbonMessageFolderPath;
+    }
+
+
+    /**
+     * Sets the FOLIO username and assigns it to the static field.
+     *
+     * @param folioUsername the FOLIO username
+     */
+    public void setFolioUsername(String folioUsername) {
+        FolioUsername = folioUsername;
+    }
+
+    /**
+     * Sets the FOLIO password and assigns it to the static field.
+     *
+     * @param folioPassword the FOLIO password
+     */
+    public void setFolioPassword(String folioPassword) {
+        FolioPassword = folioPassword;
+    }
 }
