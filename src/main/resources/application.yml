@@ -2,4 +2,4 @@ spring:
   application:
     name : spaces-ui
   profiles:
-    active: prod-spaces2
+    active: prod-spacest

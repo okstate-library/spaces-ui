@@ -21,7 +21,7 @@ public interface GlobalConfigs {
 	/**
 	 * Subdomain suffix-in production is null and testing is t
 	 */
-	String  subDomainSuffix = "2";
+	String  subDomainSuffix = "t";
 
 	/**
 	 * Returns the sub domain (e.g., "edmon-low", "vet-med").
